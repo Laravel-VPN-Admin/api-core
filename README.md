@@ -21,3 +21,19 @@ monitoring messages.
   * GraphQL playground
   * Laravel Passport (?) - Authorization
 * Active Directory support
+
+## Testing
+
+> Please, do not run tests on production environment!
+
+Preconfigure your development environment
+
+    cp .env.example .env
+
+Then prepare your database
+
+    ./artsan migrate:fresh --seed
+
+Then run tests
+
+    ./vendor/bin/phpunit
