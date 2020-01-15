@@ -1,0 +1,87 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type Query {
+    users(orderBy: [OrderByClause!] @orderBy): [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+
+    servers: [Server!]! @paginate(defaultCount: 10)
+    server(id: ID @eq): Server @find
+
+    groups: [Group!]! @paginate(defaultCount: 10)
+    group(id: ID @eq): Group @find
+
+    logs: [Log!]! @paginate(defaultCount: 10)
+    log(id: ID @eq): Log @find
+}
+
+type Mutation {
+    "Create new user"
+    createUser(name: String, email: String, password: String): User! @create
+    "Update user settings"
+    updateUser(id: ID, email: String, password: String): User! @update
+    "Delete user"
+    deleteUser(id: ID!): User @delete
+
+    createGroup(name: String, object: String!): Group! @create
+    updateGroup(id: ID, name: String, object: String!): Group! @update
+    deleteGroup(id: ID!): Group @delete
+
+    createServer(name: String, token: String!): Server! @create
+    updateServer(id: ID, name: String, token: String!): Server! @update
+    deleteServer(id: ID!): Server @delete
+
+    createLog(message: String, user_id: Int!): Log! @create
+    updateLog(id: ID, name: String, token: String!): Log! @update
+    deleteLog(id: ID!): Log @delete
+}
+
+input OrderByClause{
+    field: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}
+
+type User {
+    id: ID
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Group {
+    id: ID
+    name: String
+    object: String!
+    users: [User!]!
+    servers: [Server!]!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Server {
+    id: ID
+    name: String
+    token: String!
+    users: [User!]!
+    groups: [Group!]!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Log {
+    id: ID
+    message: String!
+    user: User!
+    server: Server!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
