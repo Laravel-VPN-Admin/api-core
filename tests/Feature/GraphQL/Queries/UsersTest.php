@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Queries;
 
 use Tests\TestCase;
 
@@ -22,7 +22,7 @@ class UsersTest extends TestCase
         ]);
     }
 
-    public function testQueriesUsers(): void
+    public function testQueryUsersGet(): void
     {
         /** @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
@@ -37,26 +37,39 @@ class UsersTest extends TestCase
         ');
 
         $names = $response->json('data.*.data.*.name');
-
         $this->assertContains('test1', $names);
     }
 
-    public function testMutatorsCreateUser(): void
+    public function testQueryUserGet(): void
     {
         /** @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
-             mutation {
-              createUser (name:"test_gql", email:"asd@mail.com", password:"asd") {
-                id,
-                name,
-                created_at
-              }
+            {
+                user(id: ' . $this->user->id . ') {
+                    id,
+                    name
+                }
             }
         ');
 
-        $name = $response->json('data.createUser.name');
+        $user = $response->json('data.user');
+        $this->assertEquals('test1', $user['name']);
+    }
 
-        $this->assertEquals('test_gql', $name);
+    public function testQueryUserGetError(): void
+    {
+        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        $response = $this->graphQL(/** @lang GraphQL */ '
+            {
+                user(id: ' . ($this->user->id + 1) . ') {
+                    id,
+                    name
+                }
+            }
+        ');
+
+        $user = $response->json('data.user');
+        $this->assertNull($user);
     }
 
 }
