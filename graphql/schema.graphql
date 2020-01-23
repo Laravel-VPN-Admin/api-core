@@ -20,9 +20,9 @@ type Query {
 
 type Mutation {
     "Create new user"
-    createUser(name: String, email: String, password: String): User! @create
+    createUser(input: UserCreateInput! @spread): User! @create
     "Update user settings"
-    updateUser(id: ID, email: String, password: String): User! @update
+    updateUser(id: ID, input: UserUpdateInput! @spread): User! @update
     "Delete user"
     deleteUser(id: ID!): User @delete
 
@@ -50,16 +50,28 @@ enum SortOrder {
 }
 
 type User {
-    id: ID
+    id: ID!
     name: String!
-    email: String!
+    email: String
     created_at: DateTime!
     updated_at: DateTime!
 }
 
-type Group {
-    id: ID
+input UserCreateInput {
     name: String
+    email: String
+    password: String
+}
+
+input UserUpdateInput {
+    name: String
+    email: String
+    password: String
+}
+
+type Group {
+    id: ID!
+    name: String!
     object: String!
     users: [User!]!
     servers: [Server!]!
@@ -68,8 +80,8 @@ type Group {
 }
 
 type Server {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     token: String!
     users: [User!]!
     groups: [Group!]!
@@ -78,7 +90,7 @@ type Server {
 }
 
 type Log {
-    id: ID
+    id: ID!
     message: String!
     user: User!
     server: Server!
