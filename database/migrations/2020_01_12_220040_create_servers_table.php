@@ -16,7 +16,9 @@ class CreateServersTable extends Migration
         Schema::create('servers', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name')->index();
+            $table->string('hostname')->index();
+            $table->string('ipv4')->nullable()->index();
+            $table->string('ipv6')->nullable()->index();
             $table->string('token')->nullable();
 
             $table->timestamps();
