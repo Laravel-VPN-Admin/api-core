@@ -11,6 +11,6 @@ class ServersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Server::class, 2)->create();
+        factory(\App\Models\Server::class, 10)->create();
     }
 }

@@ -11,6 +11,6 @@ class ServerGroupTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\ServerGroup::class, 10)->create();
+        factory(\App\Models\ServerGroup::class, 20)->create();
     }
 }
