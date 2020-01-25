@@ -16,7 +16,7 @@ class GroupsTest extends TestCase
         parent::setUp();
 
         $this->group = factory(\App\Models\Group::class)->create([
-            'name' => 'Lord of the Ring',
+            'name' => 'Lord of the Rings',
         ]);
     }
 
@@ -36,9 +36,9 @@ class GroupsTest extends TestCase
 
         $names = $response->json('data.*.data.*.name');
         $this->assertDatabaseHas('groups', [
-            'name' => 'Lord of the Ring',
+            'name' => 'Lord of the Rings',
         ]);
-        $this->assertContains('Lord of the Ring', $names);
+        $this->assertContains('Lord of the Rings', $names);
     }
 
     public function testQueryGroupGet(): void
@@ -54,7 +54,7 @@ class GroupsTest extends TestCase
         ');
 
         $group = $response->json('data.group');
-        $this->assertEquals('Lord of the Ring', $group['name']);
+        $this->assertEquals('Lord of the Rings', $group['name']);
     }
 
     public function testQueryGroupGetError(): void

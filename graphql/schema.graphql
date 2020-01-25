@@ -176,6 +176,10 @@ type Server {
     hostname: String!
     "Token which should be added to each query, by validation reasons"
     token: String
+    "IPv4 of server"
+    ipv4: String
+    "IPv6 of server"
+    ipv6: String
     "List of user groups which can login trougth this server"
     groups: GroupInput
     "When record was created"
@@ -214,8 +218,10 @@ input ServerUpdateInput {
 type Log {
     "Unique ID of log message"
     id: ID!
+    "Code number of error for simplification"
+    code: Int!
     "Body of message"
-    message: String!
+    message: String
     "Object of user who tirggeren this log message"
     user: User
     "On which server was the event"
@@ -228,16 +234,20 @@ type Log {
 
 "List of fields which can be filled on log event creating stage"
 input LogCreateInput {
+    "Code number of error for simplification"
+    code: Int!
     "Message body"
-    message: String!
+    message: String
     "User ID, which triggered this message"
     user_id: Int
     "Server ID, on which this message was triggered"
-    server_id: Int!
+    server_id: Int
 }
 
 "List of fields about which will be used for updating information about log event"
 input LogUpdateInput {
+    "Code number of error for simplification"
+    code: Int!
     "Message body"
     message: String
     "User ID, which triggered this message"
