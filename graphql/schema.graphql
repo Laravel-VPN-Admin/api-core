@@ -4,58 +4,6 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-type Query {
-    "Get list of all users with additinal filters"
-    users(orderBy: [OrderByClause!] @orderBy): [User!]! @paginate(defaultCount: 10)
-    "Get single user by unique ID"
-    user(id: ID @eq): User @find
-
-    "Get list of all servers with additinal filters"
-    servers: [Server!]! @paginate(defaultCount: 10)
-    "Get single server by unique ID"
-    server(id: ID @eq): Server @find
-
-    "Get list of all groups with additinal filters"
-    groups: [Group!]! @paginate(defaultCount: 10)
-    "Get single group by unique ID"
-    group(id: ID @eq): Group @find
-
-    "Get list of all logs with additinal filters"
-    logs: [Log!]! @paginate(defaultCount: 10)
-    "Get single log message by unique ID"
-    log(id: ID @eq): Log @find
-}
-
-type Mutation {
-    "Create new user"
-    createUser(input: UserCreateInput! @spread): User! @create
-    "Update user details"
-    updateUser(id: ID, input: UserUpdateInput! @spread): User! @update
-    "Delete user"
-    deleteUser(id: ID!): User @delete
-
-    "Create new group"
-    createGroup(input: GroupCreateInput! @spread): Group! @create
-    "Update group details"
-    updateGroup(input: GroupUpdateInput! @spread): Group! @update
-    "Delete group"
-    deleteGroup(id: ID!): Group @delete
-
-    "Create new server"
-    createServer(name: String, token: String!): Server! @create
-    "Update server details"
-    updateServer(id: ID, name: String, token: String!): Server! @update
-    "Delete server"
-    deleteServer(id: ID!): Server @delete
-
-    "Create new log message"
-    createLog(message: String, user_id: Int!): Log! @create
-    "Update log message"
-    updateLog(id: ID, name: String, token: String!): Log! @update
-    "Delete log message"
-    deleteLog(id: ID!): Log @delete
-}
-
 "Object of inputs with details for ordering columns"
 input OrderByClause {
     "Name of field for sorting"
@@ -70,6 +18,58 @@ enum SortOrder {
     DESC
 }
 
+type Query {
+    "Get list of all users with additinal filters"
+    users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10)
+    "Get single user by unique ID"
+    user(id: ID @eq): User @find
+
+    "Get list of all servers with additinal filters"
+    servers(orderBy: [OrderByClause!] @orderBy): [Server!] @paginate(defaultCount: 10)
+    "Get single server by unique ID"
+    server(id: ID @eq): Server @find
+
+    "Get list of all groups with additinal filters"
+    groups(orderBy: [OrderByClause!] @orderBy): [Group!] @paginate(defaultCount: 10)
+    "Get single group by unique ID"
+    group(id: ID @eq): Group @find
+
+    "Get list of all logs with additinal filters"
+    logs(orderBy: [OrderByClause!] @orderBy): [Log!] @paginate(defaultCount: 10)
+    "Get single log message by unique ID"
+    log(id: ID @eq): Log @find
+}
+
+type Mutation {
+    "Create new user"
+    createUser(input: UserCreateInput! @spread): User! @create
+    "Update user details"
+    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update
+    "Delete user"
+    deleteUser(id: ID!): User @delete
+
+    "Create new group"
+    createGroup(input: GroupCreateInput! @spread): Group! @create
+    "Update group details"
+    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update
+    "Delete group"
+    deleteGroup(id: ID!): Group @delete
+
+    "Create new server"
+    createServer(input: ServerCreateInput! @spread): Server! @create
+    "Update server details"
+    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update
+    "Delete server"
+    deleteServer(id: ID!): Server @delete
+
+    "Create new log message"
+    createLog(input: LogCreateInput! @spread): Log! @create
+    "Update log message"
+    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update
+    "Delete log message"
+    deleteLog(id: ID!): Log @delete
+}
+
 "Object with all required details about user"
 type User {
     "Unique ID of user"
@@ -79,11 +79,39 @@ type User {
     "Email address, should be unique, will be user for authorization"
     email: String!
     "Array of groups in which the user is a member of"
-    groups: [Group!]!
+    groups: GroupInput
     "When record was created"
-    created_at: DateTime!
+    created_at: DateTime
     "When record was updated in last time"
-    updated_at: DateTime!
+    updated_at: DateTime
+}
+
+input ServerInput {
+    create: ServerCreateInput
+    update: ServerUpdateInput
+    upsert: ServerUpdateInput
+    delete: Boolean
+    "List of groups to which this object is related"
+    groups: GroupInput
+}
+
+input GroupInput {
+    create: GroupCreateInput
+    update: GroupUpdateInput
+    upsert: GroupUpdateInput
+    delete: Boolean
+    sync: [ID!]
+    connect: [ID!]
+    discornnect: [ID!]
+}
+
+input UserInput {
+    create: UserCreateInput
+    update: UserUpdateInput
+    upsert: UserUpdateInput
+    delete: Boolean
+    "List of groups to which this object is related"
+    groups: GroupInput
 }
 
 "List of fields which can be filled on user creating stage"
@@ -113,15 +141,15 @@ type Group {
     "Name of group"
     name: String!
     "Object path in Active Directory or OpenLDAP"
-    object: String!
+    object: String
     "List of all users in this group"
-    users: [User!]!
+    users: [User!]
     "List of all servers trought which users in this group may authorize"
-    servers: [Server!]!
+    servers: [Server!]
     "When record was created"
-    created_at: DateTime!
+    created_at: DateTime
     "When record was updated in last time"
-    updated_at: DateTime!
+    updated_at: DateTime
 }
 
 "List of fields which can be filled on group creating stage"
@@ -147,15 +175,39 @@ type Server {
     "Hostname of server"
     hostname: String!
     "Token which should be added to each query, by validation reasons"
-    token: String!
-    "List of users which can login trougth this server"
-    users: [User!]!
+    token: String
     "List of user groups which can login trougth this server"
-    groups: [Group!]!
+    groups: GroupInput
     "When record was created"
-    created_at: DateTime!
+    created_at: DateTime
     "When record was updated in last time"
-    updated_at: DateTime!
+    updated_at: DateTime
+}
+
+"List of fields which can be filled on server creating stage"
+input ServerCreateInput {
+    "Hostname of server"
+    hostname: String!
+    "Handshake token"
+    token: String
+    "IPv4 of server"
+    ipv4: String
+    "IPv6 of server"
+    ipv6: String
+    "Object path in Active Directory or OpenLDAP"
+    object: String
+}
+
+"List of fields about which will be used for updating information about group"
+input ServerUpdateInput {
+    "Hostname of server"
+    hostname: String
+    "IPv4 of server"
+    ipv4: String
+    "IPv6 of server"
+    ipv6: String
+    "Object path in Active Directory or OpenLDAP"
+    object: String
 }
 
 "Object with all required details about log message"
@@ -165,11 +217,31 @@ type Log {
     "Body of message"
     message: String!
     "Object of user who tirggeren this log message"
-    user: User!
+    user: User
     "On which server was the event"
-    server: Server!
+    server: Server
     "When record was created"
-    created_at: DateTime!
+    created_at: DateTime
     "When record was updated in last time"
-    updated_at: DateTime!
+    updated_at: DateTime
+}
+
+"List of fields which can be filled on log event creating stage"
+input LogCreateInput {
+    "Message body"
+    message: String!
+    "User ID, which triggered this message"
+    user_id: Int
+    "Server ID, on which this message was triggered"
+    server_id: Int!
+}
+
+"List of fields about which will be used for updating information about log event"
+input LogUpdateInput {
+    "Message body"
+    message: String
+    "User ID, which triggered this message"
+    user_id: Int
+    "Server ID, on which this message was triggered"
+    server_id: Int
 }
