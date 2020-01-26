@@ -11,14 +11,23 @@ class UsersTest extends TestCase
      */
     private $user;
 
+    /**
+     * @var \App\Models\Group
+     */
+    private $group;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = factory(\App\User::class)->create([
-            'name'     => 'test1',
-            'email'    => 'test@mail.com',
-            'password' => 'asdzxc'
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
+        ]);
+
+        $this->group = factory(\App\Models\Group::class)->create([
+            'name' => 'Lord of the Rings',
         ]);
     }
 
