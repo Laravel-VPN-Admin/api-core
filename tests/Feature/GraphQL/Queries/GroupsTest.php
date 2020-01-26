@@ -25,7 +25,7 @@ class GroupsTest extends TestCase
         /** @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                groups(orderBy: [ {field: "name", order: DESC} ], first: 20) {
+                groups(orderBy: [ {field: "name", order: DESC} ], first: 30) {
                     data {
                         id,
                         name
