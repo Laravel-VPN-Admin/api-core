@@ -79,7 +79,7 @@ type User {
     "Email address, should be unique, will be user for authorization"
     email: String!
     "Array of groups in which the user is a member of"
-    groups: GroupInput
+    groups: [Group!]
     "When record was created"
     created_at: DateTime
     "When record was updated in last time"
@@ -122,6 +122,8 @@ input UserCreateInput {
     email: String!
     "Password of used, will be saved as hash into database"
     password: String!
+    "Additional inputs for group management"
+    groups: GroupInput
 }
 
 "List of fields about which will be used for updating information about user"
@@ -132,6 +134,8 @@ input UserUpdateInput {
     email: String
     "Password of used, will be saved as hash into database"
     password: String
+    "Additional inputs for group management"
+    groups: GroupInput
 }
 
 "Object with all required details about group"
@@ -181,7 +185,7 @@ type Server {
     "IPv6 of server"
     ipv6: String
     "List of user groups which can login trougth this server"
-    groups: GroupInput
+    groups: [Group!]
     "When record was created"
     created_at: DateTime
     "When record was updated in last time"
@@ -200,6 +204,8 @@ input ServerCreateInput {
     ipv6: String
     "Object path in Active Directory or OpenLDAP"
     object: String
+    "Additional inputs for group management"
+    groups: GroupInput
 }
 
 "List of fields about which will be used for updating information about group"
@@ -212,6 +218,8 @@ input ServerUpdateInput {
     ipv6: String
     "Object path in Active Directory or OpenLDAP"
     object: String
+    "Additional inputs for group management"
+    groups: GroupInput
 }
 
 "Object with all required details about log message"
