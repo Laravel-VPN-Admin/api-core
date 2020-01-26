@@ -11,6 +11,16 @@ class GroupsTest extends TestCase
      */
     private $group;
 
+    /**
+     * @var \App\Models\Server
+     */
+    private $server;
+
+    /**
+     * @var \App\User
+     */
+    private $user;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -18,6 +28,22 @@ class GroupsTest extends TestCase
         $this->group = factory(\App\Models\Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
+
+        $this->server = factory(\App\Models\Server::class)->create([
+            'hostname' => 'Isengard',
+            'ipv4'     => '10.2.3.4',
+            'ipv6'     => 'i:dd:qd',
+            'token'    => 'token'
+        ]);
+
+        $this->user = factory(\App\User::class)->create([
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
+        ]);
+
+        $this->group->servers()->attach($this->server);
+        $this->group->users()->attach($this->user);
     }
 
     public function testQueryGroupsGet(): void
@@ -48,13 +74,26 @@ class GroupsTest extends TestCase
             {
                 group(id: ' . $this->group->id . ') {
                     id,
-                    name
+                    name,
+                    servers {
+                        hostname,
+                        ipv4
+                    },
+                    users {
+                        name,
+                        email
+                    }
                 }
             }
         ');
 
-        $group = $response->json('data.group');
+        $group   = $response->json('data.group');
+        $servers = $response->json('data.group.servers');
+        $users   = $response->json('data.group.users');
+
         $this->assertEquals('Lord of the Rings', $group['name']);
+        $this->assertContains(['hostname' => 'Isengard', 'ipv4' => '10.2.3.4'], $servers);
+        $this->assertContains(['name' => 'Frodo Baggins', 'email' => 'frodo@bag.end'], $users);
     }
 
     public function testQueryGroupGetError(): void

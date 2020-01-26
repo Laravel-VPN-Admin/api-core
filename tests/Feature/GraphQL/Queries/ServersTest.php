@@ -7,6 +7,11 @@ use Tests\TestCase;
 class ServersTest extends TestCase
 {
     /**
+     * @var \App\Models\Group
+     */
+    private $group;
+
+    /**
      * @var \App\Models\Server
      */
     private $server;
@@ -15,12 +20,18 @@ class ServersTest extends TestCase
     {
         parent::setUp();
 
+        $this->group = factory(\App\Models\Group::class)->create([
+            'name' => 'Lord of the Rings',
+        ]);
+
         $this->server = factory(\App\Models\Server::class)->create([
-            'hostname' => 'vpn-openvpn-1',
-            'ipv4'     => '1.2.3.4',
+            'hostname' => 'Isengard',
+            'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
             'token'    => 'token'
         ]);
+
+        $this->server->groups()->attach($this->group);
     }
 
     public function testQueryServersGet(): void
@@ -39,12 +50,12 @@ class ServersTest extends TestCase
 
         $names = $response->json('data.*.data.*.hostname');
         $this->assertDatabaseHas('servers', [
-            'hostname' => 'vpn-openvpn-1',
-            'ipv4'     => '1.2.3.4',
+            'hostname' => 'Isengard',
+            'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
             'token'    => 'token'
         ]);
-        $this->assertContains('vpn-openvpn-1', $names);
+        $this->assertContains('Isengard', $names);
     }
 
     public function testQueryServerGet(): void
@@ -54,13 +65,19 @@ class ServersTest extends TestCase
             {
                 server(id: ' . $this->server->id . ') {
                     id,
-                    hostname
+                    hostname,
+                    groups {
+                        name
+                    }
                 }
             }
         ');
 
         $server = $response->json('data.server');
-        $this->assertEquals('vpn-openvpn-1', $server['hostname']);
+        $groups = $response->json('data.server.groups');
+
+        $this->assertEquals('Isengard', $server['hostname']);
+        $this->assertContains(['name' => 'Lord of the Rings'], $groups);
     }
 
     public function testQueryServerGetError(): void
