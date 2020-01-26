@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Group extends Model
 {
@@ -17,11 +18,11 @@ class Group extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function users(): BelongsToMany
+    public function users(): MorphToMany
     {
-        return $this->belongsToMany(User::class, 'user_group', 'user_id', 'group_id', 'id', 'id');
+        return $this->morphedByMany(User::class, 'grouped', 'grouped');
     }
 
     /**
@@ -29,6 +30,6 @@ class Group extends Model
      */
     public function servers(): BelongsToMany
     {
-        return $this->belongsToMany(Server::class, 'server_group', 'group_id', 'server_id', 'id', 'id');
+        return $this->morphedByMany(Server::class, 'grouped', 'grouped');
     }
 }

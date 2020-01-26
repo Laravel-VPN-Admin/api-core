@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Server extends Model
 {
@@ -25,10 +25,10 @@ class Server extends Model
 //    }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function groups(): BelongsToMany
+    public function groups(): MorphToMany
     {
-        return $this->belongsToMany(Group::class, 'server_group', 'server_id', 'group_id', 'id', 'id');
+        return $this->morphToMany(Group::class, 'grouped', 'grouped');
     }
 }
