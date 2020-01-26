@@ -36,9 +36,23 @@ class UsersTest extends TestCase
         /** @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
-              createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asd"}) {
+              createUser (
+                input: {
+                  name:"test_gql",
+                  email:"asd@mail.com",
+                  password:"asd",
+                  groups: {
+                    connect: [' . $this->group->id . ']
+                  }
+                }
+              )
+              {
                 id,
                 name,
+                groups {
+                  id,
+                  name
+                },
                 created_at
               }
             }
@@ -47,6 +61,9 @@ class UsersTest extends TestCase
         $user = $response->json('data.createUser');
         $this->assertEquals('test_gql', $user['name']);
         $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
+
+        $groups = $response->json('data.createUser.groups');
+        $this->assertContains(['name' => $this->group->name, 'id' => $this->group->id], $groups);
     }
 
     public function testMutationUserUpdate(): void

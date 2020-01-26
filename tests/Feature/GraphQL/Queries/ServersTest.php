@@ -16,6 +16,11 @@ class ServersTest extends TestCase
      */
     private $server;
 
+    /**
+     * @var \App\User
+     */
+    private $user;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -31,7 +36,14 @@ class ServersTest extends TestCase
             'token'    => 'token'
         ]);
 
-        $this->server->groups()->attach($this->group);
+        $this->user = factory(\App\User::class)->create([
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
+        ]);
+
+        $this->group->servers()->attach($this->server);
+        $this->group->users()->attach($this->user);
     }
 
     public function testQueryServersGet(): void
@@ -68,16 +80,22 @@ class ServersTest extends TestCase
                     hostname,
                     groups {
                         name
+                    },
+                    users {
+                        name
                     }
                 }
             }
         ');
 
         $server = $response->json('data.server');
-        $groups = $response->json('data.server.groups');
-
         $this->assertEquals('Isengard', $server['hostname']);
+
+        $groups = $response->json('data.server.groups');
         $this->assertContains(['name' => 'Lord of the Rings'], $groups);
+
+        $users = $response->json('data.server.users');
+        $this->assertContains(['name' => 'Frodo Baggins'], $users);
     }
 
     public function testQueryServerGetError(): void

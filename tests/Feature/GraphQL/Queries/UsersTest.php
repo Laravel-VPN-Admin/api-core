@@ -16,9 +16,9 @@ class UsersTest extends TestCase
         parent::setUp();
 
         $this->user = factory(\App\User::class)->create([
-            'name'     => 'test1',
-            'email'    => 'test@mail.com',
-            'password' => 'asdzxc'
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
         ]);
     }
 
@@ -37,7 +37,7 @@ class UsersTest extends TestCase
         ');
 
         $names = $response->json('data.*.data.*.name');
-        $this->assertContains('test1', $names);
+        $this->assertContains('Frodo Baggins', $names);
     }
 
     public function testQueryUserGet(): void
@@ -53,7 +53,7 @@ class UsersTest extends TestCase
         ');
 
         $user = $response->json('data.user');
-        $this->assertEquals('test1', $user['name']);
+        $this->assertEquals('Frodo Baggins', $user['name']);
     }
 
     public function testQueryUserGetError(): void
