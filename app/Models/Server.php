@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 
 class Server extends Model
 {
@@ -15,20 +16,41 @@ class Server extends Model
         'updated_at',
     ];
 
-    // TODO rewrite to HasManyThrough
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//     */
-//    public function users(): BelongsToMany
-//    {
-//        return $this->belongsToMany(User::class, 'user_group', 'group_id', 'id');
-//    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function groups(): MorphToMany
     {
         return $this->morphToMany(Group::class, 'grouped', 'grouped');
+    }
+
+    /**
+     * Get list of all users which can connect to this server
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getUsersAttribute(): Collection
+    {
+        $users  = collect();
+        $groups = $this->groups()->get();
+
+        $groups->map(function (Group $group) use (&$users) {
+            $groupUsers = $group->users()->get();
+            $users      = $users->merge($groupUsers);
+        });
+
+        return $users;
+    }
+
+    /**
+     * Check if use may connect to this server
+     *
+     * @param \App\User $user
+     *
+     * @return bool
+     */
+    public function hasUser(User $user): bool
+    {
+        return $this->users->has($user);
     }
 }
