@@ -86,32 +86,10 @@ type User {
     updated_at: DateTime
 }
 
-input ServerInput {
-    create: ServerCreateInput
-    update: ServerUpdateInput
-    upsert: ServerUpdateInput
-    delete: Boolean
-    "List of groups to which this object is related"
-    groups: GroupInput
-}
-
-input GroupInput {
-    create: GroupCreateInput
-    update: GroupUpdateInput
-    upsert: GroupUpdateInput
-    delete: Boolean
+input GroupsInput {
     sync: [ID!]
     connect: [ID!]
-    discornnect: [ID!]
-}
-
-input UserInput {
-    create: UserCreateInput
-    update: UserUpdateInput
-    upsert: UserUpdateInput
-    delete: Boolean
-    "List of groups to which this object is related"
-    groups: GroupInput
+    disconnect: [ID!]
 }
 
 "List of fields which can be filled on user creating stage"
@@ -122,8 +100,8 @@ input UserCreateInput {
     email: String!
     "Password of used, will be saved as hash into database"
     password: String!
-    "Additional inputs for group management"
-    groups: GroupInput
+    "List of groups to which this object is related"
+    groups: GroupsInput
 }
 
 "List of fields about which will be used for updating information about user"
@@ -135,7 +113,7 @@ input UserUpdateInput {
     "Password of used, will be saved as hash into database"
     password: String
     "Additional inputs for group management"
-    groups: GroupInput
+    groups: GroupsInput
 }
 
 "Object with all required details about group"
@@ -186,6 +164,8 @@ type Server {
     ipv6: String
     "List of user groups which can login trougth this server"
     groups: [Group!]
+    "List of all users which may connect to this server"
+    users: [User!]
     "When record was created"
     created_at: DateTime
     "When record was updated in last time"
@@ -205,7 +185,7 @@ input ServerCreateInput {
     "Object path in Active Directory or OpenLDAP"
     object: String
     "Additional inputs for group management"
-    groups: GroupInput
+    groups: GroupsInput
 }
 
 "List of fields about which will be used for updating information about group"
@@ -219,7 +199,7 @@ input ServerUpdateInput {
     "Object path in Active Directory or OpenLDAP"
     object: String
     "Additional inputs for group management"
-    groups: GroupInput
+    groups: GroupsInput
 }
 
 "Object with all required details about log message"
