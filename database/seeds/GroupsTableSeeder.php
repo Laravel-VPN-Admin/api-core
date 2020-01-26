@@ -11,6 +11,13 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Group::class, 20)->create();
+        $groups = factory(\App\Models\Group::class, 20)->create();
+        $group  = $groups->first();
+        $user   = \App\User::query()->inRandomOrder()->first();
+        $server = \App\Models\Server::query()->inRandomOrder()->first();
+
+        /** @var \App\Models\Group $group */
+        $group->users()->attach($user);
+        $group->servers()->attach($server);
     }
 }
