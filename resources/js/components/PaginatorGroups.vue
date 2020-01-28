@@ -71,6 +71,7 @@
             },
             refetch() {
                 this.page = 1;
+                this.showMoreEnabled = true;
                 this.$apollo.queries.groups.refetch()
             },
         },
