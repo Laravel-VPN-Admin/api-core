@@ -16,6 +16,9 @@
             <div class="row justify-content-center">
                 <mutator-groups/>
             </div>
+            <div class="row justify-content-center">
+                <example-component/>
+            </div>
         </div>
     </div>
     <script src="{{ asset('js/app.js')  }}" ></script>

@@ -2,11 +2,12 @@
     <div>
         <h2>Pagination Group</h2>
         <div v-if="groups">
-            <div v-for="group in groups.data">
+            <div v-for="group in groups.data" :key="group.id">
                 {{ group.id }} - {{ group.name }}
             </div>
             <div class="actions">
                 <button v-if="showMoreEnabled" @click="showMore">Show more</button>
+                <button @click="refetch">refetch</button>
             </div>
         </div>
     </div>
@@ -15,42 +16,47 @@
 <script>
     import gql from 'graphql-tag'
 
-    const first = 6
+    const GroupAll = gql`
+	query groups($page: Int!, $first: Int!) {
+		groups(page: $page, first: $first) {
+			data {
+				id
+				name
+			}
+			paginatorInfo {
+				hasMorePages
+			}
+		}
+	}
+`;
+
+    const first = 10;
 
     export default {
         name: 'PaginatorGroups.vue',
         data: () => ({
             page: 1,
+            groups: [],
             showMoreEnabled: true,
         }),
         apollo: {
             groups: {
-                query: gql`query groups($page: Int!, $first: Int!){
-                    groups(page: $page, first: $first){
-                        data {
-                            id,
-                            name
-                        }
-                        paginatorInfo {
-                          hasMorePages
-                        }
-                    }
-                }`,
+                query: GroupAll,
                 variables: {
                     page: 1,
                     first: first
-                },
+                }
             },
         },
         methods: {
-            showMore () {
+            showMore() {
                 this.page++;
                 this.$apollo.queries.groups.fetchMore({
                     variables: {
                         page: this.page,
                         first: first,
                     },
-                    updateQuery: (previousResult, { fetchMoreResult }) => {
+                    updateQuery: (previousResult, {fetchMoreResult}) => {
                         let newGroup = fetchMoreResult.groups;
                         this.showMoreEnabled = newGroup.paginatorInfo.hasMorePages;
                         return {
@@ -62,6 +68,10 @@
                         }
                     },
                 })
+            },
+            refetch() {
+                this.page = 1;
+                this.$apollo.queries.groups.refetch()
             },
         },
     }
