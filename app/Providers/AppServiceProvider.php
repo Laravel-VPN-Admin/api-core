@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
             'server' => 'App\Models\Server',
             'group'  => 'App\Models\Group',
         ]);
+
+        Passport::routes(function ($router) {
+            $router->forAccessTokens();
+        });
     }
 }
