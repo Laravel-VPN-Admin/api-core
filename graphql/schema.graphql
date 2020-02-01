@@ -18,7 +18,7 @@ enum SortOrder {
     DESC
 }
 
-type Query {
+type Query @guard(with: ["api"]) {
     "Get list of all users with additinal filters"
     users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10)
     "Get single user by unique ID"
@@ -40,7 +40,7 @@ type Query {
     log(id: ID @eq): Log @find
 }
 
-type Mutation {
+type Mutation @guard(with: ["api"])  {
     "Create new user"
     createUser(input: UserCreateInput! @spread): User! @create
     "Update user details"
