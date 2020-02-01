@@ -22,6 +22,13 @@ monitoring messages.
   * Laravel Passport (?) - Authorization
 * Active Directory support
 
+## TODOs
+
+* [ ] GraphQL authorization
+    * [ ] Laravel Auth:API
+    * [ ] Laravel Passport
+* [ ] Vue router
+
 ## Testing
 
 > Please, do not run tests on production environment!
