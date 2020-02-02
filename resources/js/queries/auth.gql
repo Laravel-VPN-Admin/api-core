@@ -1,0 +1,21 @@
+mutation login($data: LoginInput) {
+  login(data: $data)
+  {
+    access_token
+  }
+}
+
+mutation logout {
+  logout {
+    status
+    message
+  }
+}
+
+mutation register($data: RegisterInput!) {
+  register(data: $data) {
+    status
+    message
+    redirect
+  }
+}

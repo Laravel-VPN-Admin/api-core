@@ -1,56 +1,57 @@
 <template>
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+    <router-view></router-view>
+<!--  &lt;!&ndash; Page Wrapper &ndash;&gt;-->
+<!--  <div id="wrapper">-->
 
-    <!-- Sidebar -->
-    <sidebar />
-    <!-- End of Sidebar -->
+<!--    &lt;!&ndash; Sidebar &ndash;&gt;-->
+<!--    <sidebar />-->
+<!--    &lt;!&ndash; End of Sidebar &ndash;&gt;-->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+<!--    &lt;!&ndash; Content Wrapper &ndash;&gt;-->
+<!--    <div id="content-wrapper" class="d-flex flex-column">-->
 
-      <!-- Main Content -->
-      <div id="content">
+<!--      &lt;!&ndash; Main Content &ndash;&gt;-->
+<!--      <div id="content">-->
 
-        <!-- Topbar -->
-        <!--        <toolbar />-->
-        <!-- End of Topbar -->
+<!--        &lt;!&ndash; Topbar &ndash;&gt;-->
+<!--        &lt;!&ndash;        <toolbar />&ndash;&gt;-->
+<!--        &lt;!&ndash; End of Topbar &ndash;&gt;-->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid pt-3">
-          <page-header name="dashboard" />
+<!--        &lt;!&ndash; Begin Page Content &ndash;&gt;-->
+<!--        <div class="container-fluid pt-3">-->
+<!--          <page-header name="dashboard" />-->
 
-          <paginator-groups />
-          <mutator-group />
-        </div>
-        <!-- End of Main Content -->
+<!--          <paginator-groups />-->
+<!--          <mutator-group />-->
+<!--        </div>-->
+<!--        &lt;!&ndash; End of Main Content &ndash;&gt;-->
 
-      </div>
-      <!-- End of Main Content -->
+<!--      </div>-->
+<!--      &lt;!&ndash; End of Main Content &ndash;&gt;-->
 
-    </div>
-    <!-- End of Content Wrapper -->
+<!--    </div>-->
+<!--    &lt;!&ndash; End of Content Wrapper &ndash;&gt;-->
 
-  </div>
-  <!-- End of Page Wrapper -->
+<!--  </div>-->
+<!--  &lt;!&ndash; End of Page Wrapper &ndash;&gt;-->
 </template>
 
 <script>
 
-  import Sidebar    from "./Sidebar";
-  import Toolbar    from "./Toolbar";
-  import PageHeader from "./PageHeader";
-
-  import MutatorGroup    from "./MutatorGroup";
-  import PaginatorGroups from "./PaginatorGroups";
-
-  export default {
-    components: {
-      Sidebar,
-      Toolbar,
-      PageHeader,
-      MutatorGroup,
-      PaginatorGroups
-    }
-  }
+  // import Sidebar    from "./Sidebar";
+  // import Toolbar    from "./Toolbar";
+  // import PageHeader from "./PageHeader";
+  //
+  // import MutatorGroup    from "./MutatorGroup";
+  // import PaginatorGroups from "./PaginatorGroups";
+  //
+  // export default {
+  //   components: {
+  //     Sidebar,
+  //     Toolbar,
+  //     PageHeader,
+  //     MutatorGroup,
+  //     PaginatorGroups
+  //   }
+  // }
 </script>
