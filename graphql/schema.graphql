@@ -126,8 +126,12 @@ type Group {
     object: String
     "List of all users in this group"
     users: [User!]
+    "Amount of users in group"
+    users_count: Int
     "List of all servers trought which users in this group may authorize"
     servers: [Server!]
+    "Amount of servers in group"
+    servers_count: Int
     "When record was created"
     created_at: DateTime
     "When record was updated in last time"
@@ -166,6 +170,8 @@ type Server {
     groups: [Group!]
     "List of all users which may connect to this server"
     users: [User!]
+    "Amount of users in group"
+    users_count: Int
     "When record was created"
     created_at: DateTime
     "When record was updated in last time"
