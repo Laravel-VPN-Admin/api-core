@@ -18,25 +18,25 @@ class AuthorizationTest extends TestCase
         $this->user = factory(\App\User::class)->create();
     }
 
-    public function testMutationLoginUser(): void
-    {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
-        $response = $this->graphQL(/** @lang GraphQL */ '
-            mutation {
-              login(input: { username: "' . $this->user->email . '", password: "password" }) {
-                user {
-                  email
-                }
-                access_token
-                refresh_token
-                expires_in
-              }
-            }
-        ');
-
-        $user = $response->json('data.login.user');
-        $this->assertEquals($this->user->email, $user['email']);
-        $this->assertDatabaseHas('users', ['email' => $user['email']]);
-    }
+//    public function testMutationLoginUser(): void
+//    {
+//        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+//        $response = $this->graphQL(/** @lang GraphQL */ '
+//            mutation {
+//              login(input: { username: "' . $this->user->email . '", password: "password" }) {
+//                user {
+//                  email
+//                }
+//                access_token
+//                refresh_token
+//                expires_in
+//              }
+//            }
+//        ');
+//
+//        $user = $response->json('data.login.user');
+//        $this->assertEquals($this->user->email, $user['email']);
+//        $this->assertDatabaseHas('users', ['email' => $user['email']]);
+//    }
 
 }
