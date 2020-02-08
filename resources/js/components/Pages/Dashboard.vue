@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5">
     <page-header :name="name" />
   </div>
 </template>

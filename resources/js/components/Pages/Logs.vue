@@ -1,39 +1,46 @@
 <template>
-  <div>
-    <page-header :name="name"/>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-sm-12">
-          <table class="table table-bordered">
-            <thead>
-            <tr role="row">
-              <th>Id</th>
-              <th>Code</th>
-              <th>Message</th>
-              <th>User</th>
-              <th>Server</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="log in logs">
-              <td>{{ log.id }}</td>
-              <td>{{ log.code }}</td>
-              <td>{{ log.message }}</td>
-              <td>{{ log.user.name }}</td>
-              <td>{{ log.server.hostname }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div class="mb-5">
+    <page-header :name="name" />
+
+    <div class="card border-0">
+      <table class="table table-bordered mb-0">
+        <thead>
+        <tr role="row">
+          <th>Id</th>
+          <th>Code</th>
+          <th>Message</th>
+          <th>User</th>
+          <th>Server</th>
+          <th>Created at</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="log in logs">
+          <td>{{ log.id }}</td>
+          <td>{{ log.code }}</td>
+          <td>{{ log.message }}</td>
+          <td>
+            <router-link :to="{name: 'users.edit', params: {id: log.user.id}}">
+              {{ log.user.name }}
+            </router-link>
+          </td>
+          <td>
+            <router-link :to="{name: 'servers.edit', params: {id: log.server.id}}">
+              {{ log.server.hostname }}
+            </router-link>
+          </td>
+          <td>{{ log.created_at }}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
 </template>
 
 <script>
-  import PageHeader from "../Layout/PageHeader";
-  import {mapState} from "vuex";
+  import PageHeader   from "../Layout/PageHeader";
+  import { mapState } from "vuex";
 
   export default {
 
@@ -52,7 +59,7 @@
 
     data() {
       return {
-        name: "Logs"
+        name: "Logs from servers"
       }
     },
 
