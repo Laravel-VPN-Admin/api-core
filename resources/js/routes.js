@@ -1,16 +1,19 @@
-import Welcome from './components/Welcome.vue'
-import PaginatorGroups from "./components/PaginatorGroups";
-import NotFound from "./components/NotFound";
-import Login from "./components/Login";
+import Dashboard from './components/Pages/Dashboard';
+import Servers   from './components/Pages/Servers';
+import Groups    from './components/Pages/Groups';
+import Users     from './components/Pages/Users';
+import Logs      from './components/Pages/Logs';
+import NotFound  from "./components/NotFound";
 
-// Only for tests, then I will refactor and do it beautifully
 const routes = () => {
-    return [
-        {path: '/', name: 'welcome', component: Welcome},
-        {path: '/paginator', component: PaginatorGroups},
-        {path: '/signin', component: Login},
-        {path: '*', component: NotFound}
-    ]
-}
+  return [
+    {path: '/', name: 'dashboard', component: Dashboard},
+    {path: '/servers', name: 'servers', component: Servers},
+    {path: '/groups', name: 'groups', component: Groups},
+    {path: '/users', name: 'users', component: Users},
+    {path: '/logs', name: 'logs', component: Logs},
+    {path: '*', name: '404', component: NotFound}
+  ]
+};
 
-export default routes()
+export default routes();

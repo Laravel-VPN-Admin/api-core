@@ -24,10 +24,9 @@ monitoring messages.
 
 ## TODOs
 
+* [ ] Laravel Auth:API
 * [ ] GraphQL authorization
-    * [ ] Laravel Auth:API
-    * [ ] Laravel Passport
-* [ ] Vue router
+* [x] Vue router
 
 ## Testing
 
