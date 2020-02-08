@@ -18,6 +18,8 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
     - name: Generate key
       run: php artisan key:generate
+      env:
+        APP_ENV: local
     - name: Create Database
       run: |
         mkdir -p database
@@ -26,8 +28,10 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: /home/runner/work/api-core/api-core/database/database.sqlite
+        APP_ENV: local
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+        APP_ENV: local
       run: vendor/bin/phpunit
