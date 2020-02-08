@@ -20,7 +20,7 @@ Vue.use(VueRouter);
 // Preconfigure Vue-Router
 const router = new VueRouter({
   // mode: 'history',
-  // linkActiveClass:      "active",
+  linkActiveClass:      "active",
   linkExactActiveClass: "active",
   routes // short for `routes: routes`
 });
