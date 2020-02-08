@@ -14,6 +14,10 @@ class Group extends Model
         'created_at',
         'updated_at',
     ];
+    protected $withCount = [
+        'users',
+        'servers'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany

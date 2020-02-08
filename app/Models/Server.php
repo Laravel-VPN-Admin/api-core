@@ -43,6 +43,16 @@ class Server extends Model
     }
 
     /**
+     * Return amount of users in group
+     *
+     * @return int
+     */
+    public function getUsersCountAttribute(): int
+    {
+        return $this->users->count();
+    }
+
+    /**
      * Check if use may connect to this server
      *
      * @param \App\User $user
