@@ -115,7 +115,7 @@ const store = new Vuex.Store({
     },
 
     /**
-     * Get list of all available servers
+     * Get list of all available users
      *
      * @param {Number} page
      * @param {Number} first
@@ -148,6 +148,49 @@ const store = new Vuex.Store({
       });
 
       commit('SET_USERS', response.data.users.data);
+    },
+
+
+    /**
+     * Get list of all available logs
+     *
+     * @param {Number} page
+     * @param {Number} first
+     * @returns {Promise<void>}
+     */
+    async getLogs({commit, state}, page = 1, first = 10) {
+      const response = await GraphQL.query({
+        query:     gql`
+          query Logs($page: Int!, $first: Int!) {
+            logs(page: $page, first: $first) {
+              data {
+                id
+                code
+                message
+                created_at
+                updated_at
+                user {
+                  id
+                  name
+                }                
+                server {
+                  id
+                  hostname
+                }
+              }
+              paginatorInfo {
+                hasMorePages
+              }
+            }
+          }
+        `,
+        variables: {
+          page,
+          first
+        }
+      });
+
+      commit('SET_LOGS', response.data.logs.data);
     },
 
   }
