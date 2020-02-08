@@ -1,14 +1,29 @@
 <template>
   <div>
     <page-header :name="name" />
-    <h1>This is the {{ name }}</h1>
+
+    <div class="list-group">
+      <div v-for="group in groups" class="list-group-item">
+        {{ group.name }}
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
-  import PageHeader from "../Layout/PageHeader";
+  import PageHeader   from "../Layout/PageHeader";
+  import { mapState } from 'vuex';
 
   export default {
+
+    computed: {
+      ...mapState([
+        'groups',
+        'servers',
+        'users',
+      ]),
+    },
 
     components: {
       PageHeader,
@@ -19,6 +34,10 @@
         name: "Groups"
       }
     },
+
+    mounted() {
+      this.$store.dispatch('getGroups');
+    }
 
   }
 </script>

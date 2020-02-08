@@ -1,7 +1,6 @@
 <template>
   <div>
     <page-header :name="name" />
-    <h1>This is the {{ name }}</h1>
   </div>
 </template>
 

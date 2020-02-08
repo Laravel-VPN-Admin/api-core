@@ -3,12 +3,12 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 // Configs
-import routes             from './routes.js'
-import { apolloProvider } from './apollo.js'
+import store  from "./store";
+import routes from './routes';
 
 // Plugins
-import VueApollo from 'vue-apollo'
-import VueRouter from 'vue-router'
+import VueApollo from 'vue-apollo';
+import VueRouter from 'vue-router';
 
 // Main components
 import App from "./components/App";
@@ -20,13 +20,13 @@ Vue.use(VueRouter);
 // Preconfigure Vue-Router
 const router = new VueRouter({
   // mode: 'history',
-  linkActiveClass:      "active",
+  // linkActiveClass:      "active",
   linkExactActiveClass: "active",
   routes // short for `routes: routes`
 });
 
 const app = new Vue({
-  apolloProvider,
+  store,
   router,
   components: {
     App
