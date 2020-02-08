@@ -40,7 +40,7 @@ const store = new Vuex.Store({
      * @param {Number} first
      * @returns {Promise<void>}
      */
-    async getGroups({commit, state}, page = 1, first = 10) {
+    async getGroups({commit, state}, page = 1, first = 100) {
       const response = await GraphQL.query({
         query:     gql`
           query Groups($page: Int!, $first: Int!) {
@@ -54,9 +54,11 @@ const store = new Vuex.Store({
                 users {
                   id
                 }
+                users_count
                 servers {
                   id
                 }
+                servers_count
               }
               paginatorInfo {
                 hasMorePages
@@ -80,7 +82,7 @@ const store = new Vuex.Store({
      * @param {Number} first
      * @returns {Promise<void>}
      */
-    async getServers({commit, state}, page = 1, first = 10) {
+    async getServers({commit, state}, page = 1, first = 100) {
       const response = await GraphQL.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
@@ -94,10 +96,13 @@ const store = new Vuex.Store({
                 updated_at
                 groups {
                   id
+                  name
                 }
                 users {
                   id
+                  name
                 }
+                users_count
               }
               paginatorInfo {
                 hasMorePages
@@ -121,7 +126,7 @@ const store = new Vuex.Store({
      * @param {Number} first
      * @returns {Promise<void>}
      */
-    async getUsers({commit, state}, page = 1, first = 10) {
+    async getUsers({commit, state}, page = 1, first = 100) {
       const response = await GraphQL.query({
         query:     gql`
           query Users($page: Int!, $first: Int!) {
@@ -129,6 +134,7 @@ const store = new Vuex.Store({
               data {
                 id
                 name
+                email
                 created_at
                 updated_at
                 groups {
@@ -158,7 +164,7 @@ const store = new Vuex.Store({
      * @param {Number} first
      * @returns {Promise<void>}
      */
-    async getLogs({commit, state}, page = 1, first = 10) {
+    async getLogs({commit, state}, page = 1, first = 100) {
       const response = await GraphQL.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
