@@ -48,6 +48,7 @@ class AuthorizationController extends Controller
     {
         $token = Str::random(60);
 
+        dd($request->user());
         $request->user()->forceFill([
             'api_token' => hash('sha256', $token),
         ])->save();
