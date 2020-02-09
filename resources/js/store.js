@@ -1,6 +1,7 @@
-import Vue  from "vue";
-import Vuex from "vuex";
-import gql  from 'graphql-tag';
+import Vue   from "vue";
+import Vuex  from "vuex";
+import gql   from 'graphql-tag';
+import axios from "axios";
 
 import { router } from "./app";
 import GraphQL    from './graphql';
@@ -10,6 +11,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 
   state: {
+    token:   null,
     users:   {},
     servers: {},
     groups:  {},
@@ -17,6 +19,9 @@ const store = new Vuex.Store({
   },
 
   mutations: {
+    SET_TOKEN(state, items) {
+      state.token = items;
+    },
     SET_USERS(state, items) {
       state.users = items;
     },
@@ -31,7 +36,37 @@ const store = new Vuex.Store({
     },
   },
 
+  getters: {
+    /**
+     * Check if user has token
+     *
+     * @returns {boolean}
+     */
+    isAuthorized: state => {
+      return !!state.token;
+    }
+  },
+
   actions: {
+
+    /**
+     * Submit login request to api server
+     *
+     * @param {*} data
+     */
+    async login({commit, state}, data) {
+      await axios({
+        method: 'POST',
+        url:    '/api/login',
+        data:   data,
+      }).then(response => {
+        if (response.data.token) {
+          commit("SET_TOKEN", response.data.token);
+        }
+      }).catch(error => {
+        console.error(error);
+      });
+    },
 
     /**
      * Get list of all available groups
@@ -178,7 +213,7 @@ const store = new Vuex.Store({
                 user {
                   id
                   name
-                }                
+                }
                 server {
                   id
                   hostname

@@ -25,6 +25,14 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 });
 
+router.beforeEach((to, from, next) => {
+  if (!store.state.token && to.name !== 'login') {
+    next({name: 'login'});
+  } else {
+    next();
+  }
+});
+
 const app = new Vue({
   store,
   router,
