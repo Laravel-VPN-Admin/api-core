@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
     <page-header :name="name" />
-    <logs-table />
+    <logs-table page="1" first="10" :realtime="true" />
   </div>
 </template>
 

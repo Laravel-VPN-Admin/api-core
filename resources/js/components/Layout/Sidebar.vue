@@ -1,5 +1,5 @@
 <template>
-  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <router-link tag="li" class="nav-item" :to="{name: 'dashboard'}">
       <a class="nav-link">

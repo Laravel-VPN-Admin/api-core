@@ -39,9 +39,9 @@
   export default {
 
     props: {
-      realtime: false,
-      page:     1,
-      first:    10,
+      realtime: Boolean,
+      page:     Number,
+      first:    Number,
     },
 
     computed: {
@@ -53,9 +53,25 @@
       ]),
     },
 
+    data() {
+      return {
+        interval: null,
+      }
+    },
+
     mounted() {
-      this.$store.dispatch('getLogs', this.page, this.first);
-    }
+      this.$store.dispatch('getLogs', {page: this.page, first: this.first});
+
+      if (this.realtime) {
+        this.interval = setInterval(function () {
+          this.$store.dispatch('getLogs', {page: this.page, first: this.first});
+        }.bind(this), 5000);
+      }
+    },
+
+    beforeDestroy: function () {
+      clearInterval(this.interval);
+    },
 
   }
 </script>

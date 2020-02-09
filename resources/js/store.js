@@ -195,12 +195,17 @@ const store = new Vuex.Store({
     /**
      * Get list of all available logs
      *
-     * @param {Number} page
-     * @param {Number} first
+     * @param data
      * @returns {Promise<void>}
      */
-    async getLogs({commit, state}, page = 1, first = 100) {
-      console.log(page, first);
+    async getLogs({commit, state}, data) {
+      console.log(data);
+      if (!data.page) {
+        data.page = 1;
+      }
+      if (!data.first) {
+        data.first = 100;
+      }
       const response = await GraphQL.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
@@ -227,8 +232,8 @@ const store = new Vuex.Store({
           }
         `,
         variables: {
-          page,
-          first
+          page:  data.page,
+          first: data.first
         }
       });
 
