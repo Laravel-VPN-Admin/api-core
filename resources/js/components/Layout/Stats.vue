@@ -10,7 +10,7 @@
               <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.users_count }}</div>
             </div>
             <div class="col-auto">
-              <i class="fa fa-calendar fa-2x text-gray-300"></i>
+              <i class="fa fa-user fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
               <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.servers_count }}</div>
             </div>
             <div class="col-auto">
-              <i class="fa fa-calendar fa-2x text-gray-300"></i>
+              <i class="fa fa-server fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
               <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.groups_count }}</div>
             </div>
             <div class="col-auto">
-              <i class="fa fa-calendar fa-2x text-gray-300"></i>
+              <i class="fa fa-users fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
