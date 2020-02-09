@@ -7,8 +7,10 @@ import store  from "./store";
 import routes from './routes';
 
 // Plugins
-import VueApollo from 'vue-apollo';
-import VueRouter from 'vue-router';
+import Vue        from 'vue';
+import VueApollo  from 'vue-apollo';
+import VueRouter  from 'vue-router';
+import VueCookies from 'vue-cookies';
 
 // Main components
 import App from "./components/App";
@@ -16,6 +18,7 @@ import App from "./components/App";
 // Basic uses
 Vue.use(VueApollo);
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 
 // Preconfigure Vue-Router
 const router = new VueRouter({
@@ -26,9 +29,11 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!store.state.token && to.name !== 'login') {
+  var token = Vue.$cookies.get('token');
+  if (!store.state.token && !token && to.name !== 'login') {
     next({name: 'login'});
   } else {
+    store.commit('SET_TOKEN', token);
     next();
   }
 });

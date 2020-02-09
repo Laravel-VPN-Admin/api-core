@@ -69,12 +69,10 @@
        * Initiate login logic based on API token
        */
       login() {
-        console.log(this.form);
-
         this.$store.dispatch('login', this.form)
           .then(response => {
-            console.log(response);
             if (!!this.$store.state.token) {
+              Vue.$cookies.set('token', this.$store.state.token);
               this.error = null;
               this.$router.push({name: 'dashboard'});
             }
