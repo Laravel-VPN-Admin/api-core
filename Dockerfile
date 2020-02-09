@@ -17,6 +17,7 @@ RUN cp .env.example .env \
  && chown apache:apache -R storage \
  && composer install --no-dev \
  && php artisan optimize:clear \
+ && php artisan lang:js \
  && php artisan key:generate --force
 
 ENTRYPOINT ["/app/entrypoint.sh"]

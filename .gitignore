@@ -19,3 +19,4 @@ yarn-error.log
 /.phpstorm.meta.php
 /schema-directives.graphql
 /storage/installed
+/public/messages.js

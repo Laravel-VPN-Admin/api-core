@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
+        "mariuzzo/laravel-js-localization": "^1.5",
         "mll-lab/laravel-graphql-playground": "^2.0",
         "nuwave/lighthouse": "^4.8",
         "rachidlaasri/laravel-installer": "^4.0"

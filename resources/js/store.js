@@ -200,6 +200,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getLogs({commit, state}, page = 1, first = 100) {
+      console.log(page, first);
       const response = await GraphQL.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
