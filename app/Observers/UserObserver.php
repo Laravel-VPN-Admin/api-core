@@ -15,7 +15,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->api_token = \Str::random(60);
+        $user->api_token = \Hash::make(\Str::random(80));
         $user->save();
     }
 
