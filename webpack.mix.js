@@ -12,24 +12,27 @@ const mix = require('laravel-mix');
  */
 
 mix.webpackConfig({
-    resolve: {
-        alias: {
-            '@': path.join(__dirname + '/resources/js')
-        },
+  resolve: {
+    alias: {
+      '@': path.join(__dirname + '/resources/js')
     },
-    module: {
-        rules: [
-            {
-                test: /\.(graphql|gql)$/,
-                exclude: /node_modules/,
-                loader: 'graphql-tag/loader',
-            }
-        ]
-    }
-})
+  },
+  module:  {
+    rules: [
+      {
+        test:    /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader:  'graphql-tag/loader',
+      }
+    ]
+  }
+});
 
 mix
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
+  .sass('resources/sass/installer.scss', 'public/css')
+  .copy('resources/images', 'public/images', false)
+  .copy('node_modules/font-awesome/fonts/*', 'public/fonts', false)
   .version()
   .extract();

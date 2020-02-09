@@ -15,12 +15,6 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
-[*.blade.php]
-indent_size = 2
-tab_width = 2
-ij_continuation_indent_size = 2
-ij_blade_keep_indents_on_empty_lines = false
-
 [*.css]
 ij_css_align_closing_brace_with_properties = false
 ij_css_blank_lines_around_nested_selector = 1
@@ -614,6 +608,12 @@ ij_php_variable_naming_style = mixed
 ij_php_version_weight = 28
 ij_php_while_brace_force = always
 ij_php_while_on_new_line = false
+
+[*.blade.php]
+indent_size = 2
+tab_width = 2
+ij_continuation_indent_size = 2
+ij_blade_keep_indents_on_empty_lines = false
 
 [{*.sht, *.html, *.shtm, *.shtml, *.ng, *.htm}]
 indent_size = 2
