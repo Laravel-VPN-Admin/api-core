@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 
 class LoginRequest extends FormRequest
 {
@@ -27,5 +30,20 @@ class LoginRequest extends FormRequest
             'email'    => 'required|max:255|email',
             'password' => 'required',
         ];
+    }
+
+    /**
+     * @param \Illuminate\Contracts\Validation\Validator $validator
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+        );
     }
 }
