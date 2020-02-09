@@ -20,6 +20,7 @@ class CreateServersTable extends Migration
             $table->string('ipv4')->nullable()->index();
             $table->string('ipv6')->nullable()->index();
             $table->string('token')->nullable();
+            $table->dateTime('last_echo_at')->nullable();
 
             $table->timestamps();
         });

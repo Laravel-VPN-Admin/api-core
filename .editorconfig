@@ -34,6 +34,11 @@ ij_css_space_before_opening_brace = true
 ij_css_use_double_quotes = true
 ij_css_value_alignment = 0
 
+[*.graphql]
+indent_size = 4
+tab_width = 4
+ij_continuation_indent_size = 4
+
 [*.sass]
 indent_size = 2
 ij_sass_align_closing_brace_with_properties = false

@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     servers: {},
     groups:  {},
     logs:    {},
+    stats:   {},
   },
 
   mutations: {
@@ -33,6 +34,9 @@ const store = new Vuex.Store({
     },
     SET_LOGS(state, items) {
       state.logs = items;
+    },
+    SET_STATS(state, items) {
+      state.stats = items;
     },
   },
 
@@ -191,6 +195,26 @@ const store = new Vuex.Store({
       commit('SET_USERS', response.data.users.data);
     },
 
+    /**
+     * Get list of all server stats
+     *
+     * @returns {Promise<void>}
+     */
+    async getStats({commit, state}) {
+      const response = await GraphQL.query({
+        query:     gql`
+          query Stats {
+            stats {
+              users_count
+              servers_count
+              groups_count
+            }
+          }
+        `
+      });
+
+      commit('SET_STATS', response.data.stats);
+    },
 
     /**
      * Get list of all available logs

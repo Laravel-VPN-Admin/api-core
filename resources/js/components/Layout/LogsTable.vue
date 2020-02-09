@@ -1,5 +1,5 @@
 <template>
-  <div class="card border-0">
+  <div class="card border-0 shadow">
     <table class="table table-bordered mb-0">
       <thead>
       <tr role="row">
@@ -39,9 +39,8 @@
   export default {
 
     props: {
-      realtime: Boolean,
-      page:     Number,
-      first:    Number,
+      page:  String,
+      first: String,
     },
 
     computed: {
@@ -53,24 +52,8 @@
       ]),
     },
 
-    data() {
-      return {
-        interval: null,
-      }
-    },
-
     mounted() {
       this.$store.dispatch('getLogs', {page: this.page, first: this.first});
-
-      if (this.realtime) {
-        this.interval = setInterval(function () {
-          this.$store.dispatch('getLogs', {page: this.page, first: this.first});
-        }.bind(this), 5000);
-      }
-    },
-
-    beforeDestroy: function () {
-      clearInterval(this.interval);
     },
 
   }

@@ -2,7 +2,7 @@
   <div class="mb-5">
     <page-header :name="name" />
 
-    <div class="card border-0">
+    <div class="card border-0 shadow">
       <table class="table table-bordered mb-0">
         <thead>
         <tr role="row">

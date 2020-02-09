@@ -7,7 +7,7 @@
 
 <script>
   import PageHeader from "../Layout/PageHeader";
-  import LogsTable  from "../LogsTable";
+  import LogsTable  from "../Layout/LogsTable";
 
   export default {
 

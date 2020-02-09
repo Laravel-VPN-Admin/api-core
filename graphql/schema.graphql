@@ -19,6 +19,9 @@ enum SortOrder {
 }
 
 type Query {
+    "Get system status for dashboard"
+    stats: Stats!
+
     "Get list of all users with additinal filters"
     users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10)
     "Get single user by unique ID"
@@ -68,6 +71,13 @@ type Mutation  {
     updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update
     "Delete log message"
     deleteLog(id: ID!): Log @delete
+}
+
+"Details about current installation"
+type Stats {
+    users_count: Int!
+    groups_count: Int!
+    servers_count: Int!
 }
 
 "Object with all required details about user"
