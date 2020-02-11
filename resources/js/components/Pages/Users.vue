@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="user in users">
+        <tr v-for="user in users" :key="user.id">
           <td>
             <router-link :to="{name: 'users.edit', params: {id: user.id}}">
               {{ user.id }}
