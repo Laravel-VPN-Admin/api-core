@@ -12,7 +12,7 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
                   <div class="alert alert-danger" v-if="error" role="alert">
-                    error isn't empty!
+                    {{error}}
                   </div>
                   <div class="user">
                     <div class="form-group">
@@ -77,6 +77,7 @@ export default {
       this.$store
         .dispatch("login", this.form)
         .then(response => {
+          console.log(this.error);
           if (!!this.$store.state.token) {
             Vue.$cookies.set("token", this.$store.state.token);
             this.error = null;
