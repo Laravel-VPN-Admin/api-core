@@ -69,6 +69,7 @@ const store = new Vuex.Store({
         }
       }).catch(error => {
         console.error(error);
+        throw error;
       });
     },
 
