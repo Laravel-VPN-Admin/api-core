@@ -23,6 +23,7 @@
                         id="exampleInputEmail"
                         aria-describedby="emailHelp"
                         placeholder="Enter Email Address..."
+                        @keyup.enter.native="login()"
                       />
                     </div>
                     <div class="form-group">
@@ -32,6 +33,7 @@
                         class="form-control form-control-user"
                         id="exampleInputPassword"
                         placeholder="Password"
+@keyup.enter="login()"
                       />
                     </div>
 
