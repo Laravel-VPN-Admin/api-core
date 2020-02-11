@@ -12,7 +12,7 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
                   <div class="alert alert-danger" v-if="error" role="alert">
-   error isn't empty! hell yeah!!!
+   error isn't empty!
                   </div>
                   <div class="user">
                     <div class="form-group">
