@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="server in servers">
+        <tr v-for="server in servers" :key="server.id">
           <td>
             <router-link :to="{name: 'servers.edit', params: {id: server.id}}">
               {{ server.id }}
