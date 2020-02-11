@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <div class="row justify-content-center">
       <div class="col-xl-10 col-lg-12 col-md-9">
         <div class="card o-hidden border-0 shadow-lg my-5">
@@ -12,8 +11,10 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
+                  <div class="alert alert-danger" v-if="error" role="alert">
+   error isn't empty! hell yeah!!!
+                  </div>
                   <div class="user">
-
                     <div class="form-group">
                       <input type="email" v-model="form.email" class="form-control form-control-user" id="exampleInputEmail"
                              aria-describedby="emailHelp" placeholder="Enter Email Address...">
@@ -52,7 +53,7 @@
           email:    null,
           password: null
         },
-        error: null,
+        error: null
       }
     },
 
@@ -64,7 +65,7 @@
       isSubmitEnabled() {
         return this.form.email && this.form.password;
       },
-
+    
       /**
        * Initiate login logic based on API token
        */
