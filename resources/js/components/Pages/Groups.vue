@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="group in groups">
+        <tr v-for="group in groups" :key="group.id">
           <td>
             <router-link :to="{name: 'groups.edit', params: {id: group.id}}">
               {{ group.id }}
