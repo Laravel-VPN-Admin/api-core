@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Mutations;
+namespace Tests\Feature\GraphQL\Mutations;
 
 use Tests\TestCase;
 
@@ -48,7 +48,7 @@ class ServersTest extends TestCase
 
     public function testMutationServerCreate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestCase $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createServer (
@@ -77,15 +77,26 @@ class ServersTest extends TestCase
             }
         ');
 
+        //dd($this->group, $this->user, $response);
+
         $server = $response->json('data.createServer');
         $this->assertEquals('Gondor', $server['hostname']);
-        $this->assertDatabaseHas('servers', ['hostname' => 'Gondor', 'ipv4' => '127.0.0.2']);
+        $this->assertDatabaseHas('servers', [
+            'hostname' => 'Gondor',
+            'ipv4'     => '127.0.0.2'
+        ]);
 
         $groups = $response->json('data.createServer.groups');
-        $this->assertContains(['name' => $this->group->name, 'id' => $this->group->id], $groups);
+        $this->assertContains([
+            'id'   => (string) $this->group->id,
+            'name' => $this->group->name,
+        ], $groups);
 
         $users = $response->json('data.createServer.users');
-        $this->assertContains(['name' => $this->user->name, 'id' => $this->user->id], $users);
+        $this->assertContains([
+            'id'   => (string) $this->user->id,
+            'name' => $this->user->name,
+        ], $users);
     }
 
     public function testMutationServerUpdate(): void
@@ -105,7 +116,10 @@ class ServersTest extends TestCase
 
         $server = $response->json('data.createServer');
         $this->assertEquals('Gondor', $server['hostname']);
-        $this->assertDatabaseHas('servers', ['hostname' => 'Gondor', 'ipv4' => '127.0.0.2']);
+        $this->assertDatabaseHas('servers', [
+            'hostname' => 'Gondor',
+            'ipv4'     => '127.0.0.2'
+        ]);
 
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
@@ -122,7 +136,11 @@ class ServersTest extends TestCase
 
         $serverUpdated = $response->json('data.updateServer');
         $this->assertEquals('yabadabadoo', $serverUpdated['hostname']);
-        $this->assertDatabaseHas('servers', ['id' => $server['id'], 'hostname' => $serverUpdated['hostname'], 'ipv4' => $serverUpdated['ipv4']]);
+        $this->assertDatabaseHas('servers', [
+            'id'       => $server['id'],
+            'hostname' => $serverUpdated['hostname'],
+            'ipv4'     => $serverUpdated['ipv4']
+        ]);
     }
 
     public function testMutationServerDelete(): void
@@ -142,7 +160,10 @@ class ServersTest extends TestCase
 
         $server = $response->json('data.createServer');
         $this->assertEquals('Gondor', $server['hostname']);
-        $this->assertDatabaseHas('servers', ['hostname' => 'Gondor', 'ipv4' => '127.0.0.2']);
+        $this->assertDatabaseHas('servers', [
+            'hostname' => 'Gondor',
+            'ipv4'     => '127.0.0.2'
+        ]);
 
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
@@ -157,7 +178,10 @@ class ServersTest extends TestCase
 
         $serverDeleted = $response->json('data.deleteServer');
         $this->assertEquals('Gondor', $serverDeleted['hostname']);
-        $this->assertDatabaseMissing('servers', ['hostname' => $server['hostname'], 'ipv4' => $server['ipv4']]);
+        $this->assertDatabaseMissing('servers', [
+            'hostname' => $server['hostname'],
+            'ipv4'     => $server['ipv4']
+        ]);
     }
 
 }

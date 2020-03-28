@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Mutations;
+namespace Tests\Feature\GraphQL\Mutations;
 
 use Tests\TestCase;
 
@@ -60,10 +60,16 @@ class UsersTest extends TestCase
 
         $user = $response->json('data.createUser');
         $this->assertEquals('test_gql', $user['name']);
-        $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
+        $this->assertDatabaseHas('users', [
+            'name'  => 'test_gql',
+            'email' => 'asd@mail.com'
+        ]);
 
         $groups = $response->json('data.createUser.groups');
-        $this->assertContains(['name' => $this->group->name, 'id' => $this->group->id], $groups);
+        $this->assertContains([
+            'id'   => (string) $this->group->id,
+            'name' => $this->group->name,
+        ], $groups);
     }
 
     public function testMutationUserUpdate(): void
@@ -81,7 +87,10 @@ class UsersTest extends TestCase
 
         $user = $response->json('data.createUser');
         $this->assertEquals('test_gql', $user['name']);
-        $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
+        $this->assertDatabaseHas('users', [
+            'name'  => 'test_gql',
+            'email' => 'asd@mail.com'
+        ]);
 
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
@@ -96,7 +105,11 @@ class UsersTest extends TestCase
 
         $userUpdated = $response->json('data.updateUser');
         $this->assertEquals('yabadabadoo', $userUpdated['name']);
-        $this->assertDatabaseHas('users', ['id' => $user['id'], 'name' => $userUpdated['name'], 'email' => $userUpdated['email']]);
+        $this->assertDatabaseHas('users', [
+            'id'    => $user['id'],
+            'name'  => $userUpdated['name'],
+            'email' => $userUpdated['email']
+        ]);
     }
 
     public function testMutationUserDelete(): void
@@ -115,7 +128,10 @@ class UsersTest extends TestCase
 
         $user = $response->json('data.createUser');
         $this->assertEquals('test_gql', $user['name']);
-        $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
+        $this->assertDatabaseHas('users', [
+            'name'  => 'test_gql',
+            'email' => 'asd@mail.com'
+        ]);
 
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
@@ -130,7 +146,10 @@ class UsersTest extends TestCase
 
         $userDeleted = $response->json('data.deleteUser');
         $this->assertEquals('test_gql', $userDeleted['name']);
-        $this->assertDatabaseMissing('users', ['name' => $user['name'], 'email' => $user['email']]);
+        $this->assertDatabaseMissing('users', [
+            'name'  => $user['name'],
+            'email' => $user['email']
+        ]);
     }
 
 }
