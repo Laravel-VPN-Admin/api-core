@@ -7,6 +7,7 @@ import Users     from './components/Pages/Users';
 import User      from './components/Pages/User';
 import Logs      from './components/Pages/Logs';
 import NotFound  from "./components/NotFound";
+import AddServer from './components/Pages/AddServer';
 import Login     from './components/Login';
 
 const routes = () => {
@@ -15,6 +16,7 @@ const routes = () => {
     {path: '/login', name: 'login', component: Login},
     {path: '/dashboard', name: 'dashboard', component: Dashboard},
     {path: '/servers', name: 'servers', component: Servers},
+    {path: '/create-server', name: 'servers.create', component: AddServer},
     {path: '/servers/:id', name: 'servers.edit', component: Server},
     {path: '/groups', name: 'groups', component: Groups},
     {path: '/groups/:id', name: 'groups.edit', component: Group},

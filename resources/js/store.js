@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     groups:  {},
     logs:    {},
     stats:   {},
+    server: {}
   },
 
   mutations: {
@@ -38,6 +39,9 @@ const store = new Vuex.Store({
     SET_STATS(state, items) {
       state.stats = items;
     },
+    SET_SERVER(state, items){
+      state.server = items;
+    }
   },
 
   getters: {
@@ -203,7 +207,7 @@ const store = new Vuex.Store({
      */
     async getStats({commit, state}) {
       const response = await GraphQL.query({
-        query:     gql`
+        query: gql`
           query Stats {
             stats {
               users_count
@@ -264,6 +268,42 @@ const store = new Vuex.Store({
 
       commit('SET_LOGS', response.data.logs.data);
     },
+    /**
+     *
+     * @param commit
+     * @param state
+     * @param data
+     * @returns {Promise<void>}
+     */
+    async createServer({commit, state}, data) {
+      const response = await GraphQL.mutate({
+        mutation:  gql`
+       mutation($input: ServerCreateInput!) {
+  createServer(input: $input) {
+    id
+    hostname
+    ipv4
+    ipv6
+    token
+    created_at
+    updated_at
+  }
+}
+        `,
+        variables: {
+          input: {
+            "hostname": data.hostname,
+            "ipv4":     data.ipv4,
+            "ipv6":     data.ipv6,
+            "token":    data.token,
+            "groups":   {"connect": data.id}
+          }
+        }
+      });
+
+      commit('SET_SERVER', response.data.server);
+    },
+
 
   }
 
