@@ -12,8 +12,8 @@ jobs:
         uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Install Composer excutable
-        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod 755 /usr/bin/composer
+      #- name: Install Composer excutable
+      #  run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod 755 /usr/bin/composer
       - name: Install Composer dependencies
         run: composer install --prefer-dist
       - name: Run tests
