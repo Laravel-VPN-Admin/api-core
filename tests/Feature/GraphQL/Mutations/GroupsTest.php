@@ -22,7 +22,7 @@ class GroupsTest extends TestCase
 
     public function testMutationGroupCreate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createGroup (input: {name:"Wizard"}) {
@@ -40,7 +40,7 @@ class GroupsTest extends TestCase
 
     public function testMutationGroupUpdate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createGroup (input: {name:"Wizard"}) {
@@ -55,7 +55,7 @@ class GroupsTest extends TestCase
         $this->assertEquals('Wizard', $group['name']);
         $this->assertDatabaseHas('groups', ['name' => 'Wizard']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               updateGroup (id: ' . $group['id'] . ', input: {name: "Undead"} ) {
@@ -73,7 +73,7 @@ class GroupsTest extends TestCase
 
     public function testMutationGroupDelete(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createGroup (input: {name:"Wizard"}) {
@@ -88,7 +88,7 @@ class GroupsTest extends TestCase
         $this->assertEquals('Wizard', $group['name']);
         $this->assertDatabaseHas('groups', ['name' => 'Wizard']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               deleteGroup (id: ' . $group['id'] . ') {

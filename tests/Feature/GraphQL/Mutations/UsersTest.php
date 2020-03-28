@@ -33,7 +33,7 @@ class UsersTest extends TestCase
 
     public function testMutationUserCreate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createUser (
@@ -68,7 +68,7 @@ class UsersTest extends TestCase
 
     public function testMutationUserUpdate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asd"}) {
@@ -83,7 +83,7 @@ class UsersTest extends TestCase
         $this->assertEquals('test_gql', $user['name']);
         $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               updateUser (id: ' . $user['id'] . ', input: {name: "yabadabadoo"} ) {
@@ -101,7 +101,7 @@ class UsersTest extends TestCase
 
     public function testMutationUserDelete(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asd"}) {
@@ -117,7 +117,7 @@ class UsersTest extends TestCase
         $this->assertEquals('test_gql', $user['name']);
         $this->assertDatabaseHas('users', ['name' => 'test_gql', 'email' => 'asd@mail.com']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               deleteUser (id: ' . $user['id'] . ') {

@@ -48,7 +48,7 @@ class GroupsTest extends TestCase
 
     public function testQueryGroupsGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 groups(orderBy: [ {field: "name", order: DESC} ], first: 30) {
@@ -69,7 +69,7 @@ class GroupsTest extends TestCase
 
     public function testQueryGroupGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 group(id: ' . $this->group->id . ') {
@@ -98,7 +98,7 @@ class GroupsTest extends TestCase
 
     public function testQueryGroupGetError(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 group(id: ' . ($this->group->id + 1) . ') {

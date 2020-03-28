@@ -48,7 +48,7 @@ class ServersTest extends TestCase
 
     public function testQueryServersGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 servers(orderBy: [ {field: "hostname", order: DESC} ], first: 20) {
@@ -72,7 +72,7 @@ class ServersTest extends TestCase
 
     public function testQueryServerGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 server(id: ' . $this->server->id . ') {
@@ -100,7 +100,7 @@ class ServersTest extends TestCase
 
     public function testQueryServerGetError(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 server(id: ' . ($this->server->id + 1) . ') {

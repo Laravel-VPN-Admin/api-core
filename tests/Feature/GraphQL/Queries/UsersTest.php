@@ -24,7 +24,7 @@ class UsersTest extends TestCase
 
     public function testQueryUsersGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 users(orderBy: [ {field: "name", order: DESC} ], first: 51) {
@@ -42,7 +42,7 @@ class UsersTest extends TestCase
 
     public function testQueryUserGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 user(id: ' . $this->user->id . ') {
@@ -58,7 +58,7 @@ class UsersTest extends TestCase
 
     public function testQueryUserGetError(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 user(id: ' . ($this->user->id + 1) . ') {

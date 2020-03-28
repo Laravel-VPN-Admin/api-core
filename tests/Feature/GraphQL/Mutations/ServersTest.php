@@ -48,7 +48,7 @@ class ServersTest extends TestCase
 
     public function testMutationServerCreate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Foundation\Testing\TestCase $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createServer (
@@ -90,7 +90,7 @@ class ServersTest extends TestCase
 
     public function testMutationServerUpdate(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createServer (input: {hostname:"Gondor", ipv4:"127.0.0.2"}) {
@@ -107,7 +107,7 @@ class ServersTest extends TestCase
         $this->assertEquals('Gondor', $server['hostname']);
         $this->assertDatabaseHas('servers', ['hostname' => 'Gondor', 'ipv4' => '127.0.0.2']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               updateServer (id: ' . $server['id'] . ', input: {hostname: "yabadabadoo"} ) {
@@ -127,7 +127,7 @@ class ServersTest extends TestCase
 
     public function testMutationServerDelete(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               createServer (input: {hostname:"Gondor", ipv4:"127.0.0.2"}) {
@@ -144,7 +144,7 @@ class ServersTest extends TestCase
         $this->assertEquals('Gondor', $server['hostname']);
         $this->assertDatabaseHas('servers', ['hostname' => 'Gondor', 'ipv4' => '127.0.0.2']);
 
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               deleteServer (id: ' . $server['id'] . ') {

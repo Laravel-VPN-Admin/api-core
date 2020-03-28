@@ -27,7 +27,7 @@ class LogsTest extends TestCase
 
     public function testQueryLogsGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 logs(orderBy: [ {field: "code", order: DESC} ], first: 200) {
@@ -60,7 +60,7 @@ class LogsTest extends TestCase
 
     public function testQueryLogGet(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 log(id: ' . $this->log->id . ') {
@@ -86,7 +86,7 @@ class LogsTest extends TestCase
 
     public function testQueryLogGetError(): void
     {
-        /** @var \Illuminate\Foundation\Testing\TestResponse $response */
+        /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
                 log(id: ' . ($this->log->id + 1) . ') {
