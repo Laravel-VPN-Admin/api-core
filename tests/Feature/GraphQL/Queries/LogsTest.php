@@ -13,15 +13,38 @@ class LogsTest extends TestCase
      */
     private $log;
 
+    /**
+     * @var \App\Models\Server
+     */
+    private $server;
+
+    /**
+     * @var \App\User
+     */
+    private $user;
+
     public function setUp(): void
     {
         parent::setUp();
 
+        $this->server = factory(\App\Models\Server::class)->create([
+            'hostname' => 'Isengard',
+            'ipv4'     => '10.2.3.4',
+            'ipv6'     => 'i:dd:qd',
+            'token'    => 'token'
+        ]);
+
+        $this->user = factory(\App\User::class)->create([
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
+        ]);
+
         $this->log = factory(\App\Models\Log::class)->create([
             'code'      => 111111,
             'message'   => 'It\'s the job that\'s never started as takes longest to finish.',
-            'server_id' => Server::query()->inRandomOrder()->first()->id,
-            'user_id'   => User::query()->inRandomOrder()->first()->id,
+            'server_id' => $this->server->id,
+            'user_id'   => $this->user->id,
         ]);
     }
 
