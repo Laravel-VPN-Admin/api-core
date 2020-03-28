@@ -17,10 +17,8 @@ COPY . /app
 COPY --from=builder /app/public/ /app/public
 WORKDIR /app
 RUN cp .env.example .env \
- && touch /app/storage/oauth-private.key \
- && touch /app/storage/oauth-public.key \
- && chown apache:apache -R bootstrap \
- && chown apache:apache -R storage \
+ && chown www-data:www-data -R bootstrap \
+ && chown www-data:www-data -R storage \
  && composer install --no-dev \
  && php artisan optimize:clear \
  && php artisan lang:js \
