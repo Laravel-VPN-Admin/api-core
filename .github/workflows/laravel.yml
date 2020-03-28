@@ -7,31 +7,14 @@ jobs:
   laravel-tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Discord notification
-      uses: Ilshidur/action-discord@master
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-    - name: Generate key
-      run: php artisan key:generate
-      env:
-        APP_ENV: local
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-        php artisan migrate:fresh --seed
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: /home/runner/work/api-core/api-core/database/database.sqlite
-        APP_ENV: local
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-        APP_ENV: local
-      run: vendor/bin/phpunit
+      - uses: actions/checkout@v1
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Install Composer excutable
+        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod 755 /usr/bin/composer
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist
+      - name: Run tests
+        run: ./vendor/bin/phpunit

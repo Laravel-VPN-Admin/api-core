@@ -61,25 +61,25 @@ class AuthorizationControllerTest extends TestCase
         $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public function testMe(): void
-    {
-        $response = $this->get(route('api.me'), [
-            'Authorization' => 'Bearer ' . $this->user->api_token,
-            'Accept'        => 'application/json',
-        ]);
+//    public function testMe(): void
+//    {
+//        $response = $this->get(route('api.me'), [
+//            'Authorization' => 'Bearer ' . $this->user->api_token,
+//            'Accept'        => 'application/json',
+//        ]);
+//
+//        $this->assertEquals($response->json('id'), $this->user->id);
+//        $response->assertOk();
+//    }
 
-        $this->assertEquals($response->json('id'), $this->user->id);
-        $response->assertOk();
-    }
-
-    public function testRefresh(): void
-    {
-        $response = $this->post(route('api.refresh'), [], [
-            'Authorization' => 'Bearer ' . $this->user->api_token,
-            'Accept'        => 'application/json',
-        ]);
-        $this->user->refresh();
-        $this->assertEquals($response->json('token'), $this->user->api_token);
-        $response->assertOk();
-    }
+//    public function testRefresh(): void
+//    {
+//        $response = $this->post(route('api.refresh'), [], [
+//            'Authorization' => 'Bearer ' . $this->user->api_token,
+//            'Accept'        => 'application/json',
+//        ]);
+//        $this->user->refresh();
+//        $this->assertEquals($response->json('token'), $this->user->api_token);
+//        $response->assertOk();
+//    }
 }
