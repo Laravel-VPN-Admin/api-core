@@ -42,6 +42,11 @@ class GroupsTest extends TestCase
             'password' => 'MyPrecious1'
         ]);
 
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->api_token,
+            'Accept'        => 'application/json',
+        ]);
+
         $this->group->servers()->attach($this->server);
         $this->group->users()->attach($this->user);
     }

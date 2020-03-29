@@ -18,6 +18,17 @@ class GroupsTest extends TestCase
         $this->group = factory(\App\Models\Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
+
+        $this->user = factory(\App\User::class)->create([
+            'name'     => 'Frodo Baggins',
+            'email'    => 'frodo@bag.end',
+            'password' => 'MyPrecious1'
+        ]);
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->api_token,
+            'Accept'        => 'application/json',
+        ]);
     }
 
     public function testMutationGroupCreate(): void

@@ -20,6 +20,27 @@ class UsersTest extends TestCase
             'email'    => 'frodo@bag.end',
             'password' => 'MyPrecious1'
         ]);
+
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->api_token,
+            'Accept'        => 'application/json',
+        ]);
+    }
+
+    public function testQueryUserMe(): void
+    {
+        /** @var \Illuminate\Testing\TestResponse $response */
+        $response = $this->graphQL(/** @lang GraphQL */ '
+            {
+                me {
+                    id,
+                    name
+                }
+            }
+        ');
+
+        $user = $response->json('data.me');
+        $this->assertEquals('Frodo Baggins', $user['name']);
     }
 
     public function testQueryUsersGet(): void

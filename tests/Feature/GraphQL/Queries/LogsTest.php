@@ -40,6 +40,11 @@ class LogsTest extends TestCase
             'password' => 'MyPrecious1'
         ]);
 
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->api_token,
+            'Accept'        => 'application/json',
+        ]);
+
         $this->log = factory(\App\Models\Log::class)->create([
             'code'      => 111111,
             'message'   => 'It\'s the job that\'s never started as takes longest to finish.',

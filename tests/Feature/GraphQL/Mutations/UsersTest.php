@@ -26,6 +26,11 @@ class UsersTest extends TestCase
             'password' => 'MyPrecious1'
         ]);
 
+        $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->api_token,
+            'Accept'        => 'application/json',
+        ]);
+
         $this->group = factory(\App\Models\Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
