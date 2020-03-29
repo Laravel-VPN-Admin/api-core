@@ -1,7 +1,6 @@
-import Vue   from "vue";
-import Vuex  from "vuex";
-import gql   from 'graphql-tag';
-import axios from "axios";
+import Vue  from "vue";
+import Vuex from "vuex";
+import gql  from 'graphql-tag';
 
 import { router } from "./app";
 import GraphQL    from './graphql';
@@ -62,29 +61,56 @@ const store = new Vuex.Store({
      *
      * @param {*} data
      */
-    async login({commit, state}, data) {
-      await axios({
-        method: 'POST',
-        url:    '/api/login',
-        data:   data,
-      }).then(response => {
-        if (response.data.token) {
-          commit("SET_TOKEN", response.data.token);
+    async login({commit, state, dispatch}, data) {
+      const response = await GraphQL.mutate({
+        mutation:  gql`
+          mutation($input: UserLogin!) {
+            login(input: $input) {
+              token
+              message
+            }
+          }
+        `,
+        variables: {
+          input: {
+            email:    data.email,
+            password: data.password,
+          }
         }
-      }).catch(error => {
-        console.error(error);
-        throw error;
       });
+
+      if (typeof response.data.login.token === 'undefined' && response.data.login.message === null) {
+        dispatch('logout');
+      } else {
+        localStorage.setItem('token', response.data.login.token);
+        commit("SET_TOKEN", response.data.login.token);
+        $cookies.set("token", response.data.login.token);
+      }
+    },
+
+    /**
+     * Logout user by deleting token from session
+     */
+    logout({commit}) {
+      commit("SET_TOKEN", null);
+      localStorage.removeItem('token');
+      $cookies.remove("token");
+      router.push({name: "login"});
     },
 
     /**
      * Get list of all available groups
      *
-     * @param {Number} page
-     * @param {Number} first
+     * @param data
      * @returns {Promise<void>}
      */
-    async getGroups({commit, state}, page = 1, first = 100) {
+    async getGroups({commit, state, dispatch}, data) {
+      if (!data.page) {
+        data.page = 1;
+      }
+      if (!data.first) {
+        data.first = 100;
+      }
       const response = await GraphQL.query({
         query:     gql`
           query Groups($page: Int!, $first: Int!) {
@@ -111,22 +137,25 @@ const store = new Vuex.Store({
           }
         `,
         variables: {
-          page,
-          first
+          page:  data.page,
+          first: data.first
         }
       });
 
-      commit('SET_GROUPS', response.data.groups.data);
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_GROUPS', response.data.groups.data);
+      }
     },
 
     /**
      * Get list of all available servers
      *
-     * @param {Number} page
-     * @param {Number} first
+     * @param data
      * @returns {Promise<void>}
      */
-    async getServers({commit, state}, page = 1, first = 100) {
+    async getServers({commit, state, dispatch}, data) {
       const response = await GraphQL.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
@@ -155,22 +184,31 @@ const store = new Vuex.Store({
           }
         `,
         variables: {
-          page,
-          first
+          page:  data.page,
+          first: data.first
         }
       });
 
-      commit('SET_SERVERS', response.data.servers.data);
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_SERVERS', response.data.servers.data);
+      }
     },
 
     /**
      * Get list of all available users
      *
-     * @param {Number} page
-     * @param {Number} first
+     * @param data
      * @returns {Promise<void>}
      */
-    async getUsers({commit, state}, page = 1, first = 100) {
+    async getUsers({commit, state, dispatch}, data) {
+      if (!data.page) {
+        data.page = 1;
+      }
+      if (!data.first) {
+        data.first = 100;
+      }
       const response = await GraphQL.query({
         query:     gql`
           query Users($page: Int!, $first: Int!) {
@@ -192,12 +230,16 @@ const store = new Vuex.Store({
           }
         `,
         variables: {
-          page,
-          first
+          page:  data.page,
+          first: data.first
         }
       });
 
-      commit('SET_USERS', response.data.users.data);
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_USERS', response.data.users.data);
+      }
     },
 
     /**
@@ -205,7 +247,7 @@ const store = new Vuex.Store({
      *
      * @returns {Promise<void>}
      */
-    async getStats({commit, state}) {
+    async getStats({commit, state, dispatch}) {
       const response = await GraphQL.query({
         query: gql`
           query Stats {
@@ -218,7 +260,11 @@ const store = new Vuex.Store({
         `
       });
 
-      commit('SET_STATS', response.data.stats);
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_STATS', response.data.stats);
+      }
     },
 
     /**
@@ -227,8 +273,7 @@ const store = new Vuex.Store({
      * @param data
      * @returns {Promise<void>}
      */
-    async getLogs({commit, state}, data) {
-      console.log(data);
+    async getLogs({commit, state, dispatch}, data) {
       if (!data.page) {
         data.page = 1;
       }
@@ -266,16 +311,19 @@ const store = new Vuex.Store({
         }
       });
 
-      commit('SET_LOGS', response.data.logs.data);
-    },
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_LOGS', response.data.logs.data);
+      }
+    }
+    ,
     /**
      *
-     * @param commit
-     * @param state
      * @param data
      * @returns {Promise<void>}
      */
-    async createServer({commit, state}, data) {
+    async createServer({commit, state, dispatch}, data) {
       const response = await GraphQL.mutate({
         mutation:  gql`
           mutation($input: ServerCreateInput!) {
@@ -301,9 +349,12 @@ const store = new Vuex.Store({
         }
       });
 
-      commit('SET_SERVER', response.data.server);
+      if (typeof response.data === 'undefined') {
+        dispatch('logout');
+      } else {
+        commit('SET_SERVER', response.data.server);
+      }
     },
-
 
   }
 

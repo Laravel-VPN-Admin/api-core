@@ -8,10 +8,10 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Favions -->
-  <link rel="icon" type="image/png" sizes="64x64" href="fav_icons/favicon-64x64.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="fav_icons/favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="fav_icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="fav_icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon/favicon-64x64.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
 
   <!-- Styles -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">

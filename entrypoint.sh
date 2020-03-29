@@ -15,7 +15,7 @@ if [ "$role" = "app" ]; then
 
     echo "Migrate and generate API doc..."
     php artisan migrate --force
-    /entrypoint.sh
+    docker-php-entrypoint -D FOREGROUND
 
 elif [ "$role" = "queue" ]; then
 

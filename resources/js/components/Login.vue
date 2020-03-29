@@ -33,7 +33,7 @@
                         class="form-control form-control-user"
                         id="exampleInputPassword"
                         placeholder="Password"
-@keyup.enter="login()"
+                        @keyup.enter="login()"
                       />
                     </div>
 
@@ -52,45 +52,44 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      form: {
-        email: null,
-        password: null
-      },
-      error: null
-    };
-  },
-
-  methods: {
-    /**
-     * Check if submit button can be clicked
-     * @returns {boolean}
-     */
-    isSubmitEnabled() {
-      return this.form.email && this.form.password;
+  export default {
+    data() {
+      return {
+        form:  {
+          email:    null,
+          password: null
+        },
+        error: null
+      };
     },
 
-    /**
-     * Initiate login logic based on API token
-     */
-    login() {
-      this.$store
-        .dispatch("login", this.form)
-        .then(response => {
-          console.log(this.error);
-          if (!!this.$store.state.token) {
-            Vue.$cookies.set("token", this.$store.state.token);
-            this.error = null;
-            this.$router.push({ name: "dashboard" });
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          this.error = "Username or password is incorrect";
-        });
+    methods: {
+      /**
+       * Check if submit button can be clicked
+       * @returns {boolean}
+       */
+      isSubmitEnabled() {
+        return this.form.email && this.form.password;
+      },
+
+      /**
+       * Initiate login logic based on API token
+       */
+      login() {
+        console.log(this.form);
+        this.$store
+          .dispatch("login", this.form)
+          .then(response => {
+            if (!!this.$store.state.token) {
+              this.error = null;
+              this.$router.push({name: "dashboard"});
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            this.error = "Username or password is incorrect";
+          });
+      }
     }
-  }
-};
+  };
 </script>

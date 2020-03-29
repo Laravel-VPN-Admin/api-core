@@ -18,7 +18,7 @@ enum SortOrder {
     DESC
 }
 
-type Query @guard {
+type Query @guard(with: ["api"]) {
     "Get system status for dashboard"
     stats: Stats!
 
@@ -47,33 +47,50 @@ type Query @guard {
 }
 
 type Mutation  {
+    "Login user"
+    login(input: UserLogin! @spread): Token
+    "Refresh token of authorized user"
+    refresh: Token @guard(with: ["api"])
+
     "Create new user"
-    createUser(input: UserCreateInput! @spread): User! @create
+    createUser(input: UserCreateInput! @spread): User! @create @guard(with: ["api"])
     "Update user details"
-    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update
+    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update @guard(with: ["api"])
     "Delete user"
-    deleteUser(id: ID!): User @delete
+    deleteUser(id: ID!): User @delete @guard(with: ["api"])
 
     "Create new group"
-    createGroup(input: GroupCreateInput! @spread): Group! @create
+    createGroup(input: GroupCreateInput! @spread): Group! @create @guard(with: ["api"])
     "Update group details"
-    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update
+    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update @guard(with: ["api"])
     "Delete group"
-    deleteGroup(id: ID!): Group @delete
+    deleteGroup(id: ID!): Group @delete @guard(with: ["api"])
 
     "Create new server"
-    createServer(input: ServerCreateInput! @spread): Server! @create
+    createServer(input: ServerCreateInput! @spread): Server! @create @guard(with: ["api"])
     "Update server details"
-    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update
+    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update @guard(with: ["api"])
     "Delete server"
-    deleteServer(id: ID!): Server @delete
+    deleteServer(id: ID!): Server @delete @guard(with: ["api"])
 
     "Create new log message"
-    createLog(input: LogCreateInput! @spread): Log! @create
+    createLog(input: LogCreateInput! @spread): Log! @create @guard(with: ["api"])
     "Update log message"
-    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update
+    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @guard(with: ["api"])
     "Delete log message"
-    deleteLog(id: ID!): Log @delete
+    deleteLog(id: ID!): Log @delete @guard(with: ["api"])
+}
+
+"User login details"
+input UserLogin {
+    email: String!
+    password: String!
+}
+
+"Information about token"
+type Token {
+    token: String
+    message: String
 }
 
 "Details about current installation"

@@ -35,7 +35,7 @@ Vue.prototype.trans = (key, replacements, locale) => {
 };
 
 // Preconfigure Vue-Router
-const router = new VueRouter({
+export const router = new VueRouter({
   // mode: 'history',
   linkActiveClass:      "active",
   linkExactActiveClass: "active",
@@ -43,7 +43,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  var token = Vue.$cookies.get('token');
+  const token = Vue.$cookies.get('token');
   if (!store.state.token && !token && to.name !== 'login') {
     next({name: 'login'});
   } else {
@@ -54,7 +54,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-const app = new Vue({
+export const app = new Vue({
   store,
   router,
   components: {

@@ -28,7 +28,7 @@
 
     mounted() {
       this.interval = setInterval(function () {
-        this.$store.dispatch('getLogs', {page: 1, first: 10});
+        // this.$store.dispatch('getLogs', {page: 1, first: 10});
         this.$store.dispatch('getStats');
       }.bind(this), 5000);
     },
