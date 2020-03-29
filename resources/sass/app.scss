@@ -4,3 +4,7 @@ $fa-font-path: "../fonts" !default;
 
 // Vendors
 @import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
+
+.sidebar-brand-text {
+  color: $white;
+}

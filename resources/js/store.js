@@ -17,7 +17,7 @@ const store = new Vuex.Store({
     groups:  {},
     logs:    {},
     stats:   {},
-    server: {}
+    server:  {}
   },
 
   mutations: {
@@ -39,7 +39,7 @@ const store = new Vuex.Store({
     SET_STATS(state, items) {
       state.stats = items;
     },
-    SET_SERVER(state, items){
+    SET_SERVER(state, items) {
       state.server = items;
     }
   },
@@ -278,17 +278,17 @@ const store = new Vuex.Store({
     async createServer({commit, state}, data) {
       const response = await GraphQL.mutate({
         mutation:  gql`
-       mutation($input: ServerCreateInput!) {
-  createServer(input: $input) {
-    id
-    hostname
-    ipv4
-    ipv6
-    token
-    created_at
-    updated_at
-  }
-}
+          mutation($input: ServerCreateInput!) {
+            createServer(input: $input) {
+              id
+              hostname
+              ipv4
+              ipv6
+              token
+              created_at
+              updated_at
+            }
+          }
         `,
         variables: {
           input: {

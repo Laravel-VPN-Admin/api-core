@@ -5,15 +5,16 @@
         <sidebar />
         <div id="content-wrapper" class="d-flex flex-column">
           <div id="content">
+            <toolbar />
             <div class="container-fluid pt-3">
-              <router-view></router-view>
+              <router-view />
             </div>
           </div>
         </div>
       </div>
     </div>
     <div v-else>
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 </template>
