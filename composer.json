@@ -10,14 +10,14 @@
     "require": {
         "php": "^7.4",
         "ext-pdo": "*",
+        "ext-json": "*",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.3",
         "guzzlehttp/guzzle": "^6.3",
         "mariuzzo/laravel-js-localization": "^1.6",
-        "nuwave/lighthouse": "^4.11",
-        "rachidlaasri/laravel-installer": "^4.0"
+        "nuwave/lighthouse": "^4.11"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
