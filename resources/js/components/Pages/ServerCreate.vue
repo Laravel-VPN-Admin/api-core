@@ -29,33 +29,33 @@
 </template>
 
 <script>
-import PageHeader from "../Layout/PageHeader";
-import { mapState } from "vuex";
+  import PageHeader   from "../Layout/PageHeader";
+  import { mapState } from "vuex";
 
-export default {
-  computed: {
-    ...mapState(["groups"])
-  },
-  components: {
-    PageHeader
-  },
-  data() {
-    return {
-      name: "Add Server",
-      form: { hostname: null},
-      selected: ''
-    };
-  },
-  methods: {
-    isSubmitEnabled() {
-      return this.form.hostname;
+  export default {
+    computed:   {
+      ...mapState(["groups"])
     },
-    addServer: function() {
-      this.$store.dispatch("createServer", {...this.selected, ...this.form});
+    components: {
+      PageHeader
+    },
+    data() {
+      return {
+        name:     "Add Server",
+        form:     {hostname: null},
+        selected: ''
+      };
+    },
+    methods:    {
+      isSubmitEnabled() {
+        return this.form.hostname;
+      },
+      addServer: function () {
+        this.$store.dispatch("createServer", {...this.selected, ...this.form});
+      }
+    },
+    mounted() {
+      this.$store.dispatch("getGroups");
     }
-  },
-  mounted() {
-    this.$store.dispatch("getGroups");
-  }
-};
+  };
 </script>

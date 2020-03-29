@@ -1,14 +1,14 @@
-import Dashboard from './components/Pages/Dashboard';
-import Servers   from './components/Pages/Servers';
-import Server    from './components/Pages/Server';
-import Groups    from './components/Pages/Groups';
-import Group     from './components/Pages/Group';
-import Users     from './components/Pages/Users';
-import User      from './components/Pages/User';
-import Logs      from './components/Pages/Logs';
-import NotFound  from "./components/NotFound";
-import AddServer from './components/Pages/AddServer';
-import Login     from './components/Login';
+import Dashboard    from './components/Pages/Dashboard';
+import Servers      from './components/Pages/Servers';
+import Server       from './components/Pages/Server';
+import ServerCreate from './components/Pages/ServerCreate';
+import Groups       from './components/Pages/Groups';
+import Group        from './components/Pages/Group';
+import Users        from './components/Pages/Users';
+import User         from './components/Pages/User';
+import Logs         from './components/Pages/Logs';
+import NotFound     from "./components/NotFound";
+import Login        from './components/Login';
 
 const routes = () => {
   return [
@@ -16,7 +16,7 @@ const routes = () => {
     {path: '/login', name: 'login', component: Login},
     {path: '/dashboard', name: 'dashboard', component: Dashboard},
     {path: '/servers', name: 'servers', component: Servers},
-    {path: '/create-server', name: 'servers.create', component: AddServer},
+    {path: '/servers/create', name: 'servers.create', component: ServerCreate},
     {path: '/servers/:id', name: 'servers.edit', component: Server},
     {path: '/groups', name: 'groups', component: Groups},
     {path: '/groups/:id', name: 'groups.edit', component: Group},
