@@ -37,7 +37,7 @@ class LogsTest extends TestCase
         $this->user = factory(\App\User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
-            'password' => 'MyPrecious1'
+            'password' => \Hash::make('MyPrecious1')
         ]);
 
         $this->withHeaders([
@@ -79,10 +79,6 @@ class LogsTest extends TestCase
         ');
 
         $codes = $response->json('data.*.data.*.code');
-        $this->assertDatabaseHas('logs', [
-            'code'      => 111111,
-            'message'   => 'It\'s the job that\'s never started as takes longest to finish.',
-        ]);
         $this->assertContains(111111, $codes);
     }
 

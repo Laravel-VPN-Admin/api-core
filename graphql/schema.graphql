@@ -18,67 +18,67 @@ enum SortOrder {
     DESC
 }
 
-type Query @guard(with: ["api"]) {
+type Query {
     "Get system status for dashboard"
-    stats: Stats!
+    stats: Stats! @middleware(checks: ["auth:api"])
 
     "Get details about current authorized user"
-    me: User!
+    me: User! @middleware(checks: ["auth:api"])
 
     "Get list of all users with additinal filters"
-    users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10)
+    users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single user by unique ID"
-    user(id: ID @eq): User @find
+    user(id: ID @eq): User @find @middleware(checks: ["auth:api"])
 
     "Get list of all servers with additinal filters"
-    servers(orderBy: [OrderByClause!] @orderBy): [Server!] @paginate(defaultCount: 10)
+    servers(orderBy: [OrderByClause!] @orderBy): [Server!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single server by unique ID"
-    server(id: ID @eq): Server @find
+    server(id: ID @eq): Server @find @middleware(checks: ["auth:api"])
 
     "Get list of all groups with additinal filters"
-    groups(orderBy: [OrderByClause!] @orderBy): [Group!] @paginate(defaultCount: 10)
+    groups(orderBy: [OrderByClause!] @orderBy): [Group!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single group by unique ID"
-    group(id: ID @eq): Group @find
+    group(id: ID @eq): Group @find @middleware(checks: ["auth:api"])
 
     "Get list of all logs with additinal filters"
-    logs(orderBy: [OrderByClause!] @orderBy): [Log!] @paginate(defaultCount: 10)
+    logs(orderBy: [OrderByClause!] @orderBy): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single log message by unique ID"
-    log(id: ID @eq): Log @find
+    log(id: ID @eq): Log @find @middleware(checks: ["auth:api"])
 }
 
-type Mutation  {
+type Mutation {
     "Login user"
     login(input: UserLogin! @spread): Token
     "Refresh token of authorized user"
-    refresh: Token @guard(with: ["api"])
+    refresh: Token @middleware(checks: ["auth:api"])
 
     "Create new user"
-    createUser(input: UserCreateInput! @spread): User! @create @guard(with: ["api"])
+    createUser(input: UserCreateInput! @spread): User! @create @middleware(checks: ["auth:api"])
     "Update user details"
-    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update @guard(with: ["api"])
+    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update @middleware(checks: ["auth:api"])
     "Delete user"
-    deleteUser(id: ID!): User @delete @guard(with: ["api"])
+    deleteUser(id: ID!): User @delete @middleware(checks: ["auth:api"])
 
     "Create new group"
-    createGroup(input: GroupCreateInput! @spread): Group! @create @guard(with: ["api"])
+    createGroup(input: GroupCreateInput! @spread): Group! @create @middleware(checks: ["auth:api"])
     "Update group details"
-    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update @guard(with: ["api"])
+    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update @middleware(checks: ["auth:api"])
     "Delete group"
-    deleteGroup(id: ID!): Group @delete @guard(with: ["api"])
+    deleteGroup(id: ID!): Group @delete @middleware(checks: ["auth:api"])
 
     "Create new server"
-    createServer(input: ServerCreateInput! @spread): Server! @create @guard(with: ["api"])
+    createServer(input: ServerCreateInput! @spread): Server! @create @middleware(checks: ["auth:api"])
     "Update server details"
-    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update @guard(with: ["api"])
+    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update @middleware(checks: ["auth:api"])
     "Delete server"
-    deleteServer(id: ID!): Server @delete @guard(with: ["api"])
+    deleteServer(id: ID!): Server @delete @middleware(checks: ["auth:api"])
 
     "Create new log message"
-    createLog(input: LogCreateInput! @spread): Log! @create @guard(with: ["api"])
+    createLog(input: LogCreateInput! @spread): Log! @create @middleware(checks: ["auth:api"])
     "Update log message"
-    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @guard(with: ["api"])
+    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @middleware(checks: ["auth:api"])
     "Delete log message"
-    deleteLog(id: ID!): Log @delete @guard(with: ["api"])
+    deleteLog(id: ID!): Log @delete @middleware(checks: ["auth:api"])
 }
 
 "User login details"

@@ -32,7 +32,7 @@ return [
          */
         'middleware' => [
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
-            'auth:api',
+            //'auth:api',
         ],
 
         /*
@@ -123,7 +123,7 @@ return [
     |
     */
 
-    'paginate_max_count' => null,
+    'paginate_max_count' => 1000,
 
     /*
     |--------------------------------------------------------------------------

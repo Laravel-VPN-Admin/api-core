@@ -39,7 +39,7 @@ class ServersTest extends TestCase
         $this->user = factory(\App\User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
-            'password' => 'MyPrecious1'
+            'password' => \Hash::make('MyPrecious1')
         ]);
 
         $this->withHeaders([

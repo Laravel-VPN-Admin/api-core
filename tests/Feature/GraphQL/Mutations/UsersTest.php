@@ -23,7 +23,7 @@ class UsersTest extends TestCase
         $this->user = factory(\App\User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
-            'password' => 'MyPrecious1'
+            'password' => \Hash::make('MyPrecious1')
         ]);
 
         $this->withHeaders([
@@ -34,6 +34,32 @@ class UsersTest extends TestCase
         $this->group = factory(\App\Models\Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
+    }
+
+    public function testMutationUserLogin(): void
+    {
+        $this->flushHeaders();
+
+        /** @var \Illuminate\Testing\TestResponse $response */
+        $response = $this->graphQL(/** @lang GraphQL */ '
+             mutation {
+              login (
+                input: {
+                  email:"frodo@bag.end",
+                  password:"MyPrecious1",
+                }
+              )
+              {
+                token
+                message
+              }
+            }
+        ');
+
+        //dd($response);
+
+        $user = $response->json('data.login');
+        $this->assertNotEmpty($user['token']);
     }
 
     public function testMutationUserCreate(): void
