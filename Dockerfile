@@ -90,7 +90,7 @@ ADD apache.conf /etc/apache2/sites-available/000-default.conf
 RUN mkdir -pv /app \
  && chown -R www-data:www-data /app \
  && chmod -R 755 /app \
- && chmod +x /entrypoint.sh
+ && chmod +x /app/entrypoint.sh
 
 WORKDIR /app
 
