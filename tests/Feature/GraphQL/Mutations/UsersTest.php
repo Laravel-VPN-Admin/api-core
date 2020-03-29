@@ -56,10 +56,50 @@ class UsersTest extends TestCase
             }
         ');
 
-        //dd($response);
+        $user = $response->json('data.login');
+        $this->assertNotEmpty($user['token']);
+    }
+
+    public function testMutationUserRefresh(): void
+    {
+        $this->flushHeaders();
+
+        /** @var \Illuminate\Testing\TestResponse $response */
+        $response = $this->graphQL(/** @lang GraphQL */ '
+             mutation {
+              login (
+                input: {
+                  email:"frodo@bag.end",
+                  password:"MyPrecious1",
+                }
+              )
+              {
+                token
+                message
+              }
+            }
+        ');
 
         $user = $response->json('data.login');
         $this->assertNotEmpty($user['token']);
+
+        /** @var \Illuminate\Testing\TestResponse $response */
+        $response2 = $this
+            ->withHeaders([
+                'Authorization' => 'Bearer ' . $user['token'],
+                'Accept'        => 'application/json',
+            ])
+            ->graphQL(/** @lang GraphQL */ '
+                 mutation {
+                  refresh {
+                    token
+                    message
+                  }
+                }
+            ');
+
+        $user2 = $response2->json('data.refresh');
+        $this->assertNotEquals($user['token'], $user2['token']);
     }
 
     public function testMutationUserCreate(): void

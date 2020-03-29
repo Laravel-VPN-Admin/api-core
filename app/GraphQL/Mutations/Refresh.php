@@ -25,6 +25,6 @@ class Refresh
             'api_token' => $token,
         ])->save();
 
-        return response()->json(['token' => $token]);
+        return ['token' => $token];
     }
 }
