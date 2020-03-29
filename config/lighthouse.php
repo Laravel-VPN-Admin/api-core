@@ -17,12 +17,12 @@ return [
         /*
          * The URI the endpoint responds to, e.g. mydomain.com/graphql.
          */
-        'uri' => '/graphql',
+        'uri'        => '/graphql',
 
         /*
          * Lighthouse creates a named route for convenient URL generation and redirects.
          */
-        'name' => 'graphql',
+        'name'       => 'graphql',
 
         /*
          *
@@ -32,6 +32,7 @@ return [
          */
         'middleware' => [
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
+            'auth:api',
         ],
 
         /*
@@ -69,8 +70,8 @@ return [
 
     'cache' => [
         'enable' => env('LIGHTHOUSE_CACHE_ENABLE', env('APP_ENV') !== 'local'),
-        'key' => env('LIGHTHOUSE_CACHE_KEY', 'lighthouse-schema'),
-        'ttl' => env('LIGHTHOUSE_CACHE_TTL', null),
+        'key'    => env('LIGHTHOUSE_CACHE_KEY', 'lighthouse-schema'),
+        'ttl'    => env('LIGHTHOUSE_CACHE_TTL', null),
     ],
 
     /*
@@ -85,14 +86,14 @@ return [
     */
 
     'namespaces' => [
-        'models' => ['App', 'App\\Models'],
-        'queries' => 'App\\GraphQL\\Queries',
-        'mutations' => 'App\\GraphQL\\Mutations',
+        'models'        => ['App', 'App\\Models'],
+        'queries'       => 'App\\GraphQL\\Queries',
+        'mutations'     => 'App\\GraphQL\\Mutations',
         'subscriptions' => 'App\\GraphQL\\Subscriptions',
-        'interfaces' => 'App\\GraphQL\\Interfaces',
-        'unions' => 'App\\GraphQL\\Unions',
-        'scalars' => 'App\\GraphQL\\Scalars',
-        'directives' => ['App\\GraphQL\\Directives'],
+        'interfaces'    => 'App\\GraphQL\\Interfaces',
+        'unions'        => 'App\\GraphQL\\Unions',
+        'scalars'       => 'App\\GraphQL\\Scalars',
+        'directives'    => ['App\\GraphQL\\Directives'],
     ],
 
     /*
@@ -106,8 +107,8 @@ return [
     */
 
     'security' => [
-        'max_query_complexity' => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
-        'max_query_depth' => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
+        'max_query_complexity'  => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
+        'max_query_depth'       => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
         'disable_introspection' => \GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
     ],
 
@@ -248,23 +249,23 @@ return [
          *
          * Any Laravel supported cache driver options are available here.
          */
-        'storage' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE', 'redis'),
+        'storage'          => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE', 'redis'),
 
         /*
          * Default subscription broadcaster.
          */
-        'broadcaster' => env('LIGHTHOUSE_BROADCASTER', 'pusher'),
+        'broadcaster'      => env('LIGHTHOUSE_BROADCASTER', 'pusher'),
 
         /*
          * Subscription broadcasting drivers with config options.
          */
-        'broadcasters' => [
-            'log' => [
+        'broadcasters'     => [
+            'log'    => [
                 'driver' => 'log',
             ],
             'pusher' => [
-                'driver' => 'pusher',
-                'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class.'@pusher',
+                'driver'     => 'pusher',
+                'routes'     => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@pusher',
                 'connection' => 'pusher',
             ],
         ],
