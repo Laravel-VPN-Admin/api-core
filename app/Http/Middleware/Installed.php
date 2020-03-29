@@ -13,21 +13,16 @@ class Installed
      *
      * @var array
      */
-    protected $except = [
+    protected array $except = [
         '/install'
     ];
 
     public const INSTALLATION_ROUTES = [
-        'LaravelInstaller::welcome',
-        'LaravelInstaller::database',
-        'LaravelInstaller::environment',
-        'LaravelInstaller::environmentClassic',
-        'LaravelInstaller::environmentSaveClassic',
-        'LaravelInstaller::environmentSaveWizard',
-        'LaravelInstaller::environmentWizard',
-        'LaravelInstaller::final',
-        'LaravelInstaller::permissions',
-        'LaravelInstaller::requirements',
+        'InstallerController::welcome',
+        'InstallerController::requirements',
+        'InstallerController::database',
+        'InstallerController::administrator',
+        'InstallerController::finish',
     ];
 
     /**
@@ -50,6 +45,6 @@ class Installed
             return $next($request);
         }
 
-        return redirect()->route('LaravelInstaller::welcome');
+        return redirect()->route('InstallerController::welcome');
     }
 }
