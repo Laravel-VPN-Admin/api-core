@@ -18,9 +18,12 @@ enum SortOrder {
     DESC
 }
 
-type Query {
+type Query @guard {
     "Get system status for dashboard"
     stats: Stats!
+
+    "Get details about current authorized user"
+    me: User!
 
     "Get list of all users with additinal filters"
     users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10)
@@ -105,11 +108,11 @@ input GroupsInput {
 "List of fields which can be filled on user creating stage"
 input UserCreateInput {
     "Full name of user"
-    name: String!
+    name: String! @rules(apply: ["required", "min:1"])
     "Email address, should be unique, will be user for authorization"
-    email: String!
+    email: String! @rules(apply: ["email"])
     "Password of used, will be saved as hash into database"
-    password: String!
+    password: String! @rules(apply: ["required", "min:3"])
     "List of groups to which this object is related"
     groups: GroupsInput
 }
@@ -119,7 +122,7 @@ input UserUpdateInput {
     "Full name of user"
     name: String
     "Email address, should be unique, will be user for authorization"
-    email: String
+    email: String @rules(apply: ["email"])
     "Password of used, will be saved as hash into database"
     password: String
     "Additional inputs for group management"
@@ -151,7 +154,7 @@ type Group {
 "List of fields which can be filled on group creating stage"
 input GroupCreateInput {
     "Name of group"
-    name: String!
+    name: String! @rules(apply: ["required", "min:1"])
     "Object path in Active Directory or OpenLDAP"
     object: String
 }
@@ -169,7 +172,7 @@ type Server {
     "Unique ID of server"
     id: ID!
     "Hostname of server"
-    hostname: String!
+    hostname: String! @rules(apply: ["required", "min:1"])
     "Token which should be added to each query, by validation reasons"
     token: String
     "IPv4 of server"
