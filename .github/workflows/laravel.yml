@@ -16,5 +16,9 @@ jobs:
       #  run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod 755 /usr/bin/composer
       - name: Install Composer dependencies
         run: composer install --prefer-dist
-      - name: Run tests
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+          APP_ENV: testing
         run: ./vendor/bin/phpunit

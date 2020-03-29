@@ -11,9 +11,9 @@ FROM php:7.4-apache
 ENV DB_CONNECTION=mysql
 ENV DB_HOST=mariadb
 ENV DB_PORT=3306
-ENV DB_DATABASE=testdb
-ENV DB_USERNAME=test_user
-ENV DB_PASSWORD=test_pass
+ENV DB_DATABASE=vpnadmin
+ENV DB_USERNAME=vpnadmin_user
+ENV DB_PASSWORD=vpnadmin_pass
 
 # Install tools required for build stage
 RUN apt-get update \
