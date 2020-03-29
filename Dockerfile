@@ -87,8 +87,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN a2enmod rewrite && a2enmod session && a2enmod session_cookie && a2enmod session_crypto && a2enmod deflate
 ADD apache.conf /etc/apache2/sites-available/000-default.conf
 
-ADD ["entrypoint.sh", "/"]
-
 RUN mkdir -pv /app \
  && chown -R www-data:www-data /app \
  && chmod -R 755 /app \
