@@ -2,8 +2,7 @@ import Vue  from "vue";
 import Vuex from "vuex";
 import gql  from 'graphql-tag';
 
-import { router } from "./app";
-import GraphQL    from './graphql';
+import { app, router } from "./app";
 
 Vue.use(Vuex);
 
@@ -62,7 +61,7 @@ const store = new Vuex.Store({
      * @param {*} data
      */
     async login({commit, state, dispatch}, data) {
-      const response = await GraphQL.mutate({
+      const response = await app.$apollo.mutate({
         mutation:  gql`
           mutation($input: UserLogin!) {
             login(input: $input) {
@@ -112,7 +111,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      const response = await GraphQL.query({
+      const response = await app.$apollo.query({
         query:     gql`
           query Groups($page: Int!, $first: Int!) {
             groups(page: $page, first: $first) {
@@ -157,7 +156,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getServers({commit, state, dispatch}, data) {
-      const response = await GraphQL.query({
+      const response = await app.$apollo.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
             servers(page: $page, first: $first) {
@@ -210,7 +209,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      const response = await GraphQL.query({
+      const response = await app.$apollo.query({
         query:     gql`
           query Users($page: Int!, $first: Int!) {
             users(page: $page, first: $first) {
@@ -249,7 +248,12 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getStats({commit, state, dispatch}) {
-      const response = await GraphQL.query({
+      if (typeof app === "undefined")
+      {
+        console.log("app не успел создаться");
+        return;
+      }
+      const response = await app.$apollo.query({
         query: gql`
           query Stats {
             stats {
@@ -281,7 +285,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      const response = await GraphQL.query({
+      const response = await app.$apollo.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
             logs(page: $page, first: $first) {
@@ -324,7 +328,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async createServer({commit, state, dispatch}, data) {
-      const response = await GraphQL.mutate({
+      const response = await app.$apollo.mutate({
         mutation:  gql`
           mutation($input: ServerCreateInput!) {
             createServer(input: $input) {
