@@ -92,6 +92,7 @@ const store = new Vuex.Store({
      * Logout user by deleting token from session
      */
     logout({commit}) {
+      console.log("User logout");
       commit("SET_TOKEN", null);
       localStorage.removeItem('token');
       $cookies.remove("token");
@@ -140,13 +141,13 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_GROUPS', response.data.groups.data);
-      }
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_GROUPS', response.data.groups.data);
+        }
+      });
     },
 
     /**
@@ -187,13 +188,13 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_SERVERS', response.data.servers.data);
-      }
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_SERVERS', response.data.servers.data);
+        }
+      });
     },
 
     /**
@@ -233,13 +234,13 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_USERS', response.data.users.data);
-      }
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_USERS', response.data.users.data);
+        }
+      });
     },
 
     /**
@@ -258,13 +259,13 @@ const store = new Vuex.Store({
             }
           }
         `
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_STATS', response.data.stats);
-      }
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_STATS', response.data.stats);
+        }
+      });
     },
 
     /**
@@ -309,15 +310,14 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_LOGS', response.data.logs.data);
-      }
-    }
-    ,
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_LOGS', response.data.logs.data);
+        }
+      });
+    },
     /**
      *
      * @param data
@@ -347,13 +347,13 @@ const store = new Vuex.Store({
             "groups":   {"connect": data.id}
           }
         }
-      });
-
-      if (typeof response.data === 'undefined') {
+      }).catch((response) => {
         dispatch('logout');
-      } else {
-        commit('SET_SERVER', response.data.server);
-      }
+      }).then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_SERVER', response.data.server);
+        }
+      });
     },
 
   }
