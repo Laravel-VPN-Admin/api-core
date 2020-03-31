@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <page-header :name="name" />
+    <page-header :name="'main.titles.dashboard' | trans" />
     <stats />
     <logs-table page="1" first="10" />
   </div>
@@ -22,7 +22,6 @@
     data() {
       return {
         interval: null,
-        name:     "Dashboard"
       }
     },
 

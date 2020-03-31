@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <page-header :name="name" />
+    <page-header :name="'main.titles.logs' | trans" />
     <logs-table />
   </div>
 </template>
@@ -14,12 +14,6 @@
     components: {
       LogsTable,
       PageHeader,
-    },
-
-    data() {
-      return {
-        name: "Logs from servers"
-      }
     },
 
   }

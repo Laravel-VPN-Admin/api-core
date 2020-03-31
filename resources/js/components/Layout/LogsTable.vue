@@ -43,6 +43,25 @@
       first: String,
     },
 
+    data() {
+      return {
+        columns: ['id', 'code', 'message', 'user', 'server', 'created_at'],
+        data:    this.getData(),
+        options: {
+          headings:   {
+            id:         'ID',
+            code:       'Code',
+            message:    'Message',
+            user:       'User',
+            server:     'Server',
+            created_at: 'Created at',
+          },
+          sortable:   ['name', 'message', 'user', 'server', 'created_at'],
+          filterable: ['name', 'message', 'user', 'server', 'created_at']
+        }
+      };
+    },
+
     computed: {
       ...mapState([
         'groups',
@@ -55,6 +74,12 @@
     mounted() {
       this.$store.dispatch('getLogs', {page: this.page, first: this.first});
     },
+
+    methods: {
+      getData() {
+        return this.logs;
+      }
+    }
 
   }
 </script>

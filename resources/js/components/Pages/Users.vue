@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <page-header :name="name" />
+    <page-header :name="'main.titles.users' | trans" />
 
     <div class="card border-0 shadow">
       <table class="table table-bordered mb-0">
@@ -48,12 +48,6 @@
 
     components: {
       PageHeader,
-    },
-
-    data() {
-      return {
-        name: "Users"
-      }
     },
 
     mounted() {

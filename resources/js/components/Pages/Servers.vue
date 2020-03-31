@@ -1,14 +1,14 @@
 <template>
   <div class="mb-5">
+
     <template>
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ name }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ 'main.titles.servers' | trans }}</h1>
         <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'servers.create' }">
           <i class="fa fa-plus-square"></i>
           Add Server
         </router-link>
       </div>
-
     </template>
 
     <div class="card border-0 shadow">
@@ -61,12 +61,6 @@
     components: {
       PageHeader,
       ServerCreate
-    },
-
-    data() {
-      return {
-        name: "Servers"
-      };
     },
 
     mounted() {
