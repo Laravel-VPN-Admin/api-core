@@ -156,6 +156,12 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getServers({commit, state, dispatch}, data) {
+      if (!data.page) {
+        data.page = 1;
+      }
+      if (!data.first) {
+        data.first = 100;
+      }
       const response = await app.$apollo.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
