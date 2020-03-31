@@ -29,10 +29,8 @@ mix.webpackConfig({
 });
 
 mix
+  .copy('resources/images', 'public/images', false)
   .js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
-  .sass('resources/sass/installer.scss', 'public/css')
-  .copy('resources/images', 'public/images', false)
-  .copy('node_modules/font-awesome/fonts/*', 'public/fonts', false)
   .version()
   .extract();

@@ -1,6 +1,6 @@
 // Font Awesome
-$fa-font-path: "../fonts" !default;
-@import "~font-awesome/scss/font-awesome";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
 
 // Vendors
 @import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
