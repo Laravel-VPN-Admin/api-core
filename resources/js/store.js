@@ -1,8 +1,9 @@
-import Vue  from "vue";
-import Vuex from "vuex";
-import gql  from 'graphql-tag';
+import Vue    from "vue";
+import Vuex   from "vuex";
+import gql    from 'graphql-tag';
+import apollo from './apollo';
 
-import { app, router } from "./app";
+import { router } from "./app";
 
 Vue.use(Vuex);
 
@@ -59,9 +60,10 @@ const store = new Vuex.Store({
      * Submit login request to api server
      *
      * @param {*} data
+     * @returns {Promise<ExecutionResult<any> & {extensions?: Record<string, any>; context?: Record<string, any>}>}
      */
-    async login({commit, state, dispatch}, data) {
-      const response = await app.$apollo.mutate({
+    async login({commit, state, dispatch}, data = {}) {
+      return await apollo.mutate({
         mutation:  gql`
           mutation($input: UserLogin!) {
             login(input: $input) {
@@ -76,15 +78,18 @@ const store = new Vuex.Store({
             password: data.password,
           }
         }
-      });
-
-      if (typeof response.data.login.token === 'undefined' && response.data.login.message === null) {
+      })
+      .then((response) => {
+        if (typeof response.data.login.token != 'undefined') {
+          localStorage.setItem('token', response.data.login.token);
+          commit("SET_TOKEN", response.data.login.token);
+          $cookies.set("token", response.data.login.token);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
         dispatch('logout');
-      } else {
-        localStorage.setItem('token', response.data.login.token);
-        commit("SET_TOKEN", response.data.login.token);
-        $cookies.set("token", response.data.login.token);
-      }
+      });
     },
 
     /**
@@ -101,17 +106,17 @@ const store = new Vuex.Store({
     /**
      * Get list of all available groups
      *
-     * @param data
-     * @returns {Promise<void>}
+     * @param {*} data
+     * @returns {Promise<ApolloQueryResult<any>>}
      */
-    async getGroups({commit, state, dispatch}, data) {
-      if (!data.page) {
+    async getGroups({commit, state, dispatch}, data = {}) {
+      if (typeof data.page === 'undefined') {
         data.page = 1;
       }
-      if (!data.first) {
+      if (typeof data.first === 'undefined') {
         data.first = 100;
       }
-      const response = await app.$apollo.query({
+      return await apollo.query({
         query:     gql`
           query Groups($page: Int!, $first: Int!) {
             groups(page: $page, first: $first) {
@@ -140,29 +145,32 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
+      })
+      .then((response) => {
         if (typeof response.data != 'undefined') {
           commit('SET_GROUPS', response.data.groups.data);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
     },
 
     /**
      * Get list of all available servers
      *
-     * @param data
-     * @returns {Promise<void>}
+     * @param {*} data
+     * @returns {Promise<ApolloQueryResult<any>>}
      */
-    async getServers({commit, state, dispatch}, data) {
+    async getServers({commit, state, dispatch}, data = {}) {
       if (!data.page) {
         data.page = 1;
       }
       if (!data.first) {
         data.first = 100;
       }
-      const response = await app.$apollo.query({
+      return await apollo.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
             servers(page: $page, first: $first) {
@@ -193,29 +201,32 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
-        if (typeof response.data != 'undefined') {
+      })
+      .then((response) => {
+        if (typeof response.data.servers.data != 'undefined') {
           commit('SET_SERVERS', response.data.servers.data);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
     },
 
     /**
      * Get list of all available users
      *
-     * @param data
-     * @returns {Promise<void>}
+     * @param {*} data
+     * @returns {Promise<ApolloQueryResult<any>>}
      */
-    async getUsers({commit, state, dispatch}, data) {
+    async getUsers({commit, state, dispatch}, data = {}) {
       if (!data.page) {
         data.page = 1;
       }
       if (!data.first) {
         data.first = 100;
       }
-      const response = await app.$apollo.query({
+      return await apollo.query({
         query:     gql`
           query Users($page: Int!, $first: Int!) {
             users(page: $page, first: $first) {
@@ -239,27 +250,25 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
+      })
+      .then((response) => {
         if (typeof response.data != 'undefined') {
           commit('SET_USERS', response.data.users.data);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
     },
 
     /**
      * Get list of all server stats
      *
-     * @returns {Promise<void>}
+     * @returns {Promise<ApolloQueryResult<any>>}
      */
-    async getStats({commit, state, dispatch}) {
-      if (typeof app === "undefined")
-      {
-        console.log("app не успел создаться");
-        return;
-      }
-      const response = await app.$apollo.query({
+    async getStats({commit, dispatch}) {
+      return await apollo.query({
         query: gql`
           query Stats {
             stats {
@@ -269,29 +278,32 @@ const store = new Vuex.Store({
             }
           }
         `
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
-        if (typeof response.data != 'undefined') {
+      })
+      .then((response) => {
+        if (typeof response.data.stats !== 'undefined') {
           commit('SET_STATS', response.data.stats);
         }
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch('logout');
       });
     },
 
     /**
      * Get list of all available logs
      *
-     * @param data
-     * @returns {Promise<void>}
+     * @param {*} data
+     * @returns {Promise<ApolloQueryResult<any>>}
      */
-    async getLogs({commit, state, dispatch}, data) {
+    async getLogs({commit, state, dispatch}, data = {}) {
       if (!data.page) {
         data.page = 1;
       }
       if (!data.first) {
         data.first = 100;
       }
-      const response = await app.$apollo.query({
+      return await apollo.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
             logs(page: $page, first: $first) {
@@ -320,21 +332,26 @@ const store = new Vuex.Store({
           page:  data.page,
           first: data.first
         }
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
-        if (typeof response.data != 'undefined') {
+      })
+      .then((response) => {
+        if (typeof response.data.logs.data != 'undefined') {
           commit('SET_LOGS', response.data.logs.data);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
     },
+
     /**
+     * Create new server
      *
-     * @param data
+     * @param {*} data
      * @returns {Promise<void>}
      */
-    async createServer({commit, state, dispatch}, data) {
-      const response = await app.$apollo.mutate({
+    async createServer({commit, state, dispatch}, data = {}) {
+      return await apollo.mutate({
         mutation:  gql`
           mutation($input: ServerCreateInput!) {
             createServer(input: $input) {
@@ -357,12 +374,15 @@ const store = new Vuex.Store({
             "groups":   {"connect": data.id}
           }
         }
-      }).catch((response) => {
-        dispatch('logout');
-      }).then((response) => {
-        if (typeof response.data != 'undefined') {
+      })
+      .then((response) => {
+        if (typeof response.data.server != 'undefined') {
           commit('SET_SERVER', response.data.server);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
     },
 

@@ -14,14 +14,11 @@ import VueCookies from 'vue-cookies';
 
 // Main components
 import App from "./components/App";
-import ApolloProvider from "./Apollo/ApolloProvider";
 
 // Basic uses
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 Vue.use(VueApollo);
-
-const apolloProvider = ApolloProvider;
 
 // Localization
 Vue.filter('trans', (...args) => {
@@ -60,7 +57,6 @@ router.beforeEach((to, from, next) => {
 export const app = new Vue({
   store,
   router,
-  apolloProvider,
   components: {
     App
   }
