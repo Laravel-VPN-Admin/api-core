@@ -12,7 +12,6 @@ export default new ApolloClient({
   // Modify the header in simple way
   request: (operation) => {
     const token = localStorage.getItem('token');
-    console.log(token ? `Bearer ${token}` : '');
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : '',
