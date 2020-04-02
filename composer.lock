@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13a939b9984422af47ecf888d753e122",
+    "content-hash": "aa04cb7b53e527f7cd3b2bafe0fc6ab0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -376,6 +376,65 @@
                 "validator"
             ],
             "time": "2020-02-13T22:36:52+00:00"
+        },
+        {
+            "name": "evilfreelancer/openvpn-php",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EvilFreelancer/openvpn-php.git",
+                "reference": "b55a8977959f1610456179bca0e64c0c8cf99338"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EvilFreelancer/openvpn-php/zipball/b55a8977959f1610456179bca0e64c0c8cf99338",
+                "reference": "b55a8977959f1610456179bca0e64c0c8cf99338",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.1",
+                "orchestra/testbench": "^3.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OpenVPN\\Laravel\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "OpenVPNConfig": "OpenVPN\\Laravel\\ConfigFacade",
+                        "OpenVPNGenerator": "OpenVPN\\Laravel\\GeneratorFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OpenVPN\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Rock",
+                    "email": "paul@drteam.rocks",
+                    "homepage": "http://drteam.rocks/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OpenVPN config generator writen on PHP",
+            "keywords": [
+                "config",
+                "openvpn"
+            ],
+            "time": "2020-03-15T13:06:10+00:00"
         },
         {
             "name": "fideloper/proxy",
