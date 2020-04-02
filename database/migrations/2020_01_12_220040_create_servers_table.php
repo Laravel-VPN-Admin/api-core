@@ -11,10 +11,13 @@ class CreateServersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('servers', function (Blueprint $table) {
+        Schema::create('servers', static function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->bigInteger('configuration_id')->unsigned()->nullable();
+            $table->foreign('configuration_id')->references('id')->on('configurations')->onDelete('set null');
 
             $table->string('hostname')->index();
             $table->string('ipv4')->nullable()->index();
@@ -31,7 +34,7 @@ class CreateServersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('servers');
     }

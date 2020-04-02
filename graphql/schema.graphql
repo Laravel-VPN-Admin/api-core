@@ -35,6 +35,11 @@ type Query {
     "Get single server by unique ID"
     server(id: ID @eq): Server @find @middleware(checks: ["auth:api"])
 
+    "Get list of all server configurations"
+    configurations(orderBy: [OrderByClause!] @orderBy): [Configuration!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    "Get single configuration by unique ID"
+    configuration(id: ID @eq): Configuration @find @middleware(checks: ["auth:api"])
+
     "Get list of all groups with additinal filters"
     groups(orderBy: [OrderByClause!] @orderBy): [Group!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single group by unique ID"
@@ -185,11 +190,25 @@ input GroupUpdateInput {
 }
 
 "Object with all required details about server"
+type Configuration {
+    "Unique ID of configration"
+    id: ID!
+    "Array with list of all servers settings"
+    settings: [String]
+    "List of servers which used simmilar configuration"
+    servers: [Server]
+    "When record was created"
+    created_at: DateTime
+    "When record was updated in last time"
+    updated_at: DateTime
+}
+
+"Object with all required details about server"
 type Server {
     "Unique ID of server"
     id: ID!
     "Hostname of server"
-    hostname: String! @rules(apply: ["required", "min:1"])
+    hostname: String!
     "Token which should be added to each query, by validation reasons"
     token: String
     "IPv4 of server"
@@ -200,6 +219,8 @@ type Server {
     groups: [Group!]
     "List of all users which may connect to this server"
     users: [User!]
+    "Hostname of server"
+    configuration: Configuration
     "Amount of users in group"
     users_count: Int
     "When record was created"

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Group extends Model
 {
-    protected $table   = 'groups';
-    protected $guarded = ['id'];
-    protected $dates   = [
+    protected $table     = 'groups';
+    protected $guarded   = ['id'];
+    protected $dates     = [
         'created_at',
         'updated_at',
     ];

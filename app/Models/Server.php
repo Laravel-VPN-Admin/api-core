@@ -34,7 +34,7 @@ class Server extends Model
         $users  = collect();
         $groups = $this->groups()->get();
 
-        $groups->map(function (Group $group) use (&$users) {
+        $groups->map(static function (Group $group) use (&$users) {
             $groupUsers = $group->users()->get();
             $users      = $users->merge($groupUsers);
         });
