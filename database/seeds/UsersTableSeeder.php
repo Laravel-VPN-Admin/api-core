@@ -9,7 +9,7 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $user                    = new \App\User();
         $user->name              = 'super-king';

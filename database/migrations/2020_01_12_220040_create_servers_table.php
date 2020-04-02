@@ -16,14 +16,14 @@ class CreateServersTable extends Migration
         Schema::create('servers', static function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('configuration_id')->unsigned()->nullable();
-            $table->foreign('configuration_id')->references('id')->on('configurations')->onDelete('set null');
-
             $table->string('hostname')->index();
             $table->string('ipv4')->nullable()->index();
             $table->string('ipv6')->nullable()->index();
             $table->string('token')->nullable();
             $table->dateTime('last_echo_at')->nullable();
+
+            $table->bigInteger('configuration_id')->unsigned()->nullable();
+            $table->foreign('configuration_id')->references('id')->on('configurations')->onDelete('set null');
 
             $table->timestamps();
         });

@@ -9,7 +9,7 @@ class GroupsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $groups = factory(\App\Models\Group::class, 20)->create();
         $group  = $groups->first();

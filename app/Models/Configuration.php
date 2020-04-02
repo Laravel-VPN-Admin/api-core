@@ -9,12 +9,16 @@ class Configuration extends Model
 {
     protected $table     = 'configurations';
     protected $guarded   = ['id'];
-    protected $dates     = [
-        'created_at',
-        'updated_at',
-    ];
-    protected $withCount = [
-        'servers'
+    protected $dates     = ['created_at', 'updated_at'];
+    protected $withCount = ['servers'];
+    protected $casts     = ['options' => 'object'];
+
+    public const TYPE_OPENVPN = 1;
+    public const TYPE_XL2TP   = 2;
+
+    public const TYPES = [
+        self::TYPE_OPENVPN => 'OpenVPN',
+        self::TYPE_XL2TP   => 'XL2TP',
     ];
 
     /**

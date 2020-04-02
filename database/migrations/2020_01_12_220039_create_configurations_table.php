@@ -15,6 +15,8 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', static function (Blueprint $table) {
             $table->id();
+            $table->json('options');
+            $table->tinyInteger('type_id')->unsigned();
             $table->timestamps();
         });
     }

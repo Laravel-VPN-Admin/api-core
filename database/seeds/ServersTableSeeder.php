@@ -9,7 +9,7 @@ class ServersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         factory(\App\Models\Server::class, 10)->create();
     }
