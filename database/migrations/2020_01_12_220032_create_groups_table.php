@@ -11,9 +11,9 @@ class CreateGroupsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('groups', static function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('name')->index();
@@ -30,7 +30,7 @@ class CreateGroupsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('groups');
     }

@@ -11,9 +11,9 @@ class UpdateSocialProviderUsersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
 
@@ -30,7 +30,7 @@ class UpdateSocialProviderUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             $table->dropColumn('provider');
             $table->dropColumn('provider_id');
             $table->dropColumn('avatar');

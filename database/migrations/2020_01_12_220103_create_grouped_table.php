@@ -13,7 +13,7 @@ class CreateGroupedTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('grouped', function (Blueprint $table) {
+        Schema::create('grouped', static function (Blueprint $table) {
 
             $table->bigInteger('group_id')->unsigned()->nullable();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('set null');

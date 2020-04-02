@@ -11,9 +11,9 @@ class CreateLogsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('logs', static function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('message')->nullable();
@@ -34,7 +34,7 @@ class CreateLogsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('logs');
     }
