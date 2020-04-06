@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'links'  => [
+    'links'   => [
         'dashboard' => 'Dashboard',
         'servers'   => 'Servers',
         'groups'    => 'Groups',
@@ -9,7 +9,7 @@ return [
         'logs'      => 'Logs',
         'settings'  => 'Settings',
     ],
-    'titles' => [
+    'titles'  => [
         'dashboard' => 'Dashboard',
         'servers'   => 'List of servers',
         'groups'    => 'Groups of servers and users',
@@ -17,4 +17,9 @@ return [
         'logs'      => 'Logs from servers',
         'settings'  => 'Settings of system',
     ],
+    'servers' => [
+        'link'  => 'Servers',
+        'title' => 'List of servers',
+        'add'   => 'Add Server',
+    ]
 ];

@@ -3,30 +3,12 @@
     <page-header :name="'main.titles.users' | trans" />
 
     <div class="card border-0 shadow">
-      <table class="table table-bordered mb-0">
-        <thead>
-        <tr role="row">
-          <th>Id</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Updated at</th>
-          <th>Created at</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="user in users">
-          <td>
-            <router-link :to="{name: 'users.edit', params: {id: user.id}}">
-              {{ user.id }}
-            </router-link>
-          </td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.updated_at }}</td>
-          <td>{{ user.created_at }}</td>
-        </tr>
-        </tbody>
-      </table>
+      <vue-table
+        route="users"
+        :items="users"
+        :columns="columns"
+        :options="options"
+      />
     </div>
 
   </div>
@@ -35,6 +17,7 @@
 <script>
   import PageHeader   from "../Layout/PageHeader";
   import { mapState } from "vuex";
+  import VueTable     from "../Layout/VueTable";
 
   export default {
 
@@ -46,8 +29,24 @@
       ]),
     },
 
+    data() {
+      return {
+        columns: ['id', 'name', 'email', 'updated_at', 'created_at'],
+        options: {
+          headings: {
+            id:         'ID',
+            name:       'Name',
+            email:      'Email',
+            created_at: 'Created at',
+            updated_at: 'Updated at',
+          },
+        },
+      };
+    },
+
     components: {
       PageHeader,
+      VueTable
     },
 
     mounted() {

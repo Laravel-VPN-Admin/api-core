@@ -7,6 +7,7 @@ import Group        from './components/Pages/Group';
 import Users        from './components/Pages/Users';
 import User         from './components/Pages/User';
 import Logs         from './components/Pages/Logs';
+import Log          from './components/Pages/Log';
 import Settings     from './components/Pages/Settings';
 import NotFound     from "./components/NotFound";
 import Login        from './components/Login';
@@ -24,6 +25,7 @@ const routes = () => {
     {path: '/users', name: 'users', component: Users},
     {path: '/users/:id', name: 'users.edit', component: User},
     {path: '/logs', name: 'logs', component: Logs},
+    {path: '/logs/:id', name: 'logs.edit', component: Log},
     {path: '/settings', name: 'settings', component: Settings},
     {path: '*', name: '404', component: NotFound}
   ]

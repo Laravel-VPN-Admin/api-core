@@ -1,40 +1,28 @@
 <template>
   <div class="mb-5">
     <page-header :name="'main.titles.groups' | trans" />
-
     <div class="card border-0 shadow">
-      <table class="table table-bordered mb-0">
-        <thead>
-        <tr role="row">
-          <th>Id</th>
-          <th>Name</th>
-          <th>Users count</th>
-          <th>Servers count</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="group in groups" :key="group.id">
-          <td>
-            <router-link :to="{name: 'groups.edit', params: {id: group.id}}">
-              {{ group.id }}
-            </router-link>
-          </td>
-          <td>{{ group.name }}</td>
-          <td>{{ group.users_count }}</td>
-          <td>{{ group.servers_count }}</td>
-        </tr>
-        </tbody>
-      </table>
+      <vue-table
+        route="groups"
+        :items="groups"
+        :columns="columns"
+        :options="options"
+      />
     </div>
-
   </div>
 </template>
 
 <script>
   import PageHeader   from "../Layout/PageHeader";
   import { mapState } from 'vuex';
+  import VueTable     from "../Layout/VueTable";
 
   export default {
+
+    components: {
+      PageHeader,
+      VueTable
+    },
 
     computed: {
       ...mapState([
@@ -44,8 +32,18 @@
       ]),
     },
 
-    components: {
-      PageHeader,
+    data() {
+      return {
+        columns: ['id', 'name', 'users_count', 'servers_count'],
+        options: {
+          headings: {
+            id:           'ID',
+            name:         'Name',
+            users_count:   'Users count',
+            servers_count: 'Servers count',
+          },
+        },
+      };
     },
 
     mounted() {

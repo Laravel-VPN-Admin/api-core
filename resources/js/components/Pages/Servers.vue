@@ -6,47 +6,27 @@
         <h1 class="h3 mb-0 text-gray-800">{{ 'main.titles.servers' | trans }}</h1>
         <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'servers.create' }">
           <i class="fa fa-plus-square"></i>
-          Add Server
+          {{ 'main.servers.add' | trans }}
         </router-link>
       </div>
     </template>
 
     <div class="card border-0 shadow">
-      <table class="table table-bordered mb-0">
-        <thead>
-        <tr role="row">
-          <th>Id</th>
-          <th>Hostname</th>
-          <th>IPv4</th>
-          <th>IPv6</th>
-          <th>Users count</th>
-          <th>Updated at</th>
-          <th>Created at</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="server in servers" :key="server.id">
-          <td>
-            <router-link :to="{ name: 'servers.edit', params: { id: server.id } }">
-              {{ server.id }}
-            </router-link>
-          </td>
-          <td>{{ server.hostname }}</td>
-          <td>{{ server.ipv4 }}</td>
-          <td>{{ server.ipv6 }}</td>
-          <td>{{ server.users_count }}</td>
-          <td>{{ server.updated_at }}</td>
-          <td>{{ server.created_at }}</td>
-        </tr>
-        </tbody>
-      </table>
+      <vue-table
+        route="servers"
+        :items="servers"
+        :columns="columns"
+        :options="options"
+      />
     </div>
+
   </div>
 </template>
 
 <script>
   import PageHeader   from "../Layout/PageHeader";
   import ServerCreate from "./ServerCreate";
+  import VueTable     from "../Layout/VueTable";
   import { mapState } from "vuex";
 
   export default {
@@ -58,8 +38,26 @@
       ])
     },
 
+    data() {
+      return {
+        columns: ['id', 'hostname', 'ipv4', 'ipv6', 'users_count', 'updated_at', 'created_at'],
+        options: {
+          headings: {
+            id:          'ID',
+            hostname:    'Hostname',
+            ipv4:        'IPv4',
+            ipv6:        'IPv6',
+            users_count: 'Users count',
+            created_at:  'Created at',
+            updated_at:  'Updated at',
+          },
+        },
+      };
+    },
+
     components: {
       PageHeader,
+      VueTable,
       ServerCreate
     },
 

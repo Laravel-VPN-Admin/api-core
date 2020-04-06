@@ -2,19 +2,17 @@
   <div class="mb-5">
     <page-header :name="'main.titles.dashboard' | trans" />
     <stats />
-    <logs-table page="1" first="10" />
+    <div>list of connected users</div>
   </div>
 </template>
 
 <script>
   import PageHeader from "../Layout/PageHeader";
-  import LogsTable  from "../Layout/LogsTable";
   import Stats      from "../Layout/Stats";
 
   export default {
 
     components: {
-      LogsTable,
       PageHeader,
       Stats
     },
