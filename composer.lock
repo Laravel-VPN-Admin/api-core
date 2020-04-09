@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84a19e6144a1387473df5fc91fc6b514",
+    "content-hash": "6884d1b1b92466dceab6eec6c795869d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -439,16 +439,16 @@
         },
         {
             "name": "evilfreelancer/xl2tp-php",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvilFreelancer/xl2tp-php.git",
-                "reference": "7a585ae3e1a0313283d005841695c13e9a2fd4f4"
+                "reference": "6007bfd289a2a22e4fd188da7bd19541e0bda71a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvilFreelancer/xl2tp-php/zipball/7a585ae3e1a0313283d005841695c13e9a2fd4f4",
-                "reference": "7a585ae3e1a0313283d005841695c13e9a2fd4f4",
+                "url": "https://api.github.com/repos/EvilFreelancer/xl2tp-php/zipball/6007bfd289a2a22e4fd188da7bd19541e0bda71a",
+                "reference": "6007bfd289a2a22e4fd188da7bd19541e0bda71a",
                 "shasum": ""
             },
             "require": {
@@ -457,7 +457,9 @@
             },
             "require-dev": {
                 "larapack/dd": "^1.1",
-                "phpunit/phpunit": "^9"
+                "phpunit/phpunit": "^8",
+                "roave/security-advisories": "dev-master",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "autoload": {
@@ -476,7 +478,7 @@
                 }
             ],
             "description": "XL2TP configuration manager gives you the ability to work with configuration of your services in OOP style",
-            "time": "2020-04-08T19:53:01+00:00"
+            "time": "2020-04-09T19:27:35+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -3976,16 +3978,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "1.10.1",
+            "version": "1.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "b912a45da3e2b22f5cb5a23e441b697a295ba011"
+                "reference": "1efa6850b4a1740980346ac3582edf7dfb7899ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/b912a45da3e2b22f5cb5a23e441b697a295ba011",
-                "reference": "b912a45da3e2b22f5cb5a23e441b697a295ba011",
+                "url": "https://api.github.com/repos/composer/composer/zipball/1efa6850b4a1740980346ac3582edf7dfb7899ee",
+                "reference": "1efa6850b4a1740980346ac3582edf7dfb7899ee",
                 "shasum": ""
             },
             "require": {
@@ -4052,7 +4054,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2020-03-13T19:34:27+00:00"
+            "time": "2020-04-09T15:05:50+00:00"
         },
         {
             "name": "composer/semver",
@@ -7460,7 +7462,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "evilfreelancer/xl2tp-php": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
