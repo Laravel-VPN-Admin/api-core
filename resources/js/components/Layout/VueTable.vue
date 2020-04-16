@@ -40,21 +40,5 @@
       columns: Array,
       options: Object,
     },
-
-    data() {
-      return {
-        columns: ['id', 'value'],
-        data:    this.items,
-        options: {
-          headings: {
-            id:    'ID',
-            value: 'Value',
-          },
-          // sortable:   ['name', 'message', 'user', 'server', 'created_at'],
-          // filterable: ['name', 'message', 'user', 'server', 'created_at']
-        }
-      };
-    },
-
   }
 </script>

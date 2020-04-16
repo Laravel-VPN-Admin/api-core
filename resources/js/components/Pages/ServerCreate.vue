@@ -10,13 +10,21 @@
         <div class="form-group">
           <input type="text" v-model="form.hostname" class="form-control form-control-user" placeholder="Hostname" />
         </div>
-        <div class="form-group"><input type="text" v-model="form.token" class="form-control form-control-user" placeholder="Token" /></div>
-        <div class="form-group"><input type="text" v-model="form.ipv4" class="form-control form-control-user" placeholder="IPv4" /></div>
-        <div class="form-group"><input type="text" v-model="form.ipv6" class="form-control form-control-user" placeholder="IPv6" /></div>
+        <div class="form-group">
+          <input type="text" v-model="form.token" class="form-control form-control-user" placeholder="Token" />
+        </div>
+        <div class="form-group">
+          <input type="text" v-model="form.ipv4" class="form-control form-control-user" placeholder="IPv4" />
+        </div>
+        <div class="form-group">
+          <input type="text" v-model="form.ipv6" class="form-control form-control-user" placeholder="IPv6" />
+        </div>
         <div class="form-group">
           <label for="selectGroup">Select Group</label>
           <select class="form-control" v-model="selected" id="selectGroup">
-            <option v-for="group in groups" :key="group.id" :value="{ id: group.id, name: group.name }">{{ group.name }}</option>
+            <option v-for="group in groups" :key="group.id" :value="{ id: group.id, name: group.name }">
+              {{ group.name }}
+            </option>
           </select>
           <div>{{selected.name}}</div>
         </div>

@@ -35,6 +35,14 @@
     components: {
       Sidebar,
       Toolbar,
+    },
+
+    mounted() {
+      this.$store.dispatch("getGroups");
+      this.$store.dispatch("getLogs");
+      this.$store.dispatch("getServers");
+      this.$store.dispatch("getStats");
+      this.$store.dispatch("getUsers");
     }
   }
 </script>

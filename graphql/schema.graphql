@@ -249,6 +249,8 @@ input ServerCreateInput {
 input ServerUpdateInput {
     "Hostname of server"
     hostname: String
+    "Handshake token"
+    token: String
     "IPv4 of server"
     ipv4: String
     "IPv6 of server"

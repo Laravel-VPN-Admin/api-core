@@ -1,7 +1,7 @@
 import Dashboard    from './components/Pages/Dashboard';
 import Servers      from './components/Pages/Servers';
-import Server       from './components/Pages/Server';
 import ServerCreate from './components/Pages/ServerCreate';
+import ServerEdit   from './components/Pages/ServerEdit';
 import Groups       from './components/Pages/Groups';
 import Group        from './components/Pages/Group';
 import Users        from './components/Pages/Users';
@@ -19,7 +19,7 @@ const routes = () => {
     {path: '/dashboard', name: 'dashboard', component: Dashboard},
     {path: '/servers', name: 'servers', component: Servers},
     {path: '/servers/create', name: 'servers.create', component: ServerCreate},
-    {path: '/servers/:id', name: 'servers.edit', component: Server},
+    {path: '/servers/:id', name: 'servers.edit', component: ServerEdit},
     {path: '/groups', name: 'groups', component: Groups},
     {path: '/groups/:id', name: 'groups.edit', component: Group},
     {path: '/users', name: 'users', component: Users},

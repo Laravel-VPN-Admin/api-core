@@ -11,12 +11,11 @@ const store = new Vuex.Store({
 
   state: {
     token:   null,
-    users:   {},
-    servers: {},
-    groups:  {},
-    logs:    {},
-    stats:   {},
-    server:  {}
+    users:   [],
+    servers: [],
+    groups:  [],
+    logs:    [],
+    stats:   [],
   },
 
   mutations: {
@@ -38,9 +37,6 @@ const store = new Vuex.Store({
     SET_STATS(state, items) {
       state.stats = items;
     },
-    SET_SERVER(state, items) {
-      state.server = items;
-    }
   },
 
   getters: {
@@ -51,7 +47,12 @@ const store = new Vuex.Store({
      */
     isAuthorized: state => {
       return !!state.token;
+    },
+
+    getServer: (state) => (id) => {
+      return state.servers.find(server => server.id === id)
     }
+
   },
 
   actions: {
@@ -60,7 +61,7 @@ const store = new Vuex.Store({
      * Submit login request to api server
      *
      * @param {*} data
-     * @returns {Promise<ExecutionResult<any> & {extensions?: Record<string, any>; context?: Record<string, any>}>}
+     * @returns {Promise<T>}
      */
     async login({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
@@ -107,7 +108,7 @@ const store = new Vuex.Store({
      * Get list of all available groups
      *
      * @param {*} data
-     * @returns {Promise<ApolloQueryResult<any>>}
+     * @returns {Promise<T>}
      */
     async getGroups({commit, state, dispatch}, data = {}) {
       if (typeof data.page === 'undefined') {
@@ -161,7 +162,7 @@ const store = new Vuex.Store({
      * Get list of all available servers
      *
      * @param {*} data
-     * @returns {Promise<ApolloQueryResult<any>>}
+     * @returns {Promise<T>}
      */
     async getServers({commit, state, dispatch}, data = {}) {
       if (!data.page) {
@@ -179,6 +180,7 @@ const store = new Vuex.Store({
                 hostname
                 ipv4
                 ipv6
+                token
                 created_at
                 updated_at
                 groups {
@@ -217,7 +219,7 @@ const store = new Vuex.Store({
      * Get list of all available users
      *
      * @param {*} data
-     * @returns {Promise<ApolloQueryResult<any>>}
+     * @returns {Promise<T>}
      */
     async getUsers({commit, state, dispatch}, data = {}) {
       if (!data.page) {
@@ -263,9 +265,9 @@ const store = new Vuex.Store({
     },
 
     /**
-     * Get list of all server stats
+     * Get list of all servers stats
      *
-     * @returns {Promise<ApolloQueryResult<any>>}
+     * @returns {Promise<T>}
      */
     async getStats({commit, dispatch}) {
       return await apollo.query({
@@ -294,7 +296,7 @@ const store = new Vuex.Store({
      * Get list of all available logs
      *
      * @param {*} data
-     * @returns {Promise<ApolloQueryResult<any>>}
+     * @returns {Promise<T>}
      */
     async getLogs({commit, state, dispatch}, data = {}) {
       if (!data.page) {
@@ -345,10 +347,58 @@ const store = new Vuex.Store({
     },
 
     /**
+     * Extract server Object from list of servers
+     *
+     * @param id
+     * @returns {*}
+     */
+    getServerById({commit, state}, id) {
+      return state.servers.find(server => server.id === parseInt(id));
+    },
+
+    /**
+     * Submit settings of room to server
+     *
+     * @param {*} data
+     */
+    async updateServer({commit, state}, data) {
+      console.log(data);
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation($id: ID!, $input: ServerUpdateInput!) {
+            updateServer(id: $id, input: $input) {
+              id
+              hostname
+              ipv4
+              ipv6
+              token
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          id:    data.id,
+          input: data.params
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        // if (typeof response.data.server != 'undefined') {
+        //   commit('SET_SERVER', response.data.server);
+        // }
+      });
+      // .catch((error) => {
+      //   console.error(error);
+      //   dispatch('logout');
+      // });
+    },
+
+    /**
      * Create new server
      *
      * @param {*} data
-     * @returns {Promise<void>}
+     * @returns {Promise<T>}
      */
     async createServer({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
