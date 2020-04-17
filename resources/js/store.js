@@ -362,7 +362,6 @@ const store = new Vuex.Store({
      * @param {*} data
      */
     async updateServer({commit, state}, data) {
-      console.log(data);
       return await apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: ServerUpdateInput!) {
@@ -379,14 +378,20 @@ const store = new Vuex.Store({
         `,
         variables: {
           id:    data.id,
-          input: data.params
+          input: {
+            "hostname": data.params.hostname,
+            "ipv4":     data.params.ipv4,
+            "ipv6":     data.params.ipv6,
+            "token":    data.params.token,
+            "groups":   {"sync": data.params.groups}
+          }
         }
       })
       .then((response) => {
         console.log(response);
-        // if (typeof response.data.server != 'undefined') {
-        //   commit('SET_SERVER', response.data.server);
-        // }
+        if (typeof response.data.server != 'undefined') {
+          commit('SET_SERVER', response.data.server);
+        }
       });
       // .catch((error) => {
       //   console.error(error);
@@ -421,7 +426,7 @@ const store = new Vuex.Store({
             "ipv4":     data.ipv4,
             "ipv6":     data.ipv6,
             "token":    data.token,
-            "groups":   {"connect": data.id}
+            "groups":   {"sync": data.groups}
           }
         }
       })
