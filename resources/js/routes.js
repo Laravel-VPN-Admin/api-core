@@ -3,6 +3,8 @@ import Servers      from './components/Pages/Servers';
 import ServerCreate from './components/Pages/ServerCreate';
 import ServerEdit   from './components/Pages/ServerEdit';
 import Groups       from './components/Pages/Groups';
+import GroupCreate       from './components/Pages/GroupCreate';
+import GroupEdit       from './components/Pages/GroupEdit';
 import Group        from './components/Pages/Group';
 import Users        from './components/Pages/Users';
 import User         from './components/Pages/User';
@@ -21,7 +23,8 @@ const routes = () => {
     {path: '/servers/create', name: 'servers.create', component: ServerCreate},
     {path: '/servers/:id', name: 'servers.edit', component: ServerEdit},
     {path: '/groups', name: 'groups', component: Groups},
-    {path: '/groups/:id', name: 'groups.edit', component: Group},
+    {path: '/groups/create', name: 'groups.create', component: GroupCreate},
+    {path: '/groups/:id', name: 'groups.edit', component: GroupEdit},
     {path: '/users', name: 'users', component: Users},
     {path: '/users/:id', name: 'users.edit', component: User},
     {path: '/logs', name: 'logs', component: Logs},

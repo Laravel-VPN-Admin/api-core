@@ -51,6 +51,10 @@ const store = new Vuex.Store({
 
     getServer: (state) => (id) => {
       return state.servers.find(server => server.id === id)
+    },
+
+    getGroup: (state) => (id) => {
+      return state.groups.find(group => group.id === id)
     }
 
   },
@@ -433,6 +437,91 @@ const store = new Vuex.Store({
       .then((response) => {
         if (typeof response.data.server != 'undefined') {
           commit('SET_SERVER', response.data.server);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
+      });
+    },
+
+    /**
+     * Extract group Object from list of groups
+     *
+     * @param id
+     * @returns {*}
+     */
+    getGroupById({commit, state}, id) {
+      return state.groups.find(group => group.id === parseInt(id));
+    },
+
+    /**
+     * Submit settings of room to group
+     *
+     * @param {*} data
+     */
+    async updateGroup({commit, state}, data) {
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation($id: ID!, $input: GroupUpdateInput!) {
+            updateGroup(id: $id, input: $input) {
+              id
+              name
+              object
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          id:    data.id,
+          input: {
+            "name":       data.params.name,
+            "object":     data.params.object
+          }
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        if (typeof response.data.group != 'undefined') {
+          commit('SET_GROUP', response.data.group);
+        }
+      });
+      // .catch((error) => {
+      //   console.error(error);
+      //   dispatch('logout');
+      // });
+    },
+
+    /**
+     * Create new group
+     *
+     * @param {*} data
+     * @returns {Promise<T>}
+     */
+    async createGroup({commit, state, dispatch}, data = {}) {
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation($input: GroupCreateInput!) {
+            createGroup(input: $input) {
+              id
+              name
+              object
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          input: {
+            "name":     data.name,
+            "object":   data.object
+          }
+        }
+      })
+      .then((response) => {
+        if (typeof response.data.group != 'undefined') {
+          commit('SET_GROUP', response.data.group);
         }
       })
       .catch((error) => {
