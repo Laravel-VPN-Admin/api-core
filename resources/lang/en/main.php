@@ -21,5 +21,10 @@ return [
         'link'  => 'Servers',
         'title' => 'List of servers',
         'add'   => 'Add Server',
+    ],
+    'groups' => [
+        'link'  => 'Groups',
+        'title' => 'List of groups',
+        'add'   => 'Add Group',
     ]
 ];
