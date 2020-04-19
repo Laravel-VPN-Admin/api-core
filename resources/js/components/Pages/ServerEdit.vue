@@ -74,20 +74,14 @@
     },
 
     mounted() {
-      if (this.servers.length > 0 && this.groups.length > 0) {
-        if (this.groups !== undefined) {
-          this.tags = _.map(this.groups, this.transformToTags);
-        }
-
-        let server = this.$store.getters.getServer(this.$route.params.id)
-        if (server !== undefined) {
-          this.server = server;
-          console.log(this.server.groups);
-          this.selected = _.map(this.server.groups, function (data) {
-            return {key: data.id, value: data.name + " " + data.id};
-          });
-        }
-        this.show_block = true;
+      // If servers array of store is empty, then refresh and get details about current server
+      if (this.servers.length <= 0) {
+        this.$store.dispatch("getServers").then(() => {
+          console.log('test');
+          this.getServerDefaults();
+        });
+      } else {
+        this.getServerDefaults();
       }
     },
 
@@ -110,9 +104,39 @@
       }
     },
     methods: {
-      transformToTags:   function (data) {
+
+      /**
+       * Force get details about server from servers array of store
+       */
+      getServerDefaults() {
+        this.tags  = _.map(this.groups, this.transformToTags);
+        let server = this.$store.getters.getServer(this.$route.params.id)
+        if (server !== undefined) {
+          this.server = server;
+          console.log(this.server.groups);
+          this.selected = _.map(this.server.groups, function (data) {
+            return {key: data.id, value: data.name + " " + data.id};
+          });
+        }
+        this.show_block = true;
+      },
+
+      /**
+       * Convert groups to tags
+       *
+       * @param data
+       * @returns {{value: string, key: *}}
+       */
+      transformToTags: function (data) {
         return {key: data.id, value: data.name + " " + data.id};
       },
+
+      /**
+       * Transform tags to groups
+       *
+       * @param data
+       * @returns {number}
+       */
       transformToGroups: function (data) {
         return parseInt(data.key);
       }
