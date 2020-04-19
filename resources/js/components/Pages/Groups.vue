@@ -6,7 +6,7 @@
         <h1 class="h3 mb-0 text-gray-800">{{ 'main.titles.groups' | trans }}</h1>
         <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'groups.create' }">
           <i class="fa fa-plus-square"></i>
-          {{ 'main.groups.add' | trans }}
+          {{ 'main.groups.create' | trans }}
         </router-link>
       </div>
     </template>

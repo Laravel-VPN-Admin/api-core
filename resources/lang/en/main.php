@@ -18,13 +18,15 @@ return [
         'settings'  => 'Settings of system',
     ],
     'servers' => [
-        'link'  => 'Servers',
-        'title' => 'List of servers',
-        'add'   => 'Add Server',
+        'link'   => 'Servers',
+        'title'  => 'List of servers',
+        'create' => 'Add Server',
+        'edit'   => 'Edit Server',
     ],
-    'groups' => [
-        'link'  => 'Groups',
-        'title' => 'List of groups',
-        'add'   => 'Add Group',
+    'groups'  => [
+        'link'   => 'Groups',
+        'title'  => 'List of groups',
+        'create' => 'Add Group',
+        'edit'   => 'Edit Group',
     ]
 ];
