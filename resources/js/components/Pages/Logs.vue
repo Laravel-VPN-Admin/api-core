@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <page-header :name="'main.titles.logs' | trans" />
+    <page-header :name="'main.logs.description' | trans" />
     <div class="card border-0 shadow">
       <vue-table
         route="logs"

@@ -3,7 +3,7 @@
 
     <template>
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ 'main.titles.servers' | trans }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ 'main.servers.description' | trans }}</h1>
         <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'servers.create' }">
           <i class="fa fa-plus-square"></i>
           {{ 'main.servers.create' | trans }}

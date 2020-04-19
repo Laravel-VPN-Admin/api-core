@@ -13,7 +13,7 @@
     <router-link tag="li" class="nav-item" :to="{name: 'dashboard'}">
       <a class="nav-link">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>{{ 'main.links.dashboard' | trans }}</span>
+        <span>{{ 'main.dashboard.title' | trans }}</span>
       </a>
     </router-link>
 
@@ -22,21 +22,21 @@
     <router-link tag="li" class="nav-item" :to="{name: 'users'}">
       <a class="nav-link">
         <i class="fas fa-fw fa-users"></i>
-        <span>{{ 'main.links.users' | trans }}</span>
+        <span>{{ 'main.users.title' | trans }}</span>
       </a>
     </router-link>
 
     <router-link tag="li" class="nav-item" :to="{name: 'servers'}">
       <a class="nav-link">
         <i class="fas fa-fw fa-network-wired"></i>
-        <span>{{ 'main.links.servers' | trans }}</span>
+        <span>{{ 'main.servers.title' | trans }}</span>
       </a>
     </router-link>
 
     <router-link tag="li" class="nav-item" :to="{name: 'groups'}">
       <a class="nav-link">
         <i class="fas fa-fw fa-boxes"></i>
-        <span>{{ 'main.links.groups' | trans }}</span>
+        <span>{{ 'main.groups.title' | trans }}</span>
       </a>
     </router-link>
 
@@ -45,7 +45,7 @@
     <router-link tag="li" class="nav-item" :to="{name: 'logs'}">
       <a class="nav-link">
         <i class="fas fa-fw fa-columns"></i>
-        <span>{{ 'main.links.logs' | trans }}</span>
+        <span>{{ 'main.logs.title' | trans }}</span>
       </a>
     </router-link>
 

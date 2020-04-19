@@ -1,32 +1,33 @@
 <?php
 
 return [
-    'links'   => [
-        'dashboard' => 'Dashboard',
-        'servers'   => 'Servers',
-        'groups'    => 'Groups',
-        'users'     => 'Users',
-        'logs'      => 'Logs',
-        'settings'  => 'Settings',
+    'dashboard' => [
+        'title' => 'Dashboard',
     ],
-    'titles'  => [
-        'dashboard' => 'Dashboard',
-        'servers'   => 'List of servers',
-        'groups'    => 'Groups of servers and users',
-        'users'     => 'List of users',
-        'logs'      => 'Logs from servers',
-        'settings'  => 'Settings of system',
+    'servers'   => [
+        'title'       => 'Servers',
+        'description' => 'List of servers',
+        'create'      => 'Add Server',
+        'edit'        => 'Edit Server',
     ],
-    'servers' => [
-        'link'   => 'Servers',
-        'title'  => 'List of servers',
-        'create' => 'Add Server',
-        'edit'   => 'Edit Server',
+    'groups'    => [
+        'title'       => 'Groups',
+        'description' => 'Groups of servers and users',
+        'create'      => 'Add Group',
+        'edit'        => 'Edit Group',
     ],
-    'groups'  => [
-        'link'   => 'Groups',
-        'title'  => 'List of groups',
-        'create' => 'Add Group',
-        'edit'   => 'Edit Group',
-    ]
+    'users'     => [
+        'title'       => 'Users',
+        'description' => 'List of users',
+        'create'      => 'Add user',
+        'edit'        => 'Edit user',
+    ],
+    'logs'      => [
+        'title'       => 'Logs',
+        'description' => 'Logs from server',
+    ],
+    'settings'  => [
+        'title'       => 'Settings',
+        'description' => 'Settings of system',
+    ],
 ];
