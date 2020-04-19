@@ -9,7 +9,7 @@
           <div class="form-group">
             <input type="text" v-model="group.name" class="form-control form-control-user" placeholder="Name" />
           </div>
-          <div class="form-group">
+          <div class="form-group mb-0">
             <input type="text" v-model="group.object" class="form-control form-control-user" placeholder="Object" />
           </div>
         </div>
@@ -19,8 +19,8 @@
 </template>
 
 <script>
-  import PageHeader      from "../Layout/PageHeader";
-  import _               from "lodash";
+  import PageHeader from "../Layout/PageHeader";
+  import _          from "lodash";
 
   import { mapActions, mapState } from "vuex";
 
@@ -40,30 +40,42 @@
 
     data() {
       return {
-        name:       "Edit Group",
+        name:       this.trans('main.groups.edit'),
         show_block: false,
-        group:     {
-          name: null,
-          object:    null
+        group:      {
+          name:   null,
+          object: null
         }
       }
+    },
+
+    methods: {
+
+      /**
+       * Force get details about group from groups array of store
+       */
+      getGroupDefaults() {
+        this.group      = this.$store.getters.getGroup(this.$route.params.id);
+        this.show_block = true;
+      },
+
     },
 
     mounted() {
-      if (this.groups.length > 0) {
-
-        let group = this.$store.getters.getGroup(this.$route.params.id)
-        if (group !== undefined) {
-          this.group = group;
-        }
-        this.show_block = true;
+      // If servers array of store is empty, then refresh and get details about current server
+      if (this.groups.length <= 0) {
+        this.$store.dispatch("getGroups").then(() => {
+          this.getGroupDefaults();
+        });
+      } else {
+        this.getGroupDefaults();
       }
     },
 
-    watch:   {
-      group:   {
+    watch: {
+      group: {
         handler: _.debounce(function (after) {
-          let array    = _.pick(after, ['name', 'object']);
+          let array = _.pick(after, ['name', 'object']);
           this.$store.dispatch("updateGroup", {'id': this.$route.params.id, params: array});
         }, 100),
         deep:    true,

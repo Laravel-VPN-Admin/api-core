@@ -5,6 +5,9 @@
 // Vendors
 @import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
 
+// Application
+@import "tags";
+
 .sidebar-brand-text {
   color: $white;
 }
