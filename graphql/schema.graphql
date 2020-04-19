@@ -113,6 +113,8 @@ type User {
     name: String!
     "Email address, should be unique, will be user for authorization"
     email: String!
+    "Object path in Active Directory or OpenLDAP"
+    object: String
     "Array of groups in which the user is a member of"
     groups: [Group!]
     "When record was created"
@@ -133,6 +135,8 @@ input UserCreateInput {
     name: String! @rules(apply: ["required", "min:1"])
     "Email address, should be unique, will be user for authorization"
     email: String! @rules(apply: ["email"])
+    "Object path in Active Directory or OpenLDAP"
+    object: String
     "Password of used, will be saved as hash into database"
     password: String! @rules(apply: ["required", "min:3"])
     "List of groups to which this object is related"
@@ -145,6 +149,8 @@ input UserUpdateInput {
     name: String
     "Email address, should be unique, will be user for authorization"
     email: String @rules(apply: ["email"])
+    "Object path in Active Directory or OpenLDAP"
+    object: String
     "Password of used, will be saved as hash into database"
     password: String
     "Additional inputs for group management"
