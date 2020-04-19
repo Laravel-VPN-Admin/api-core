@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <page-header :name="'main.titles.dashboard' | trans" />
+    <page-header :name="'main.dashboard.title' | trans" />
     <stats />
     <div>list of connected users</div>
   </div>

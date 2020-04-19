@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    user
+    user create
   </div>
 </template>
 

@@ -6,7 +6,8 @@ import Groups       from './components/Pages/Groups';
 import GroupCreate  from './components/Pages/GroupCreate';
 import GroupEdit    from './components/Pages/GroupEdit';
 import Users        from './components/Pages/Users';
-import User         from './components/Pages/User';
+import UserCreate   from './components/Pages/UserCreate';
+import UserEdit     from './components/Pages/UserEdit';
 import Logs         from './components/Pages/Logs';
 import Log          from './components/Pages/Log';
 import Settings     from './components/Pages/Settings';
@@ -25,7 +26,8 @@ const routes = () => {
     {path: '/groups/create', name: 'groups.create', component: GroupCreate},
     {path: '/groups/:id', name: 'groups.edit', component: GroupEdit},
     {path: '/users', name: 'users', component: Users},
-    {path: '/users/:id', name: 'users.edit', component: User},
+    {path: '/users/create', name: 'users.create', component: UserCreate},
+    {path: '/users/:id', name: 'users.edit', component: UserEdit},
     {path: '/logs', name: 'logs', component: Logs},
     {path: '/logs/:id', name: 'logs.edit', component: Log},
     {path: '/settings', name: 'settings', component: Settings},

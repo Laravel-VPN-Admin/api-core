@@ -7,16 +7,13 @@
         </div>
         <div class="card-body">
           <div class="form-group">
-            <input type="text" v-model="server.hostname" class="form-control form-control-user" placeholder="Hostname" />
+            <input type="text" v-model="user.name" class="form-control form-control-user" placeholder="Username" />
           </div>
           <div class="form-group">
-            <input type="text" v-model="server.token" class="form-control form-control-user" placeholder="Token" />
+            <input type="text" v-model="user.email" class="form-control form-control-user" placeholder="Email" />
           </div>
           <div class="form-group">
-            <input type="text" v-model="server.ipv4" class="form-control form-control-user" placeholder="IPv4" />
-          </div>
-          <div class="form-group">
-            <input type="text" v-model="server.ipv6" class="form-control form-control-user" placeholder="IPv6" />
+            <input type="text" v-model="user.object" class="form-control form-control-user" placeholder="Object" />
           </div>
           <div class="form-group mb-0">
             <voerro-tags-input
@@ -42,14 +39,18 @@
   import { mapActions, mapState } from "vuex";
 
   export default {
+    props: {
+      id: Number
+    },
+
     computed: {
       ...mapState([
         "groups",
-        "servers"
+        "users"
       ]),
       ...mapActions([
-        'getServerById',
-        'updateServer'
+        'getUserById',
+        'updateUser'
       ]),
     },
 
@@ -60,44 +61,47 @@
 
     data() {
       return {
-        name:       this.trans('main.servers.edit'),
+        name:       this.trans('main.users.edit'),
         tags:       [],
         selected:   [],
         show_block: false,
-        server:     {
-          hostname: null,
-          token:    null,
-          ipv4:     null,
-          ipv6:     null
+        user:       {
+          name:   null,
+          email:  null,
+          object: null,
         }
       }
     },
 
     mounted() {
+      if (this.groups.length <= 0) {
+        this.$store.dispatch("getGroups");
+      }
+
       // If servers array of store is empty, then refresh and get details about current server
-      if (this.servers.length <= 0) {
-        this.$store.dispatch("getServers").then(() => {
-          this.getServerDefaults();
+      if (this.users.length <= 0) {
+        this.$store.dispatch("getUsers").then(() => {
+          this.getUserDefaults();
         });
       } else {
-        this.getServerDefaults();
+        this.getUserDefaults();
       }
     },
 
     watch: {
-      server:   {
+      user:     {
         handler: _.debounce(function (after) {
-          let array    = _.pick(after, ['id', 'hostname', 'token', 'ipv4', 'ipv6']);
+          let array    = _.pick(after, ['id', 'name', 'email', 'object']);
           array.groups = _.map(this.selected, this.transformToGroups);
-          this.$store.dispatch("updateServer", {'id': this.$route.params.id, params: array});
+          this.$store.dispatch("updateUser", {'id': this.$route.params.id, params: array});
         }, 100),
         deep:    true,
       },
       selected: {
         handler: _.debounce(function (after) {
-          let array    = _.pick(this.server, ['id', 'hostname', 'token', 'ipv4', 'ipv6']);
+          let array    = _.pick(this.user, ['id', 'name', 'email', 'object']);
           array.groups = _.map(this.selected, this.transformToGroups);
-          this.$store.dispatch("updateServer", {'id': this.$route.params.id, params: array});
+          this.$store.dispatch("updateUser", {'id': this.$route.params.id, params: array});
         }, 100),
         deep:    true,
       }
@@ -108,10 +112,10 @@
       /**
        * Force get details about server from servers array of store
        */
-      getServerDefaults() {
+      getUserDefaults() {
         this.tags       = _.map(this.groups, this.transformToTags);
-        this.server     = this.$store.getters.getServer(this.$route.params.id)
-        this.selected   = _.map(this.server.groups, function (data) {
+        this.user       = this.$store.getters.getUser(this.$route.params.id)
+        this.selected   = _.map(this.user.groups, function (data) {
           return {key: data.id, value: data.name + " " + data.id};
         });
         this.show_block = true;
@@ -138,5 +142,5 @@
       }
     }
 
-  };
+  }
 </script>

@@ -75,7 +75,7 @@
     watch: {
       group: {
         handler: _.debounce(function (after) {
-          let array = _.pick(after, ['name', 'object']);
+          let array = _.pick(after, ['id', 'name', 'object']);
           this.$store.dispatch("updateGroup", {'id': this.$route.params.id, params: array});
         }, 100),
         deep:    true,

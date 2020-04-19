@@ -37,9 +37,40 @@ const store = new Vuex.Store({
     SET_STATS(state, items) {
       state.stats = items;
     },
+    ADD_GROUP(state, items) {
+      state.groups.push(items);
+    },
+    ADD_SERVER(state, items) {
+      state.servers.push(items);
+    },
+    ADD_USER(state, items) {
+      state.users.push(items);
+    },
+    UPDATE_USER(state, changes) {
+      // Find index of specific object using findIndex method.
+      let index = state.users.findIndex((obj => obj.id === changes.id));
+
+      // Update object's properties
+      state.users[index] = changes;
+    },
+    UPDATE_GROUP(state, changes) {
+      // Find index of specific object using findIndex method.
+      let index = state.groups.findIndex((obj => obj.id === changes.id));
+
+      // Update object's properties
+      state.groups[index] = changes;
+    },
+    UPDATE_SERVER(state, changes) {
+      // Find index of specific object using findIndex method.
+      let index = state.servers.findIndex((obj => obj.id === changes.id));
+
+      // Update object's properties
+      state.servers[index] = changes;
+    },
   },
 
   getters: {
+
     /**
      * Check if user has token
      *
@@ -49,10 +80,32 @@ const store = new Vuex.Store({
       return !!state.token;
     },
 
+    /**
+     * Get server object by id
+     *
+     * @param {Number} id
+     * @returns {*}
+     */
     getServer: (state) => (id) => {
       return state.servers.find(server => server.id === id)
     },
 
+    /**
+     * Get user object by id
+     *
+     * @param {Number} id
+     * @returns {*}
+     */
+    getUser: (state) => (id) => {
+      return state.users.find(user => user.id === id)
+    },
+
+    /**
+     * Get group object by id
+     *
+     * @param {Number} id
+     * @returns {*}
+     */
     getGroup: (state) => (id) => {
       return state.groups.find(group => group.id === id)
     }
@@ -220,6 +273,16 @@ const store = new Vuex.Store({
     },
 
     /**
+     * Extract user Object from list of groups
+     *
+     * @param id
+     * @returns {*}
+     */
+    getUserById({commit, state}, id) {
+      return state.users.find(user => user.id === parseInt(id));
+    },
+
+    /**
      * Get list of all available users
      *
      * @param {*} data
@@ -244,6 +307,7 @@ const store = new Vuex.Store({
                 updated_at
                 groups {
                   id
+                  name
                 }
               }
               paginatorInfo {
@@ -261,6 +325,46 @@ const store = new Vuex.Store({
         if (typeof response.data != 'undefined') {
           commit('SET_USERS', response.data.users.data);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
+      });
+    },
+
+    /**
+     * Submit settings of user
+     *
+     * @param {*} data
+     */
+    async updateUser({commit, state, dispatch}, data) {
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation($id: ID!, $input: UserUpdateInput!) {
+            updateUser(id: $id, input: $input) {
+              id
+              name
+              email
+              object
+              groups {
+                id
+                name
+              }
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          id:    data.id,
+          input: {
+            "name":   data.params.name,
+            "object": data.params.object
+          }
+        }
+      })
+      .then((response) => {
+        commit('UPDATE_USER', response.data.updateUser);
       })
       .catch((error) => {
         console.error(error);
@@ -365,7 +469,7 @@ const store = new Vuex.Store({
      *
      * @param {*} data
      */
-    async updateServer({commit, state}, data) {
+    async updateServer({commit, state, dispatch}, data) {
       return await apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: ServerUpdateInput!) {
@@ -377,6 +481,15 @@ const store = new Vuex.Store({
               token
               created_at
               updated_at
+              groups {
+                id
+                name
+              }
+              users {
+                id
+                name
+              }
+              users_count
             }
           }
         `,
@@ -392,15 +505,12 @@ const store = new Vuex.Store({
         }
       })
       .then((response) => {
-        console.log(response);
-        if (typeof response.data.server != 'undefined') {
-          commit('SET_SERVER', response.data.server);
-        }
+        commit('UPDATE_SERVER', response.data.updateServer);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
-      // .catch((error) => {
-      //   console.error(error);
-      //   dispatch('logout');
-      // });
     },
 
     /**
@@ -421,6 +531,15 @@ const store = new Vuex.Store({
               token
               created_at
               updated_at
+              groups {
+                id
+                name
+              }
+              users {
+                id
+                name
+              }
+              users_count
             }
           }
         `,
@@ -435,9 +554,7 @@ const store = new Vuex.Store({
         }
       })
       .then((response) => {
-        if (typeof response.data.server != 'undefined') {
-          commit('SET_SERVER', response.data.server);
-        }
+        commit('ADD_SERVER', response.data.createServer);
       })
       .catch((error) => {
         console.error(error);
@@ -460,7 +577,7 @@ const store = new Vuex.Store({
      *
      * @param {*} data
      */
-    async updateGroup({commit, state}, data) {
+    async updateGroup({commit, state, dispatch}, data) {
       return await apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: GroupUpdateInput!) {
@@ -476,21 +593,18 @@ const store = new Vuex.Store({
         variables: {
           id:    data.id,
           input: {
-            "name":       data.params.name,
-            "object":     data.params.object
+            "name":   data.params.name,
+            "object": data.params.object
           }
         }
       })
       .then((response) => {
-        console.log(response);
-        if (typeof response.data.group != 'undefined') {
-          commit('SET_GROUP', response.data.group);
-        }
+        commit('UPDATE_GROUP', response.data.updateGroup);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
       });
-      // .catch((error) => {
-      //   console.error(error);
-      //   dispatch('logout');
-      // });
     },
 
     /**
@@ -514,15 +628,13 @@ const store = new Vuex.Store({
         `,
         variables: {
           input: {
-            "name":     data.name,
-            "object":   data.object
+            "name":   data.name,
+            "object": data.object
           }
         }
       })
       .then((response) => {
-        if (typeof response.data.group != 'undefined') {
-          commit('SET_GROUP', response.data.group);
-        }
+        commit('ADD_GROUP', response.data.createGroup);
       })
       .catch((error) => {
         console.error(error);
