@@ -104,9 +104,13 @@
 }
 
 /* Typeahead - badges */
-.typeahead-badges > span {
-  cursor: pointer;
-  margin-right: 0.3em;
+.typeahead-badges {
+  margin-bottom: 0;
+
+  & > span {
+    cursor: pointer;
+    margin-right: 0.3em;
+  }
 }
 
 /* Typeahead - dropdown */

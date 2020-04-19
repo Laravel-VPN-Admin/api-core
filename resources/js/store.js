@@ -162,60 +162,6 @@ const store = new Vuex.Store({
     },
 
     /**
-     * Get list of all available groups
-     *
-     * @param {*} data
-     * @returns {Promise<T>}
-     */
-    async getGroups({commit, state, dispatch}, data = {}) {
-      if (typeof data.page === 'undefined') {
-        data.page = 1;
-      }
-      if (typeof data.first === 'undefined') {
-        data.first = 100;
-      }
-      return await apollo.query({
-        query:     gql`
-          query Groups($page: Int!, $first: Int!) {
-            groups(page: $page, first: $first) {
-              data {
-                id
-                name
-                object
-                created_at
-                updated_at
-                users {
-                  id
-                }
-                users_count
-                servers {
-                  id
-                }
-                servers_count
-              }
-              paginatorInfo {
-                hasMorePages
-              }
-            }
-          }
-        `,
-        variables: {
-          page:  data.page,
-          first: data.first
-        }
-      })
-      .then((response) => {
-        if (typeof response.data != 'undefined') {
-          commit('SET_GROUPS', response.data.groups.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch('logout');
-      });
-    },
-
-    /**
      * Get list of all available servers
      *
      * @param {*} data
@@ -373,6 +319,48 @@ const store = new Vuex.Store({
     },
 
     /**
+     * Create new user
+     *
+     * @param {*} data
+     * @returns {Promise<T>}
+     */
+    async createUser({commit, state, dispatch}, data = {}) {
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation($input: UserCreateInput!) {
+            createUser(input: $input) {
+              id
+              name
+              email
+              object
+              created_at
+              updated_at
+              groups {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          input: {
+            "name":   data.name,
+            "email":  data.email,
+            "object": data.object,
+            "groups": {"sync": data.groups}
+          }
+        }
+      })
+      .then((response) => {
+        commit('ADD_USER', response.data.createUser);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
+      });
+    },
+
+    /**
      * Get list of all servers stats
      *
      * @returns {Promise<T>}
@@ -390,9 +378,7 @@ const store = new Vuex.Store({
         `
       })
       .then((response) => {
-        if (typeof response.data.stats !== 'undefined') {
-          commit('SET_STATS', response.data.stats);
-        }
+        commit('SET_STATS', response.data.stats);
       })
       .catch((error) => {
         console.log(error);
@@ -573,6 +559,60 @@ const store = new Vuex.Store({
     },
 
     /**
+     * Get list of all available groups
+     *
+     * @param {*} data
+     * @returns {Promise<T>}
+     */
+    async getGroups({commit, state, dispatch}, data = {}) {
+      if (typeof data.page === 'undefined') {
+        data.page = 1;
+      }
+      if (typeof data.first === 'undefined') {
+        data.first = 100;
+      }
+      return await apollo.query({
+        query:     gql`
+          query Groups($page: Int!, $first: Int!) {
+            groups(page: $page, first: $first) {
+              data {
+                id
+                name
+                object
+                created_at
+                updated_at
+                users {
+                  id
+                }
+                users_count
+                servers {
+                  id
+                }
+                servers_count
+              }
+              paginatorInfo {
+                hasMorePages
+              }
+            }
+          }
+        `,
+        variables: {
+          page:  data.page,
+          first: data.first
+        }
+      })
+      .then((response) => {
+        if (typeof response.data != 'undefined') {
+          commit('SET_GROUPS', response.data.groups.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch('logout');
+      });
+    },
+
+    /**
      * Submit settings of room to group
      *
      * @param {*} data
@@ -587,6 +627,14 @@ const store = new Vuex.Store({
               object
               created_at
               updated_at
+              users {
+                id
+              }
+              users_count
+              servers {
+                id
+              }
+              servers_count
             }
           }
         `,
@@ -623,6 +671,14 @@ const store = new Vuex.Store({
               object
               created_at
               updated_at
+              users {
+                id
+              }
+              users_count
+              servers {
+                id
+              }
+              servers_count
             }
           }
         `,
