@@ -4,13 +4,15 @@
 Route::get('/', 'IndexController@index')->name('index');
 Route::get('/new', 'IndexController@new')->name('index.new');
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:visit-admin')->group(function () {
+//Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:visit-admin')->group(function () {
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
   Route::get('/', 'DashboardController@index')->name('home');
   Route::resource('users', 'UsersController')->except(['destroy', 'create', 'show', 'store', 'update']);
 
 });
 
+Route::auth();
 
 Route::get('locale/{locale}/{id}', function ($locale, $id) {
   Session::put('locale', $locale);

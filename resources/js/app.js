@@ -15,6 +15,9 @@ import VueCookies from 'vue-cookies';
 // Main components
 import App from "./components/App";
 
+
+
+
 // Basic uses
 Vue.use(VueRouter);
 Vue.use(VueCookies);
@@ -59,5 +62,6 @@ export const app = new Vue({
   router,
   components: {
     App
-  }
+  },
+  el: '#app',
 }).$mount("#app");

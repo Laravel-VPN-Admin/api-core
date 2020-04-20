@@ -8287,8 +8287,8 @@ Navbar dark
  */
 .navbar-dark {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-  /*background: #354052;*/
-  background: #e82b2b;
+  background: #354052;
+  /*background: #e82b2b;*/
   color: rgba(255, 255, 255, 0.72); }
   .navbar-dark::-webkit-scrollbar {
     width: 6px;
