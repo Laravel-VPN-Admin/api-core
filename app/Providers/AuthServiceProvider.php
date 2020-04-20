@@ -23,8 +23,23 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+      $this->registerPolicies();
+      //Route middleware for admin section
+      Gate::define('visit-admin', function ($user){
+        return $user->hasAnyRoles(['admin', 'moderator']);
+      });
 
-        //
+
+      Gate::define('manage-users', function ($user){
+        return $user->hasAnyRoles(['admin', 'moderator']);
+      });
+
+      Gate::define('edit-user', function ($user){
+        return $user->hasRole('admin');
+      });
+
+      Gate::define('delete-user', function ($user){
+        return $user->hasRole('admin');
+      });
     }
 }
