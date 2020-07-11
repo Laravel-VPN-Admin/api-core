@@ -22,3 +22,5 @@ yarn-error.log
 /schema-directives.graphql
 /storage/installed
 /public/messages.js
+/_lighthouse_ide_helper.php
+/programmatic-types.graphql
