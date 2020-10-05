@@ -1,11 +1,3 @@
-# Frontend
-FROM node:alpine as builder
-COPY . /app
-WORKDIR /app
-RUN npm install
-RUN npm run production
-
-# Backend
 FROM php:7.4-apache
 
 ENV DB_CONNECTION=mysql
@@ -20,7 +12,7 @@ RUN apt-get update \
  && apt-get install -fyqq \
     bash curl wget rsync ca-certificates openssl openssh-client git tzdata \
     libxrender1 fontconfig libc6 \
-    gnupg binutils-gold autoconf \
+    gnupg binutils-gold autoconf nodejs npm \
     g++ gcc gnupg libgcc1 linux-headers-amd64 make python
 
 # Install additional PHP libraries
@@ -93,20 +85,20 @@ RUN mkdir -pv /app \
 
 WORKDIR /app
 
-ENV LARAVEL_TAG="7.3.0"
+ENV LARAVEL_TAG="7.28.0"
 ENV LARAVEL_TARGZ="https://api.github.com/repos/laravel/laravel/tarball"
 
-RUN curl -L -o laravel.tar.gz "$LARAVEL_TARGZ/v$LARAVEL_TAG" \
- && tar xfvz laravel.tar.gz -C . --strip-components=1 \
- && chown www-data:www-data . -R \
- && rm laravel.tar.gz
+ADD . /app
 
-COPY . /app
-COPY --from=builder /app/public/ /app/public
-WORKDIR /app
-RUN cp .env.example .env \
+RUN set -xe \
+ && npm install \
+ && npm run production
+
+RUN set -xe \
+ && cp .env.example .env \
  && chown www-data:www-data -R bootstrap \
  && chown www-data:www-data -R storage \
+ && composer -V \
  && composer install --no-dev \
  && php artisan optimize:clear \
  && php artisan lang:js \
