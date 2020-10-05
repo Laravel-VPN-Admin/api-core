@@ -11,16 +11,18 @@
         "php": "^7.4",
         "ext-json": "*",
         "ext-pdo": "*",
+        "evilfreelancer/easyrsa-php": "^1.0.1",
         "evilfreelancer/openvpn-php": "^1.1",
         "evilfreelancer/xl2tp-php": "^1.0",
-        "evilfreelancer/easyrsa-php": "^1.0.1",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.3",
         "mariuzzo/laravel-js-localization": "^1.6",
-        "nuwave/lighthouse": "^4.11"
+        "mll-lab/graphql-php-scalars": "^3.1",
+        "nuwave/lighthouse": "^4.11",
+        "pusher/pusher-php-server": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
