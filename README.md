@@ -38,7 +38,7 @@ Preconfigure your development environment
 
 Then prepare your database
 
-    ./artsan migrate:fresh --seed
+    ./artisan migrate:fresh --seed
 
 Then run tests
 
