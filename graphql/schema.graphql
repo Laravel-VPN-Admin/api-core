@@ -26,27 +26,42 @@ type Query {
     me: User! @middleware(checks: ["auth:api"])
 
     "Get list of all users with additinal filters"
-    users(orderBy: [OrderByClause!] @orderBy): [User!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    users(
+        orderBy: _ @orderBy(columns: ["id","name","email","email_verified_at","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","name","email","email_verified_at","created_at","updated_at"])
+    ): [User!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single user by unique ID"
     user(id: ID @eq): User @find @middleware(checks: ["auth:api"])
 
     "Get list of all servers with additinal filters"
-    servers(orderBy: [OrderByClause!] @orderBy): [Server!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    servers(
+        orderBy: _ @orderBy(columns: ["id","hostname","ipv4","ipv6","configuration_id","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","hostname","ipv4","ipv6","configuration_id","created_at","updated_at"])
+    ): [Server!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single server by unique ID"
     server(id: ID @eq): Server @find @middleware(checks: ["auth:api"])
 
     "Get list of all server configurations"
-    configurations(orderBy: [OrderByClause!] @orderBy): [Configuration!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    configurations(
+        orderBy: _ @orderBy(columns: ["id","type_id","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","type_id","created_at","updated_at"])
+    ): [Configuration!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single configuration by unique ID"
     configuration(id: ID @eq): Configuration @find @middleware(checks: ["auth:api"])
 
     "Get list of all groups with additinal filters"
-    groups(orderBy: [OrderByClause!] @orderBy): [Group!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    groups(
+        orderBy: _ @orderBy(columns: ["id","name","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","name","created_at","updated_at"])
+    ): [Group!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single group by unique ID"
     group(id: ID @eq): Group @find @middleware(checks: ["auth:api"])
 
     "Get list of all logs with additinal filters"
-    logs(orderBy: [OrderByClause!] @orderBy): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    logs(
+        orderBy: _ @orderBy(columns: ["id","server_id","user_id","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","server_id","user_id","created_at","updated_at"])
+    ): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single log message by unique ID"
     log(id: ID @eq): Log @find @middleware(checks: ["auth:api"])
 }
@@ -79,11 +94,15 @@ type Mutation {
     deleteServer(id: ID!): Server @delete @middleware(checks: ["auth:api"])
 
     "Create new log message"
-    createLog(input: LogCreateInput! @spread): Log! @create @middleware(checks: ["auth:api"])
+    createLog(input: LogCreateInput! @spread): Log! @create @middleware(checks: ["auth:api"]) @broadcast(subscription: "logCreated")
     "Update log message"
     updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @middleware(checks: ["auth:api"])
     "Delete log message"
     deleteLog(id: ID!): Log @delete @middleware(checks: ["auth:api"])
+}
+
+type Subscription {
+    logCreated(id: ID): Log!
 }
 
 "User login details"

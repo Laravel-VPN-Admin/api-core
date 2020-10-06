@@ -123,12 +123,12 @@ const store = new Vuex.Store({
     async login({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($input: UserLogin!) {
-            login(input: $input) {
-              token
-              message
+            mutation($input: UserLogin!) {
+                login(input: $input) {
+                    token
+                    message
+                }
             }
-          }
         `,
         variables: {
           input: {
@@ -155,10 +155,10 @@ const store = new Vuex.Store({
      */
     logout({commit}) {
       console.log("User logout");
-      commit("SET_TOKEN", null);
-      localStorage.removeItem('token');
-      $cookies.remove("token");
-      router.push({name: "login"});
+      // commit("SET_TOKEN", null);
+      // localStorage.removeItem('token');
+      // $cookies.remove("token");
+      // router.push({name: "login"});
     },
 
     /**
@@ -176,31 +176,31 @@ const store = new Vuex.Store({
       }
       return await apollo.query({
         query:     gql`
-          query Servers($page: Int!, $first: Int!) {
-            servers(page: $page, first: $first) {
-              data {
-                id
-                hostname
-                ipv4
-                ipv6
-                token
-                created_at
-                updated_at
-                groups {
-                  id
-                  name
+            query Servers($page: Int!, $first: Int!) {
+                servers(page: $page, first: $first) {
+                    data {
+                        id
+                        hostname
+                        ipv4
+                        ipv6
+                        token
+                        created_at
+                        updated_at
+                        groups {
+                            id
+                            name
+                        }
+                        users {
+                            id
+                            name
+                        }
+                        users_count
+                    }
+                    paginatorInfo {
+                        hasMorePages
+                    }
                 }
-                users {
-                  id
-                  name
-                }
-                users_count
-              }
-              paginatorInfo {
-                hasMorePages
-              }
             }
-          }
         `,
         variables: {
           page:  data.page,
@@ -243,24 +243,24 @@ const store = new Vuex.Store({
       }
       return await apollo.query({
         query:     gql`
-          query Users($page: Int!, $first: Int!) {
-            users(page: $page, first: $first) {
-              data {
-                id
-                name
-                email
-                created_at
-                updated_at
-                groups {
-                  id
-                  name
+            query Users($page: Int!, $first: Int!) {
+                users(page: $page, first: $first) {
+                    data {
+                        id
+                        name
+                        email
+                        created_at
+                        updated_at
+                        groups {
+                            id
+                            name
+                        }
+                    }
+                    paginatorInfo {
+                        hasMorePages
+                    }
                 }
-              }
-              paginatorInfo {
-                hasMorePages
-              }
             }
-          }
         `,
         variables: {
           page:  data.page,
@@ -286,20 +286,20 @@ const store = new Vuex.Store({
     async updateUser({commit, state, dispatch}, data) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($id: ID!, $input: UserUpdateInput!) {
-            updateUser(id: $id, input: $input) {
-              id
-              name
-              email
-              object
-              groups {
-                id
-                name
-              }
-              created_at
-              updated_at
+            mutation($id: ID!, $input: UserUpdateInput!) {
+                updateUser(id: $id, input: $input) {
+                    id
+                    name
+                    email
+                    object
+                    groups {
+                        id
+                        name
+                    }
+                    created_at
+                    updated_at
+                }
             }
-          }
         `,
         variables: {
           id:    data.id,
@@ -327,20 +327,20 @@ const store = new Vuex.Store({
     async createUser({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($input: UserCreateInput!) {
-            createUser(input: $input) {
-              id
-              name
-              email
-              object
-              created_at
-              updated_at
-              groups {
-                id
-                name
-              }
+            mutation($input: UserCreateInput!) {
+                createUser(input: $input) {
+                    id
+                    name
+                    email
+                    object
+                    created_at
+                    updated_at
+                    groups {
+                        id
+                        name
+                    }
+                }
             }
-          }
         `,
         variables: {
           input: {
@@ -368,13 +368,13 @@ const store = new Vuex.Store({
     async getStats({commit, dispatch}) {
       return await apollo.query({
         query: gql`
-          query Stats {
-            stats {
-              users_count
-              servers_count
-              groups_count
+            query Stats {
+                stats {
+                    users_count
+                    servers_count
+                    groups_count
+                }
             }
-          }
         `
       })
       .then((response) => {
@@ -401,28 +401,28 @@ const store = new Vuex.Store({
       }
       return await apollo.query({
         query:     gql`
-          query Logs($page: Int!, $first: Int!) {
-            logs(page: $page, first: $first) {
-              data {
-                id
-                code
-                message
-                created_at
-                updated_at
-                user {
-                  id
-                  name
+            query Logs($page: Int!, $first: Int!) {
+                logs(page: $page, first: $first, orderBy: [{field: CREATED_AT, order: DESC}]) {
+                    data {
+                        id
+                        code
+                        message
+                        created_at
+                        updated_at
+                        user {
+                            id
+                            name
+                        }
+                        server {
+                            id
+                            hostname
+                        }
+                    }
+                    paginatorInfo {
+                        hasMorePages
+                    }
                 }
-                server {
-                  id
-                  hostname
-                }
-              }
-              paginatorInfo {
-                hasMorePages
-              }
             }
-          }
         `,
         variables: {
           page:  data.page,
@@ -458,26 +458,26 @@ const store = new Vuex.Store({
     async updateServer({commit, state, dispatch}, data) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($id: ID!, $input: ServerUpdateInput!) {
-            updateServer(id: $id, input: $input) {
-              id
-              hostname
-              ipv4
-              ipv6
-              token
-              created_at
-              updated_at
-              groups {
-                id
-                name
-              }
-              users {
-                id
-                name
-              }
-              users_count
+            mutation($id: ID!, $input: ServerUpdateInput!) {
+                updateServer(id: $id, input: $input) {
+                    id
+                    hostname
+                    ipv4
+                    ipv6
+                    token
+                    created_at
+                    updated_at
+                    groups {
+                        id
+                        name
+                    }
+                    users {
+                        id
+                        name
+                    }
+                    users_count
+                }
             }
-          }
         `,
         variables: {
           id:    data.id,
@@ -508,26 +508,26 @@ const store = new Vuex.Store({
     async createServer({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($input: ServerCreateInput!) {
-            createServer(input: $input) {
-              id
-              hostname
-              ipv4
-              ipv6
-              token
-              created_at
-              updated_at
-              groups {
-                id
-                name
-              }
-              users {
-                id
-                name
-              }
-              users_count
+            mutation($input: ServerCreateInput!) {
+                createServer(input: $input) {
+                    id
+                    hostname
+                    ipv4
+                    ipv6
+                    token
+                    created_at
+                    updated_at
+                    groups {
+                        id
+                        name
+                    }
+                    users {
+                        id
+                        name
+                    }
+                    users_count
+                }
             }
-          }
         `,
         variables: {
           input: {
@@ -573,28 +573,28 @@ const store = new Vuex.Store({
       }
       return await apollo.query({
         query:     gql`
-          query Groups($page: Int!, $first: Int!) {
-            groups(page: $page, first: $first) {
-              data {
-                id
-                name
-                object
-                created_at
-                updated_at
-                users {
-                  id
+            query Groups($page: Int!, $first: Int!) {
+                groups(page: $page, first: $first) {
+                    data {
+                        id
+                        name
+                        object
+                        created_at
+                        updated_at
+                        users {
+                            id
+                        }
+                        users_count
+                        servers {
+                            id
+                        }
+                        servers_count
+                    }
+                    paginatorInfo {
+                        hasMorePages
+                    }
                 }
-                users_count
-                servers {
-                  id
-                }
-                servers_count
-              }
-              paginatorInfo {
-                hasMorePages
-              }
             }
-          }
         `,
         variables: {
           page:  data.page,
@@ -620,23 +620,23 @@ const store = new Vuex.Store({
     async updateGroup({commit, state, dispatch}, data) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($id: ID!, $input: GroupUpdateInput!) {
-            updateGroup(id: $id, input: $input) {
-              id
-              name
-              object
-              created_at
-              updated_at
-              users {
-                id
-              }
-              users_count
-              servers {
-                id
-              }
-              servers_count
+            mutation($id: ID!, $input: GroupUpdateInput!) {
+                updateGroup(id: $id, input: $input) {
+                    id
+                    name
+                    object
+                    created_at
+                    updated_at
+                    users {
+                        id
+                    }
+                    users_count
+                    servers {
+                        id
+                    }
+                    servers_count
+                }
             }
-          }
         `,
         variables: {
           id:    data.id,
@@ -664,23 +664,23 @@ const store = new Vuex.Store({
     async createGroup({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
         mutation:  gql`
-          mutation($input: GroupCreateInput!) {
-            createGroup(input: $input) {
-              id
-              name
-              object
-              created_at
-              updated_at
-              users {
-                id
-              }
-              users_count
-              servers {
-                id
-              }
-              servers_count
+            mutation($input: GroupCreateInput!) {
+                createGroup(input: $input) {
+                    id
+                    name
+                    object
+                    created_at
+                    updated_at
+                    users {
+                        id
+                    }
+                    users_count
+                    servers {
+                        id
+                    }
+                    servers_count
+                }
             }
-          }
         `,
         variables: {
           input: {
