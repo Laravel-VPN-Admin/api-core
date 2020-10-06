@@ -17,6 +17,7 @@
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "inertiajs/inertia-laravel": "^0.2.15",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.3",
         "mariuzzo/laravel-js-localization": "^1.6",

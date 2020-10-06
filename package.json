@@ -42,5 +42,9 @@
         "vue-router": "^3.4.5",
         "vue-template-compiler": "^2.6.12",
         "vuex": "^3.5.1"
+    },
+    "dependencies": {
+        "@inertiajs/inertia": "^0.3.6",
+        "@inertiajs/inertia-vue": "^0.2.4"
     }
 }
