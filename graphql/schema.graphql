@@ -59,7 +59,7 @@ type Query {
 
     "Get list of all logs with additinal filters"
     logs(
-        orderBy: _ @orderBy(columns: ["id","server_id","user_id","created_at","updated_at"])
+        orderBy: _ @orderBy(columns: ["id","code","server_id","user_id","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","server_id","user_id","created_at","updated_at"])
     ): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single log message by unique ID"

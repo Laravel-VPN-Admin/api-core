@@ -31,7 +31,6 @@ class LogsTest extends TestCase
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
-            'token'    => 'token'
         ]);
 
         $this->user = factory(\App\User::class)->create([
@@ -58,7 +57,7 @@ class LogsTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                logs(orderBy: [ {field: "code", order: DESC} ], first: 200) {
+                logs(orderBy: [ {field: CODE, order: DESC} ], first: 200) {
                     data {
                         id,
                         code,
@@ -77,7 +76,6 @@ class LogsTest extends TestCase
                 }
             }
         ');
-
         $codes = $response->json('data.*.data.*.code');
         $this->assertContains(111111, $codes);
     }
