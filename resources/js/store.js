@@ -156,25 +156,25 @@ const store = new Vuex.Store({
      * Logout user by deleting token from session
      */
     async logout({commit}) {
-      // return await apollo.mutate({
-      //   mutation:  gql`
-      //     mutation {
-      //       logout {
-      //         token
-      //         message
-      //       }
-      //     }
-      //   `
-      // })
-      // .then((response) => {
-      //   localStorage.removeItem('token');
-      //   $cookies.remove("XSRF-TOKEN");
-      //   console.log("User logout");
-      //   window.location.reload();
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
+      return await apollo.mutate({
+        mutation:  gql`
+          mutation {
+            logout {
+              token
+              message
+            }
+          }
+        `
+      })
+      .then((response) => {
+        localStorage.removeItem('token');
+        $cookies.remove("XSRF-TOKEN");
+        console.log("User logout");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
       // commit("SET_TOKEN", null);
       // router.push({name: "login"});
