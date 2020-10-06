@@ -22,9 +22,7 @@
 </head>
 <body>
 
-<main id="app">
-  <app />
-</main>
+@inertia
 
 <!-- Scripts -->
 <script src="{{ asset('messages.js') }}"></script>

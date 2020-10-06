@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <app>
     <div class="col-lg-6">
       <div class="card">
         <div class="card-header">
@@ -34,10 +34,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </app>
 </template>
 
 <script>
+  import App       from "../App";
   import PageHeader       from "../Layout/PageHeader";
   import { mapState }     from "vuex";
   import VoerroTagsInput  from '@voerro/vue-tagsinput';
@@ -53,6 +54,7 @@
     },
 
     components: {
+      App,
       PageHeader,
       VoerroTagsInput
     },

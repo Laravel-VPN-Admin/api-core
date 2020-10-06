@@ -80,9 +80,12 @@
         this.$store
           .dispatch("login", this.form)
           .then(response => {
-            if (!!this.$store.state.token) {
+            if (response.status === 'success') {
               this.error = null;
-              this.$router.push({name: "dashboard"});
+              this.$inertia.visit('/');
+            }
+            else {
+              this.error = "Username or password is incorrect";
             }
           })
           .catch(error => {

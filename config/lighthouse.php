@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 return [
 
@@ -31,6 +31,9 @@ return [
          * To apply middleware on a field level, use the @middleware directive.
          */
         'middleware' => [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
             //'auth:api',
         ],

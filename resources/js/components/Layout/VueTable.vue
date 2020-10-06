@@ -12,14 +12,14 @@
       <tr v-for="item in items">
         <td v-for="column in columns">
           <div v-if="item[column].id">
-            <router-link :to="{name: column + 's.edit', params: {id: item[column].id}}">
+            <inertia-link :href="'/' + column + '/edit/' + item[column].id">
               {{ item[column].name ? item[column].name : item[column].hostname }}
-            </router-link>
+            </inertia-link>
           </div>
           <div v-else-if="column === `id` && route !== undefined">
-            <router-link :to="{name: route + '.edit', params: {id: item.id}}">
+            <inertia-link :href="'/' + route + '/show/'+ item.id">
               {{ item.id }}
-            </router-link>
+            </inertia-link>
           </div>
           <div v-else>
             {{ item[column] }}

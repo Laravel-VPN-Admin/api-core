@@ -69,6 +69,8 @@ type Query {
 type Mutation {
     "Login user"
     login(input: UserLogin! @spread): Token
+    "Logout user"
+    logout: Token
     "Refresh token of authorized user"
     refresh: Token @middleware(checks: ["auth:api"])
 

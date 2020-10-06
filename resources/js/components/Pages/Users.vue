@@ -1,29 +1,31 @@
 <template>
-  <div class="mb-5">
+  <app>
+    <div class="mb-5">
+      <template>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">{{ 'main.users.description' | trans }}</h1>
+          <inertia-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="/users/create">
+            <i class="fa fa-plus-square"></i>
+            {{ 'main.users.create' | trans }}
+          </inertia-link>
+        </div>
+      </template>
 
-    <template>
-      <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ 'main.users.description' | trans }}</h1>
-        <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'users.create' }">
-          <i class="fa fa-plus-square"></i>
-          {{ 'main.users.create' | trans }}
-        </router-link>
+      <div class="card border-0 shadow">
+        <vue-table
+          route="users"
+          :items="users"
+          :columns="columns"
+          :options="options"
+        />
       </div>
-    </template>
 
-    <div class="card border-0 shadow">
-      <vue-table
-        route="users"
-        :items="users"
-        :columns="columns"
-        :options="options"
-      />
     </div>
-
-  </div>
+  </app>
 </template>
 
 <script>
+  import App from "../App";
   import PageHeader   from "../Layout/PageHeader";
   import { mapState } from "vuex";
   import VueTable     from "../Layout/VueTable";
@@ -54,6 +56,7 @@
     },
 
     components: {
+      App,
       PageHeader,
       VueTable
     },

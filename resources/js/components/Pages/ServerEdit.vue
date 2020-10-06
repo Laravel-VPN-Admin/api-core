@@ -1,40 +1,43 @@
 <template>
-  <div v-if="show_block">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title font-weight-bold" v-html="name" />
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <input type="text" v-model="server.hostname" class="form-control form-control-user" placeholder="Hostname" />
+  <app>
+    <div v-if="show_block">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title font-weight-bold" v-html="name" />
           </div>
-          <div class="form-group">
-            <input type="text" v-model="server.token" class="form-control form-control-user" placeholder="Token" />
-          </div>
-          <div class="form-group">
-            <input type="text" v-model="server.ipv4" class="form-control form-control-user" placeholder="IPv4" />
-          </div>
-          <div class="form-group">
-            <input type="text" v-model="server.ipv6" class="form-control form-control-user" placeholder="IPv6" />
-          </div>
-          <div class="form-group mb-0">
-            <voerro-tags-input
-              v-model="selected"
-              :existing-tags="tags"
-              :only-existing-tags="true"
-              typeahead-style="badges"
-              :typeahead-hide-discard="true"
-              :typeahead-always-show="true"
-              :typeahead="true" />
+          <div class="card-body">
+            <div class="form-group">
+              <input type="text" v-model="server.hostname" class="form-control form-control-user" placeholder="Hostname" />
+            </div>
+            <div class="form-group">
+              <input type="text" v-model="server.token" class="form-control form-control-user" placeholder="Token" />
+            </div>
+            <div class="form-group">
+              <input type="text" v-model="server.ipv4" class="form-control form-control-user" placeholder="IPv4" />
+            </div>
+            <div class="form-group">
+              <input type="text" v-model="server.ipv6" class="form-control form-control-user" placeholder="IPv6" />
+            </div>
+            <div class="form-group mb-0">
+              <voerro-tags-input
+                v-model="selected"
+                :existing-tags="tags"
+                :only-existing-tags="true"
+                typeahead-style="badges"
+                :typeahead-hide-discard="true"
+                :typeahead-always-show="true"
+                :typeahead="true" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </app>
 </template>
 
 <script>
+  import App      from "../App";
   import PageHeader      from "../Layout/PageHeader";
   import VoerroTagsInput from '@voerro/vue-tagsinput';
   import _               from "lodash";
@@ -42,6 +45,10 @@
   import { mapActions, mapState } from "vuex";
 
   export default {
+    props: {
+      id: Number
+    },
+
     computed: {
       ...mapState([
         "groups",
@@ -54,6 +61,7 @@
     },
 
     components: {
+      App,
       PageHeader,
       VoerroTagsInput
     },
@@ -89,7 +97,7 @@
         handler: _.debounce(function (after) {
           let array    = _.pick(after, ['id', 'hostname', 'token', 'ipv4', 'ipv6']);
           array.groups = _.map(this.selected, this.transformToGroups);
-          this.$store.dispatch("updateServer", {'id': this.$route.params.id, params: array});
+          this.$store.dispatch("updateServer", {'id': this.id, params: array});
         }, 100),
         deep:    true,
       },
@@ -97,7 +105,7 @@
         handler: _.debounce(function (after) {
           let array    = _.pick(this.server, ['id', 'hostname', 'token', 'ipv4', 'ipv6']);
           array.groups = _.map(this.selected, this.transformToGroups);
-          this.$store.dispatch("updateServer", {'id': this.$route.params.id, params: array});
+          this.$store.dispatch("updateServer", {'id': this.id, params: array});
         }, 100),
         deep:    true,
       }
@@ -110,7 +118,7 @@
        */
       getServerDefaults() {
         this.tags       = _.map(this.groups, this.transformToTags);
-        this.server     = this.$store.getters.getServer(this.$route.params.id)
+        this.server     = this.$store.getters.getServer(this.id)
         this.selected   = _.map(this.server.groups, function (data) {
           return {key: data.id, value: data.name + " " + data.id};
         });

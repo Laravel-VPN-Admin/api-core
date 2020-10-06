@@ -7,11 +7,11 @@
 
     <ul class="navbar-nav ml-auto">
 
-      <router-link tag="li" class="nav-item dropdown no-arrow mx-1" :to="{name: 'settings'}">
+      <inertia-link tag="li" class="nav-item dropdown no-arrow mx-1" href="settings">
         <a class="nav-link">
           <i class="fas fa-fw fa-cog"></i>
         </a>
-      </router-link>
+      </inertia-link>
 
       <div class="topbar-divider d-none d-sm-block"></div>
 

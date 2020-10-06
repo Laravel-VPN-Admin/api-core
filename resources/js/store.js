@@ -2,15 +2,14 @@ import Vue    from "vue";
 import Vuex   from "vuex";
 import gql    from 'graphql-tag';
 import apollo from './apollo';
-
-import { router } from "./app";
+import { Inertia } from '@inertiajs/inertia'
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
 
   state: {
-    token:   null,
+    // token:   null,
     users:   [],
     servers: [],
     groups:  [],
@@ -19,9 +18,9 @@ const store = new Vuex.Store({
   },
 
   mutations: {
-    SET_TOKEN(state, items) {
-      state.token = items;
-    },
+    // SET_TOKEN(state, items) {
+    //   state.token = items;
+    // },
     SET_USERS(state, items) {
       state.users = items;
     },
@@ -71,14 +70,15 @@ const store = new Vuex.Store({
 
   getters: {
 
-    /**
-     * Check if user has token
-     *
-     * @returns {boolean}
-     */
-    isAuthorized: state => {
-      return !!state.token;
-    },
+    // /**
+    //  * Check if user has token
+    //  *
+    //  * @returns {boolean}
+    //  */
+    // isAuthorized: state => {
+    //   console.log(state.token)
+    //   return !!state.token;
+    // },
 
     /**
      * Get server object by id
@@ -87,7 +87,7 @@ const store = new Vuex.Store({
      * @returns {*}
      */
     getServer: (state) => (id) => {
-      return state.servers.find(server => server.id === id)
+      return state.servers.find(server => parseInt(server.id) === id)
     },
 
     /**
@@ -97,7 +97,7 @@ const store = new Vuex.Store({
      * @returns {*}
      */
     getUser: (state) => (id) => {
-      return state.users.find(user => user.id === id)
+      return state.users.find(user => parseInt(user.id) === id)
     },
 
     /**
@@ -107,7 +107,7 @@ const store = new Vuex.Store({
      * @returns {*}
      */
     getGroup: (state) => (id) => {
-      return state.groups.find(group => group.id === id)
+      return state.groups.find(group => parseInt(group.id) === id)
     }
 
   },
@@ -138,26 +138,45 @@ const store = new Vuex.Store({
         }
       })
       .then((response) => {
-        if (typeof response.data.login.token != 'undefined') {
+        if (response.data.login.token != null) {
+          // commit("SET_TOKEN", response.data.login.token);
+          // $cookies.set("token", response.data.login.token);
           localStorage.setItem('token', response.data.login.token);
-          commit("SET_TOKEN", response.data.login.token);
-          $cookies.set("token", response.data.login.token);
+          return { status: 'success', message: 'Authorization success' };
         }
+        return  { status: 'error', message: 'Invalid credentials' };
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        // dispatch('logout');
       });
     },
 
     /**
      * Logout user by deleting token from session
      */
-    logout({commit}) {
-      console.log("User logout");
+    async logout({commit}) {
+      // return await apollo.mutate({
+      //   mutation:  gql`
+      //     mutation {
+      //       logout {
+      //         token
+      //         message
+      //       }
+      //     }
+      //   `
+      // })
+      // .then((response) => {
+      //   localStorage.removeItem('token');
+      //   $cookies.remove("XSRF-TOKEN");
+      //   console.log("User logout");
+      //   window.location.reload();
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
+
       // commit("SET_TOKEN", null);
-      // localStorage.removeItem('token');
-      // $cookies.remove("token");
       // router.push({name: "login"});
     },
 
@@ -214,7 +233,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -274,7 +294,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -314,7 +335,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -347,6 +369,7 @@ const store = new Vuex.Store({
             "name":   data.name,
             "email":  data.email,
             "object": data.object,
+            "password": data.password,
             "groups": {"sync": data.groups}
           }
         }
@@ -356,7 +379,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -382,7 +406,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.log(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -436,7 +461,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -495,7 +521,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -544,7 +571,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -608,7 +636,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -651,7 +680,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 
@@ -694,7 +724,8 @@ const store = new Vuex.Store({
       })
       .catch((error) => {
         console.error(error);
-        dispatch('logout');
+        if (error.graphQLErrors[0].debugMessage === "Unauthenticated.")
+          dispatch('logout');
       });
     },
 

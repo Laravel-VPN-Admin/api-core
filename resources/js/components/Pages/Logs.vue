@@ -1,18 +1,21 @@
 <template>
-  <div class="mb-5">
-    <page-header :name="'main.logs.description' | trans" />
-    <div class="card border-0 shadow">
-      <vue-table
-        route="logs"
-        :items="logs"
-        :columns="columns"
-        :options="options"
-      />
+  <app>
+    <div class="mb-5">
+      <page-header :name="'main.logs.description' | trans" />
+      <div class="card border-0 shadow">
+        <vue-table
+          route="logs"
+          :items="logs"
+          :columns="columns"
+          :options="options"
+        />
+      </div>
     </div>
-  </div>
+  </app>
 </template>
 
 <script>
+  import App   from "../App";
   import PageHeader   from "../Layout/PageHeader";
   import VueTable     from "../Layout/VueTable";
   import { mapState } from "vuex";
@@ -20,6 +23,7 @@
   export default {
 
     components: {
+      App,
       PageHeader,
       VueTable
     },

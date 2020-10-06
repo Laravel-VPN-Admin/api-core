@@ -1,30 +1,37 @@
 <template>
-  <div v-if="show_block">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title font-weight-bold" v-html="name" />
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <input type="text" v-model="group.name" class="form-control form-control-user" placeholder="Name" />
+  <app>
+    <div v-if="show_block">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title font-weight-bold" v-html="name" />
           </div>
-          <div class="form-group mb-0">
-            <input type="text" v-model="group.object" class="form-control form-control-user" placeholder="Object" />
+          <div class="card-body">
+            <div class="form-group">
+              <input type="text" v-model="group.name" class="form-control form-control-user" placeholder="Name" />
+            </div>
+            <div class="form-group mb-0">
+              <input type="text" v-model="group.object" class="form-control form-control-user" placeholder="Object" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </app>
 </template>
 
 <script>
+  import App from "../App";
   import PageHeader from "../Layout/PageHeader";
   import _          from "lodash";
 
   import { mapActions, mapState } from "vuex";
 
   export default {
+    props: {
+      id: Number
+    },
+
     computed: {
       ...mapState([
         "groups"
@@ -35,6 +42,7 @@
     },
 
     components: {
+      App,
       PageHeader
     },
 
@@ -55,7 +63,7 @@
        * Force get details about group from groups array of store
        */
       getGroupDefaults() {
-        this.group      = this.$store.getters.getGroup(this.$route.params.id);
+        this.group      = this.$store.getters.getGroup(this.id);
         this.show_block = true;
       },
 
@@ -76,7 +84,7 @@
       group: {
         handler: _.debounce(function (after) {
           let array = _.pick(after, ['id', 'name', 'object']);
-          this.$store.dispatch("updateGroup", {'id': this.$route.params.id, params: array});
+          this.$store.dispatch("updateGroup", {'id': this.id, params: array});
         }, 100),
         deep:    true,
       }

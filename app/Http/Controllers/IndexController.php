@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class IndexController extends Controller
 {
-    /**
-     * @return \Illuminate\Http\Response
-     */
-    public function index(): Response
+  /**
+   * @return \Illuminate\Http\RedirectResponse
+   */
+    public function index(): \Illuminate\Http\RedirectResponse
     {
-        return response()->view('index');
+//      return Redirect::route('dashboard');
     }
 }
