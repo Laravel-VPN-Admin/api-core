@@ -8,6 +8,7 @@
           :items="logs"
           :columns="columns"
           :options="options"
+          :is-only-read="true"
         />
       </div>
     </div>

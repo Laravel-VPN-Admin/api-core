@@ -12,12 +12,12 @@
       <tr v-for="item in items">
         <td v-for="column in columns">
           <div v-if="item[column].id">
-            <inertia-link :href="'/' + column + '/edit/' + item[column].id">
+            <inertia-link :href="'/' + column + (isOnlyRead ? '/show/' : '/edit/') + item[column].id">
               {{ item[column].name ? item[column].name : item[column].hostname }}
             </inertia-link>
           </div>
           <div v-else-if="column === `id` && route !== undefined">
-            <inertia-link :href="'/' + route + '/show/'+ item.id">
+            <inertia-link :href="'/' + route + (isOnlyRead ? '/show/' : '/edit/') + item.id">
               {{ item.id }}
             </inertia-link>
           </div>
@@ -39,6 +39,7 @@
       items:   Array,
       columns: Array,
       options: Object,
+      isOnlyRead: Boolean | false
     },
   }
 </script>
