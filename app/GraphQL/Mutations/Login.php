@@ -5,6 +5,7 @@ namespace App\GraphQL\Mutations;
 use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Login
@@ -33,6 +34,7 @@ class Login
 
         // Verify the password
         if (password_verify($args['password'], $user->password)) {
+            Auth::login($user);
             $user->api_token = \Str::random(80);
             $user->save();
             return ['token' => $user->api_token];

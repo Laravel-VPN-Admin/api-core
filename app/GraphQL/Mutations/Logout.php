@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class Login
+class Logout
 {
     /**
      * Return a value for the field.
@@ -22,24 +22,6 @@ class Login
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        // Fetch User
-        $user = User::query()
-            ->where('email', $args['email'])
-            ->first();
-
-        // If user is not found
-        if (!$user instanceof User) {
-            return ['message' => 'User not found'];
-        }
-
-        // Verify the password
-        if (password_verify($args['password'], $user->password)) {
-            Auth::login($user);
-            $user->api_token = \Str::random(80);
-            $user->save();
-            return ['token' => $user->api_token];
-        }
-
-        return ['message' => 'Invalid credentials'];
+        Auth::logout();
     }
 }
