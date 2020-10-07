@@ -4,6 +4,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
+
 "Object of inputs with details for ordering columns"
 input OrderByClause {
     "Name of field for sorting"
@@ -101,10 +102,13 @@ type Mutation {
     updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @middleware(checks: ["auth:api"])
     "Delete log message"
     deleteLog(id: ID!): Log @delete @middleware(checks: ["auth:api"])
+
+    triggerTestSubscription: Boolean @field(resolver: "App\\GraphQL\\Mutations\\TriggerTestSubscriptionMutation@resolve")
 }
 
 type Subscription {
     logCreated(id: ID): Log!
+    test: Int @subscription(class: "App\\GraphQL\\Subscriptions\\TestSubscription")
 }
 
 "User login details"

@@ -11,6 +11,7 @@
         "php": "^7.4",
         "ext-json": "*",
         "ext-pdo": "*",
+        "beyondcode/laravel-websockets": "^1.8",
         "evilfreelancer/easyrsa-php": "^1.0.1",
         "evilfreelancer/openvpn-php": "^1.1",
         "evilfreelancer/xl2tp-php": "^1.0",

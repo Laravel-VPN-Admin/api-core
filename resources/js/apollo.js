@@ -1,10 +1,13 @@
 import ApolloClient      from 'apollo-boost'
 import { HttpLink }      from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import EchoLink          from './echo.link';
+import { ApolloLink }    from "apollo-link";
 
+const echoLink = new EchoLink();
 export default new ApolloClient({
   // Provide the URL to the API server.
-  link: new HttpLink({uri: '/graphql'}),
+  link: ApolloLink.from([echoLink, new HttpLink({uri: '/graphql'})]),
 
   // Using a cache for fast subsequent queries.
   cache: new InMemoryCache(),

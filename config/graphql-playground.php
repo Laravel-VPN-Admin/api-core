@@ -33,6 +33,7 @@ return [
     */
 
     'endpoint' => '/graphql',
+    'subscriptionEndpoint' => 'ws://127.0.0.1:6001/app/123456?protocol=7&client=js&version=7.0.0&flash=false',
 
     /*
     |--------------------------------------------------------------------------

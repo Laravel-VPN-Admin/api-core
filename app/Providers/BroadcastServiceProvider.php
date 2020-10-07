@@ -15,6 +15,7 @@ class BroadcastServiceProvider extends ServiceProvider
     public function boot()
     {
         Broadcast::routes();
+        Broadcast::channel('lighthouse-{id}-{time}', \App\Broadcasting\Channels\LighthouseSubscriptionChannel::class);
 
         require base_path('routes/channels.php');
     }
