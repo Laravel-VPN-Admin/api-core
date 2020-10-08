@@ -6,12 +6,8 @@ window.Vue = require('vue');
 import store  from "./store";
 import routes from './routes';
 
-import { ApolloLink, Observable } from "apollo-link";
-import PusherLink                 from './apollo-link';
-
 // Plugins
 import Vue        from 'vue';
-import VueApollo  from 'vue-apollo';
 import VueRouter  from 'vue-router';
 import VueCookies from 'vue-cookies';
 
@@ -21,7 +17,6 @@ import App from "./components/App";
 // Basic uses
 Vue.use(VueRouter);
 Vue.use(VueCookies);
-Vue.use(VueApollo);
 
 // Localization
 Vue.filter('trans', (...args) => {
@@ -57,24 +52,9 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-const pusherLink = new PusherLink({
-  pusher: new Pusher(PUSHER_API_KEY, {
-    cluster:      PUSHER_CLUSTER,
-    authEndpoint: `${API_LOCATION}/graphql/subscriptions/auth`,
-    auth:         {
-      headers: {
-        authorization: BEARER_TOKEN,
-      },
-    },
-  }),
-});
-
-const link = ApolloLink.from([pusherLink, httpLink(`${API_LOCATION}/graphql`)]);
-
 export const app = new Vue({
   store,
   router,
-  link,
   components: {
     App
   }

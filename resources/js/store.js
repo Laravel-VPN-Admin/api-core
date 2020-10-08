@@ -3,8 +3,6 @@ import Vuex   from "vuex";
 import gql    from 'graphql-tag';
 import apollo from './apollo';
 
-import { router } from "./app";
-
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -118,7 +116,7 @@ const store = new Vuex.Store({
      * Submit login request to api server
      *
      * @param {*} data
-     * @returns {Promise<T>}
+     * @returns {Promise<void>}
      */
     async login({commit, state, dispatch}, data = {}) {
       return await apollo.mutate({
