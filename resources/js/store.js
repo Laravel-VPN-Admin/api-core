@@ -45,6 +45,9 @@ const store = new Vuex.Store({
     ADD_USER(state, items) {
       state.users.push(items);
     },
+    ADD_LOG(state, items) {
+      state.logs.push(items);
+    },
     UPDATE_USER(state, changes) {
       // Find index of specific object using findIndex method.
       let index = state.users.findIndex((obj => obj.id === changes.id));
@@ -156,6 +159,7 @@ const store = new Vuex.Store({
      * Logout user by deleting token from session
      */
     async logout({commit}) {
+        return;
       return await apollo.mutate({
         mutation:  gql`
           mutation {

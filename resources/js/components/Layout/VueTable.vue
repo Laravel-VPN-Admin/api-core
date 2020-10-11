@@ -9,7 +9,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="item in items">
+      <tr v-for="(item, index) in items" :key="index">
         <td v-for="column in columns">
           <div v-if="item[column].id">
             <inertia-link :href="'/' + column + (isOnlyRead ? '/show/' : '/edit/') + item[column].id">
@@ -41,5 +41,11 @@
       options: Object,
       isOnlyRead: Boolean | false
     },
+    watch: {
+      'items': function (items) {
+        console.log(items);
+        this.items = items;
+      }
+    }
   }
 </script>

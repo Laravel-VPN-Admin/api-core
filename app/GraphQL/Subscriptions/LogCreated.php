@@ -40,9 +40,4 @@ class LogCreated extends GraphQLSubscription
         // person who updated the post.
         return true;
     }
-
-    public function resolve($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        return $root;
-    }
 }

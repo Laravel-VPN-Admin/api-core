@@ -107,8 +107,7 @@ type Mutation {
 }
 
 type Subscription {
-    logCreated(id: ID): Log!
-    test: Int @subscription(class: "App\\GraphQL\\Subscriptions\\TestSubscription")
+    logCreated: Log
 }
 
 "User login details"

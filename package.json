@@ -12,12 +12,6 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.0",
         "@voerro/vue-tagsinput": "^2.4.0",
-        "apollo-boost": "^0.4.9",
-        "apollo-cache-inmemory": "^1.6.6",
-        "apollo-client": "^2.6.10",
-        "apollo-link": "^1.2.14",
-        "apollo-link-context": "^1.0.20",
-        "apollo-link-http": "^1.5.17",
         "axios": "^0.19.2",
         "bootstrap": "^4.5.2",
         "cross-env": "^5.1",
@@ -46,6 +40,11 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.3.6",
         "@inertiajs/inertia-vue": "^0.2.4",
+        "apollo-cache-inmemory": "^1.6.6",
+        "apollo-client": "^2.6.10",
+        "apollo-link": "^1.2.14",
+        "apollo-link-context": "^1.0.20",
+        "apollo-link-http": "^1.5.17",
         "laravel-echo": "^1.8.1",
         "pusher-js": "^7.0.0"
     }

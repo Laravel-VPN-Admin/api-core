@@ -10,8 +10,8 @@ class EchoLink extends ApolloLink {
     this.subscriptions = [];
     this.echo = new Echo({
       broadcaster: 'pusher',
-      key: process.env.MIX_PUSHER_APP_KEY,
-      cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+      key: 'ec4590b10c250426b9d1',
+      cluster: 'eu',
       disabledTransports: ['wss'],
       forceTLS: false,
       authEndpoint: `graphql/subscriptions/auth`,
@@ -56,7 +56,6 @@ class EchoLink extends ApolloLink {
   }
 
   _createSubscription(subscriptionChannel, observer) {
-
     const privateChannelName = subscriptionChannel.split('private-').pop();
 
     if (!this.subscriptions.find(s => s.channel === subscriptionChannel)) {
