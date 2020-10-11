@@ -1,38 +1,30 @@
-import VueApollo         from 'vue-apollo';
-import ApolloClient      from 'apollo-boost';
+import ApolloClient      from 'apollo-boost'
 import { HttpLink }      from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { split }         from 'apollo-link';
-import { WebSocketLink } from 'apollo-link-ws';
-import Vue               from "vue";
+import { ApolloLink }    from "apollo-link";
+import PusherLink from "./pusher-link";
 
-Vue.use(VueApollo);
+const token = localStorage.getItem('token');
 
-const httpLink = new HttpLink({uri: '/graphql'});
 
-// Create the subscription websocket link
-const wsLink = new WebSocketLink({
-  uri:     'ws://localhost:3000/subscriptions',
-  options: {
-    reconnect: true,
-  },
+console.log(process.env.PUSHER_APP_KEY);
+console.log(process.env.PUSHER_APP_CLUSTER);
+
+const pusherLink = new PusherLink({
+  pusher: new Pusher('ec4590b10c250426b9d1', {
+    cluster: 'eu',
+    authEndpoint: `${window.location.hostname}/graphql/subscriptions/auth`,
+    auth: {
+      headers: {
+        authorization: token ? `Bearer ${token}` : null,
+      },
+    },
+  }),
 });
-
-// using the ability to split links, you can send data to each link
-// depending on what kind of operation is being sent
-const link = split(
-  // split based on operation type
-  ({query}) => {
-    const definition = getMainDefinition(query);
-    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-  },
-  wsLink,
-  httpLink
-);
 
 export default new ApolloClient({
   // Provide the URL to the API server.
-  link: link,
+  link: ApolloLink.from([pusherLink, new HttpLink({uri: '/graphql'})]),
 
   // Using a cache for fast subsequent queries.
   cache: new InMemoryCache(),
@@ -46,7 +38,5 @@ export default new ApolloClient({
         accept:        'application/json',
       }
     });
-  },
-
-  connectToDevTools: true,
+  }
 });

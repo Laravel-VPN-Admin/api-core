@@ -16,7 +16,7 @@
   import PageHeader   from "../Layout/PageHeader";
   import VueTable     from "../Layout/VueTable";
   import { mapState } from "vuex";
-
+  import gql from 'graphql-tag';
   export default {
 
     components: {
@@ -48,6 +48,21 @@
 
     mounted() {
       this.$store.dispatch('getLogs', {page: this.page, first: this.first});
+    },
+
+    apollo: {
+      $subscribe: {
+        subscribed: {
+          query: gql`
+          subscription logCreated {
+            id
+          }
+        `,
+          result({ data }) {
+            console.log(data);
+          },
+        },
+      },
     },
 
   }

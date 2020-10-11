@@ -45,6 +45,8 @@
     },
     "dependencies": {
         "apollo-link-ws": "^1.0.20",
+        "laravel-echo": "^1.8.1",
+        "pusher-js": "^7.0.0",
         "subscriptions-transport-ws": "^0.9.18"
     }
 }
