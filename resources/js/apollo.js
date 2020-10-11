@@ -2,7 +2,8 @@ import ApolloClient      from 'apollo-boost'
 import { HttpLink }      from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink }    from "apollo-link";
-import PusherLink from "./pusher-link";
+import PusherLink        from "./pusher-link";
+import Pusher            from "pusher-js";
 
 const token = localStorage.getItem('token');
 
