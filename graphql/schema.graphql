@@ -59,8 +59,8 @@ type Query {
 
     "Get list of all logs with additinal filters"
     logs(
-        orderBy: _ @orderBy(columns: ["id","server_id","user_id","created_at","updated_at"])
-        where: _ @whereConditions(columns: ["id","server_id","user_id","created_at","updated_at"])
+        orderBy: _ @orderBy(columns: ["id","code","server_id","user_id","created_at","updated_at"])
+        where: _ @whereConditions(columns: ["id","code","server_id","user_id","created_at","updated_at"])
     ): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single log message by unique ID"
     log(id: ID @eq): Log @find @middleware(checks: ["auth:api"])
@@ -111,7 +111,7 @@ input UserLogin {
     password: String!
 }
 
-"Information about token"
+"Information about user's token"
 type Token {
     token: String
     message: String
@@ -234,8 +234,6 @@ type Server {
     id: ID!
     "Hostname of server"
     hostname: String!
-    "Token which should be added to each query, by validation reasons"
-    token: String
     "IPv4 of server"
     ipv4: String
     "IPv6 of server"
@@ -258,8 +256,6 @@ type Server {
 input ServerCreateInput {
     "Hostname of server"
     hostname: String!
-    "Handshake token"
-    token: String
     "IPv4 of server"
     ipv4: String
     "IPv6 of server"
@@ -274,8 +270,6 @@ input ServerCreateInput {
 input ServerUpdateInput {
     "Hostname of server"
     hostname: String
-    "Handshake token"
-    token: String
     "IPv4 of server"
     ipv4: String
     "IPv6 of server"
