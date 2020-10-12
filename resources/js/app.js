@@ -4,12 +4,14 @@ window.Vue = require('vue');
 
 // Configs
 import store  from "./store";
+import apollo  from "./apollo";
 import routes from './routes';
 
 // Plugins
 import Vue        from 'vue';
 import VueRouter  from 'vue-router';
 import VueCookies from 'vue-cookies';
+import VueApollo from 'vue-apollo'
 
 // Main components
 import App from "./components/App";
@@ -17,6 +19,11 @@ import App from "./components/App";
 // Basic uses
 Vue.use(VueRouter);
 Vue.use(VueCookies);
+Vue.use(VueApollo);
+
+const apolloProvider = new VueApollo({
+  defaultClient: apollo,
+})
 
 // Localization
 Vue.filter('trans', (...args) => {
@@ -55,6 +62,7 @@ router.beforeEach((to, from, next) => {
 export const app = new Vue({
   store,
   router,
+  apolloProvider,
   components: {
     App
   }

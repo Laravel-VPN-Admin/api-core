@@ -1,4 +1,4 @@
-import { ApolloLink, Observable } from "apollo-link";
+import {ApolloLink, Observable} from 'apollo-link';
 
 // Inspired by https://github.com/rmosolgo/graphql-ruby/blob/master/javascript_client/src/subscriptions/PusherLink.ts
 class PusherLink extends ApolloLink {

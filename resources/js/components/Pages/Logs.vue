@@ -54,12 +54,28 @@
       $subscribe: {
         subscribed: {
           query: gql`
-          subscription logCreated {
-            id
+          subscription LogCreated {
+            logCreated {
+                id
+                code
+                created_at
+                updated_at
+                message
+                server {
+                    id
+                    hostname
+                }
+                user {
+                    id
+                    name
+                }
+            }
           }
         `,
           result({ data }) {
-            console.log(data);
+            console.log(data.logCreated);
+            //this.$store.commit('ADD_LOG', data.logCreated);
+            //console.log(this.logs);
           },
         },
       },
