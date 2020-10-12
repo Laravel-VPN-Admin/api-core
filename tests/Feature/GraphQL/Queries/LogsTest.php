@@ -55,7 +55,7 @@ class LogsTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                logs(orderBy: [ {field: CODE, order: DESC} ], first: 200) {
+                logs(orderBy: [ {field: CODE, order: DESC} ], first: 100) {
                     data {
                         id,
                         code,
