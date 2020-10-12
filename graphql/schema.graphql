@@ -4,20 +4,6 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-"Object of inputs with details for ordering columns"
-input OrderByClause {
-    "Name of field for sorting"
-    field: String!
-    "Sorting direction"
-    order: SortOrder!
-}
-
-"Array if order of sorting types"
-enum SortOrder {
-    ASC
-    DESC
-}
-
 type Query {
     "Get system status for dashboard"
     stats: Stats! @middleware(checks: ["auth:api"])
@@ -68,9 +54,9 @@ type Query {
 
 type Mutation {
     "Login user"
-    login(input: UserLogin! @spread): Token
+    login(input: UserLogin! @spread): Token!
     "Refresh token of authorized user"
-    refresh: Token @middleware(checks: ["auth:api"])
+    refresh: Token! @middleware(checks: ["auth:api"])
 
     "Create new user"
     createUser(input: UserCreateInput! @spread): User! @create @middleware(checks: ["auth:api"])
