@@ -33,7 +33,6 @@ class GroupsTest extends TestCase
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
-            'token'    => 'token'
         ]);
 
         $this->user = factory(\App\User::class)->create([
@@ -56,7 +55,7 @@ class GroupsTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                groups(orderBy: [ {field: "name", order: DESC} ], first: 30) {
+                groups(orderBy: [ {field: NAME, order: DESC} ], first: 30) {
                     data {
                         id,
                         name
