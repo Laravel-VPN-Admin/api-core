@@ -12,28 +12,28 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
                   <div class="alert alert-danger" v-if="error" role="alert">
-                    {{error}}
+                    {{ error }}
                   </div>
                   <div class="user">
                     <div class="form-group">
                       <input
-                        type="email"
-                        v-model="form.email"
-                        class="form-control form-control-user"
-                        id="exampleInputEmail"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter Email Address..."
-                        @keyup.enter="login()"
+                          type="email"
+                          v-model="form.email"
+                          class="form-control form-control-user"
+                          id="exampleInputEmail"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter Email Address..."
+                          @keyup.enter="login()"
                       />
                     </div>
                     <div class="form-group">
                       <input
-                        type="password"
-                        v-model="form.password"
-                        class="form-control form-control-user"
-                        id="exampleInputPassword"
-                        placeholder="Password"
-                        @keyup.enter="login()"
+                          type="password"
+                          v-model="form.password"
+                          class="form-control form-control-user"
+                          id="exampleInputPassword"
+                          placeholder="Password"
+                          @keyup.enter="login()"
                       />
                     </div>
 
@@ -52,44 +52,66 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        form:  {
-          email:    null,
-          password: null
-        },
-        error: null
-      };
+import gql     from "graphql-tag";
+import Cookies from 'js-cookie';
+
+export default {
+  data() {
+    return {
+      form:  {
+        email:    null,
+        password: null
+      },
+      error: null
+    };
+  },
+
+  mounted() {
+    if (!!this.$store.state.token) {
+      this.error = null;
+      // Move to dashboards
+      this.$router.push({name: "dashboard"});
+    }
+  },
+
+  methods: {
+    /**
+     * Check if submit button can be clicked
+     * @returns {boolean}
+     */
+    isSubmitEnabled() {
+      return this.form.email && this.form.password;
     },
 
-    methods: {
-      /**
-       * Check if submit button can be clicked
-       * @returns {boolean}
-       */
-      isSubmitEnabled() {
-        return this.form.email && this.form.password;
-      },
-
-      /**
-       * Initiate login logic based on API token
-       */
-      login() {
-        console.log(this.form);
-        this.$store
-          .dispatch("login", this.form)
-          .then(response => {
-            if (!!this.$store.state.token) {
-              this.error = null;
-              this.$router.push({name: "dashboard"});
+    /**
+     * Initiate login logic based on API token
+     */
+    async login() {
+      const response = await this.$apollo
+          .mutate({
+            mutation:  gql`
+              mutation($input: UserLogin!) {
+                login(input: $input) {
+                  token
+                  message
+                }
+              }
+            `,
+            variables: {
+              input: {
+                email:    this.form.email,
+                password: this.form.password,
+              }
             }
           })
-          .catch(error => {
+          .then((response) => {
+            this.$store.commit("SET_TOKEN", response.data.login.token);
+          })
+          .catch((error) => {
             console.error(error);
             this.error = "Username or password is incorrect";
           });
-      }
     }
-  };
+  }
+};
 </script>
