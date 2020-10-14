@@ -25,8 +25,11 @@ monitoring messages.
 ## TODOs
 
 * [ ] Laravel Auth:API
-* [ ] GraphQL authorization
+* [x] GraphQL authorization
+* [x] GraphQL subscription
 * [x] Vue router
+* [ ] LDAP
+* [ ] Create VPN servers
 
 ## Testing
 

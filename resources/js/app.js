@@ -1,22 +1,32 @@
 require('./bootstrap');
 
-window.Vue = require('vue');
+// Plugins
+import Vue       from 'vue';
+import VueRouter from 'vue-router';
+import VueApollo from 'vue-apollo';
+import Cookies   from 'js-cookie';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // Configs
-import store  from "./store";
-import routes from './routes';
-
-// Plugins
-import Vue        from 'vue';
-import VueRouter  from 'vue-router';
-import VueCookies from 'vue-cookies';
+import apolloClient from './apollo';
+import store        from './store';
+import routes       from './routes';
 
 // Main components
-import App from "./components/App";
+import App from './components/App';
+
+// glocal constant
+window.apollo = apolloClient;
 
 // Basic uses
 Vue.use(VueRouter);
-Vue.use(VueCookies);
+Vue.use(VueApollo);
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+});
 
 // Localization
 Vue.filter('trans', (...args) => {
@@ -41,7 +51,7 @@ export const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = Vue.$cookies.get('token');
+  const token = Cookies.get('token');
   if (!store.state.token && !token && to.name !== 'login') {
     next({name: 'login'});
   } else {
@@ -55,6 +65,7 @@ router.beforeEach((to, from, next) => {
 export const app = new Vue({
   store,
   router,
+  apolloProvider,
   components: {
     App
   }

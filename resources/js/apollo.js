@@ -1,52 +1,35 @@
-import VueApollo         from 'vue-apollo';
-import ApolloClient      from 'apollo-boost';
-import { HttpLink }      from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { split }         from 'apollo-link';
-import { WebSocketLink } from 'apollo-link-ws';
-import Vue               from "vue";
+import { ApolloClient }   from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache }  from 'apollo-cache-inmemory'
+import { ApolloLink }     from 'apollo-link';
+import { setContext }     from "apollo-link-context";
+import Cookies            from 'js-cookie';
 
-Vue.use(VueApollo);
+// pusher.js
+import Pusher     from "pusher-js";
+import PusherLink from './pusher-link';
 
-const httpLink = new HttpLink({uri: '/graphql'});
-
-// Create the subscription websocket link
-const wsLink = new WebSocketLink({
-  uri:     'ws://localhost:3000/subscriptions',
-  options: {
-    reconnect: true,
-  },
+const pusherLink = new PusherLink({
+  pusher: new Pusher('ec4590b10c250426b9d1', {
+    cluster:      'eu',
+    authEndpoint: `/graphql/subscriptions/auth`,
+  })
 });
 
-// using the ability to split links, you can send data to each link
-// depending on what kind of operation is being sent
-const link = split(
-  // split based on operation type
-  ({query}) => {
-    const definition = getMainDefinition(query);
-    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-  },
-  wsLink,
-  httpLink
-);
+const authLink = setContext(async (_, {headers}) => {
+  const token = Cookies.get('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 export default new ApolloClient({
   // Provide the URL to the API server.
-  link: link,
+  link: ApolloLink.from([authLink, pusherLink, createHttpLink({uri: '/graphql'})]),
 
   // Using a cache for fast subsequent queries.
   cache: new InMemoryCache(),
-
-  // Modify the header in simple way
-  request: (operation) => {
-    const token = localStorage.getItem('token');
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : '',
-        accept:        'application/json',
-      }
-    });
-  },
-
-  connectToDevTools: true,
 });

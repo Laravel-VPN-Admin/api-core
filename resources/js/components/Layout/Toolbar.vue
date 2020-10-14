@@ -13,19 +13,14 @@
         </a>
       </router-link>
 
-      <div class="topbar-divider d-none d-sm-block"></div>
-
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle">
+      <b-nav-item-dropdown right>
+        <!-- Using 'button-content' slot -->
+        <template v-slot:button-content>
           <span class="mr-2 d-none d-lg-inline text-gray-600 small">Super King</span>
-          <img class="img-profile rounded-circle" src="https://source.unsplash.com/60x60">
-        </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-          <button class="dropdown-item" @click="logout()">
-            Logout
-          </button>
-        </div>
-      </li>
+          <img class="img-profile rounded-circle" src="https://source.unsplash.com/60x60" alt="Profile Image" />
+        </template>
+        <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
+      </b-nav-item-dropdown>
 
     </ul>
 
@@ -33,11 +28,11 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      logout() {
-        this.$store.dispatch("logout");
-      }
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
     }
-  };
+  }
+};
 </script>

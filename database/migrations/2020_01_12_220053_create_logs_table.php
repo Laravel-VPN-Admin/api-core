@@ -17,7 +17,7 @@ class CreateLogsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('message')->nullable();
-            $table->integer('code')->nullable();
+            $table->integer('code');
 
             $table->bigInteger('server_id')->unsigned()->nullable();
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('set null');

@@ -48,7 +48,7 @@ class UsersTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                users(orderBy: [ {field: "name", order: DESC} ], first: 51) {
+                users(orderBy: [ {field: NAME, order: DESC} ], first: 51) {
                     data {
                         id,
                         name

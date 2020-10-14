@@ -33,7 +33,6 @@ class ServersTest extends TestCase
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
-            'token'    => 'token'
         ]);
 
         $this->user = factory(\App\User::class)->create([
@@ -56,7 +55,7 @@ class ServersTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
             {
-                servers(orderBy: [ {field: "hostname", order: DESC} ], first: 20) {
+                servers(orderBy: [ {field: HOSTNAME, order: DESC} ], first: 20) {
                     data {
                         id,
                         hostname

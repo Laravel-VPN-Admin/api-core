@@ -17,4 +17,4 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: ./vendor/bin/phpunit
+        run: ./artisan test

@@ -14,3 +14,7 @@
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+//Broadcast::channel('lighthouse-VFVRPUvMWnPeaenRIcovHWJdipqvqeGx-1602441080', function ($user) {
+//    return true;
+//});

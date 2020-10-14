@@ -33,7 +33,6 @@ class ServersTest extends TestCase
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
-            'token'    => 'token'
         ]);
 
         $this->user = factory(\App\User::class)->create([
