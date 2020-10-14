@@ -8,12 +8,12 @@ import Cookies   from 'js-cookie';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // Configs
-import apolloClient from "./apollo";
-import store        from "./store";
+import apolloClient from './apollo';
+import store        from './store';
 import routes       from './routes';
 
 // Main components
-import App from "./components/App";
+import App from './components/App';
 
 // glocal constant
 window.apollo = apolloClient;

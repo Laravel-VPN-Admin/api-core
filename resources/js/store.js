@@ -1,5 +1,5 @@
-import Vue        from "vue";
-import Vuex       from "vuex";
+import Vue        from 'vue';
+import Vuex       from 'vuex';
 import gql        from 'graphql-tag';
 import { router } from './app';
 import Cookies    from 'js-cookie';
