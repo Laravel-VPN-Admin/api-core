@@ -2,7 +2,6 @@ import Vue        from "vue";
 import Vuex       from "vuex";
 import gql        from 'graphql-tag';
 import { router } from './app';
-import apollo     from './apollo';
 import Cookies    from 'js-cookie';
 
 Vue.use(Vuex);
@@ -138,7 +137,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      return await apollo.query({
+      return await window.apollo.query({
         query:     gql`
           query Servers($page: Int!, $first: Int!) {
             servers(page: $page, first: $first) {
@@ -204,7 +203,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      return await apollo.query({
+      return await window.apollo.query({
         query:     gql`
           query Users($page: Int!, $first: Int!) {
             users(page: $page, first: $first) {
@@ -248,7 +247,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async updateUser({commit, state, dispatch}, data) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: UserUpdateInput!) {
             updateUser(id: $id, input: $input) {
@@ -289,7 +288,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async createUser({commit, state, dispatch}, data = {}) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($input: UserCreateInput!) {
             createUser(input: $input) {
@@ -330,7 +329,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async getStats({commit, dispatch}) {
-      return await apollo.query({
+      return await window.apollo.query({
         query: gql`
           query Stats {
             stats {
@@ -363,7 +362,7 @@ const store = new Vuex.Store({
       if (!data.first) {
         data.first = 100;
       }
-      return await apollo.query({
+      return await window.apollo.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
             logs(page: $page, first: $first, orderBy: [{field: CREATED_AT, order: DESC}]) {
@@ -420,7 +419,7 @@ const store = new Vuex.Store({
      * @param {*} data
      */
     async updateServer({commit, state, dispatch}, data) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: ServerUpdateInput!) {
             updateServer(id: $id, input: $input) {
@@ -468,7 +467,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async createServer({commit, state, dispatch}, data = {}) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($input: ServerCreateInput!) {
             createServer(input: $input) {
@@ -531,7 +530,7 @@ const store = new Vuex.Store({
       if (typeof data.first === 'undefined') {
         data.first = 100;
       }
-      return await apollo.query({
+      return await window.apollo.query({
         query:     gql`
           query Groups($page: Int!, $first: Int!) {
             groups(page: $page, first: $first) {
@@ -578,7 +577,7 @@ const store = new Vuex.Store({
      * @param {*} data
      */
     async updateGroup({commit, state, dispatch}, data) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($id: ID!, $input: GroupUpdateInput!) {
             updateGroup(id: $id, input: $input) {
@@ -622,7 +621,7 @@ const store = new Vuex.Store({
      * @returns {Promise<void>}
      */
     async createGroup({commit, state, dispatch}, data = {}) {
-      return await apollo.mutate({
+      return await window.apollo.mutate({
         mutation:  gql`
           mutation($input: GroupCreateInput!) {
             createGroup(input: $input) {
