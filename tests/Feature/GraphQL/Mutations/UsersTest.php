@@ -23,9 +23,10 @@ class UsersTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create([
-            'name'     => 'Frodo Baggins',
-            'email'    => 'frodo@bag.end',
-            'password' => \Hash::make('MyPrecious1')
+            'name'      => 'Frodo Baggins',
+            'email'     => 'frodo@bag.end',
+            'password'  => \Hash::make('MyPrecious1'),
+            'api_token' => 'some_random_token',
         ]);
 
         $this->withHeaders([
@@ -52,14 +53,14 @@ class UsersTest extends TestCase
                 }
               )
               {
-                token
-                message
+                id
+                api_token
               }
             }
         ');
 
         $user = $response->json('data.login');
-        $this->assertNotEmpty($user['token']);
+        $this->assertNotEmpty($user['api_token']);
     }
 
     public function testMutationUserRefresh(): void
@@ -76,32 +77,32 @@ class UsersTest extends TestCase
                 }
               )
               {
-                token
-                message
+                id
+                api_token
               }
             }
         ');
 
         $user = $response->json('data.login');
-        $this->assertNotEmpty($user['token']);
+        $this->assertNotEmpty($user['api_token']);
 
         /** @var \Illuminate\Testing\TestResponse $response */
         $response2 = $this
             ->withHeaders([
-                'Authorization' => 'Bearer ' . $user['token'],
+                'Authorization' => 'Bearer ' . $user['api_token'],
                 'Accept'        => 'application/json',
             ])
             ->graphQL(/** @lang GraphQL */ '
                  mutation {
                   refresh {
-                    token
-                    message
+                    id
+                    api_token
                   }
                 }
             ');
 
         $user2 = $response2->json('data.refresh');
-        $this->assertNotEquals($user['token'], $user2['token']);
+        $this->assertNotEquals($user['api_token'], $user2['api_token']);
     }
 
     public function testMutationUserCreate(): void
@@ -113,7 +114,7 @@ class UsersTest extends TestCase
                 input: {
                   name:"test_gql",
                   email:"asd@mail.com",
-                  password:"asd",
+                  password:"asdasdasd",
                   groups: {
                     connect: [' . $this->group->id . ']
                   }
@@ -150,9 +151,9 @@ class UsersTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
-              createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asd"}) {
-                id,
-                name,
+              createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asdasdasd"}) {
+                id
+                name
                 created_at
               }
             }
@@ -169,8 +170,8 @@ class UsersTest extends TestCase
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               updateUser (id: ' . $user['id'] . ', input: {name: "yabadabadoo"} ) {
-                id,
-                name,
+                id
+                name
                 email
               }
             }
@@ -190,10 +191,10 @@ class UsersTest extends TestCase
         /** @var \Illuminate\Testing\TestResponse $response */
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
-              createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asd"}) {
-                id,
-                name,
-                email,
+              createUser (input: {name:"test_gql", email:"asd@mail.com", password:"asdasdasd"}) {
+                id
+                name
+                email
                 created_at
               }
             }
@@ -210,8 +211,8 @@ class UsersTest extends TestCase
         $response = $this->graphQL(/** @lang GraphQL */ '
              mutation {
               deleteUser (id: ' . $user['id'] . ') {
-                id,
-                name,
+                id
+                name
                 email
               }
             }

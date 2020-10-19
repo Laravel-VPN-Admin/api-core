@@ -35,9 +35,10 @@ class LogsTest extends TestCase
         ]);
 
         $this->user = factory(User::class)->create([
-            'name'     => 'Frodo Baggins',
-            'email'    => 'frodo@bag.end',
-            'password' => \Hash::make('MyPrecious1')
+            'name'      => 'Frodo Baggins',
+            'email'     => 'frodo@bag.end',
+            'password'  => \Hash::make('MyPrecious1'),
+            'api_token' => 'some_random_token',
         ]);
 
         $this->withHeaders([
