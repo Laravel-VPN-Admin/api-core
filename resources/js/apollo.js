@@ -10,9 +10,12 @@ import Pusher     from "pusher-js";
 import PusherLink from './pusher-link';
 
 const pusherLink = new PusherLink({
-  pusher: new Pusher('ec4590b10c250426b9d1', {
-    cluster:      'eu',
+  pusher: new Pusher(process.env.MIX_PUSHER_APP_KEY, {
+    cluster:      process.env.MIX_PUSHER_APP_CLUSTER,
     authEndpoint: `/graphql/subscriptions/auth`,
+    headers: {
+      authorization: Cookies.get('token') ? `Bearer ` + Cookies.get('token') : "",
+    }
   })
 });
 
@@ -21,7 +24,7 @@ const authLink = setContext(async (_, {headers}) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: Cookies.get('token') ? `Bearer ` + Cookies.get('token') : "",
     }
   }
 });
