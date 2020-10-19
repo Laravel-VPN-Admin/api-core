@@ -2,6 +2,8 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\User;
+use GraphQL\Error\Error;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -15,16 +17,21 @@ class Refresh
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context     Arbitrary data that is shared between all fields of a single query.
      * @param \GraphQL\Type\Definition\ResolveInfo                $resolveInfo Information about the query itself, such as the execution state, the field name, path to the field from the root, and more.
      *
-     * @return mixed
+     * @return array
+     * @throws \GraphQL\Error\Error
      */
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): array
     {
-        $token = \Str::random(80);
+        /** @var \App\Models\User $user */
+        $user = \Auth::guard()->user();
+        if (null === $user) {
+            throw new Error('Invalid credentials.');
+        }
 
-        $context->user()->fill([
-            'api_token' => $token,
-        ])->save();
+        // Generate random token
+        $user->api_token = \Str::random(80);
+        $user->save();
 
-        return ['token' => $token];
+        return $user->toArray();
     }
 }
