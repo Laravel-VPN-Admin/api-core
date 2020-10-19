@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
@@ -55,7 +55,7 @@ class Server extends Model
     /**
      * Check if use may connect to this server
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      *
      * @return bool
      */

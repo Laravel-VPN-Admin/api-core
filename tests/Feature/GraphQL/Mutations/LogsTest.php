@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\GraphQL\Mutations;
 
+use App\Models\Server;
+use App\Models\User;
 use Tests\TestCase;
 
 class LogsTest extends TestCase
@@ -12,7 +14,7 @@ class LogsTest extends TestCase
     private $server;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     private $user;
 
@@ -20,13 +22,13 @@ class LogsTest extends TestCase
     {
         parent::setUp();
 
-        $this->server = factory(\App\Models\Server::class)->create([
+        $this->server = factory(Server::class)->create([
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
         ]);
 
-        $this->user = factory(\App\User::class)->create([
+        $this->user = factory(User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
             'password' => \Hash::make('MyPrecious1')

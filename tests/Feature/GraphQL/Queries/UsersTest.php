@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\GraphQL\Queries;
 
+use App\Models\User;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
 {
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     private $user;
 
@@ -15,7 +16,7 @@ class UsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(\App\User::class)->create([
+        $this->user = factory(User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
             'password' => \Hash::make('MyPrecious1')

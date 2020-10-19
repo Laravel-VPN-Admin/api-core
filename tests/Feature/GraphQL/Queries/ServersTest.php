@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\GraphQL\Queries;
 
+use App\Models\Group;
+use App\Models\Server;
+use App\Models\User;
 use Tests\TestCase;
 
 class ServersTest extends TestCase
@@ -17,7 +20,7 @@ class ServersTest extends TestCase
     private $server;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     private $user;
 
@@ -25,17 +28,17 @@ class ServersTest extends TestCase
     {
         parent::setUp();
 
-        $this->group = factory(\App\Models\Group::class)->create([
+        $this->group = factory(Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
 
-        $this->server = factory(\App\Models\Server::class)->create([
+        $this->server = factory(Server::class)->create([
             'hostname' => 'Isengard',
             'ipv4'     => '10.2.3.4',
             'ipv6'     => 'i:dd:qd',
         ]);
 
-        $this->user = factory(\App\User::class)->create([
+        $this->user = factory(User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
             'password' => \Hash::make('MyPrecious1')

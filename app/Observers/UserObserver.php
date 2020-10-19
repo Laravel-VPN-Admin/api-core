@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 
-use App\User;
+use App\Models\User;
 
 class UserObserver
 {
     /**
      * Handle the user "created" event.
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      *
      * @return void
      */

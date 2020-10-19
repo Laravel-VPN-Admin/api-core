@@ -4,7 +4,7 @@ namespace App\GraphQL\Queries;
 
 use App\Models\Group;
 use App\Models\Server;
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 

@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Log;
 use App\Observers\LogObserver;
 use App\Observers\UserObserver;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Log::observe(LogObserver::class);
 
         Relation::morphMap([
-            'user'   => 'App\User',
+            'user'   => 'App\Models\User',
             'server' => 'App\Models\Server',
             'group'  => 'App\Models\Group',
         ]);

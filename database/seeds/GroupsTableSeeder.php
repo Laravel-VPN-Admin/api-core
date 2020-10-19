@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Group;
+use App\Models\Server;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class GroupsTableSeeder extends Seeder
@@ -11,10 +14,10 @@ class GroupsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $groups = factory(\App\Models\Group::class, 20)->create();
+        $groups = factory(Group::class, 20)->create();
         $group  = $groups->first();
-        $user   = \App\User::query()->inRandomOrder()->first();
-        $server = \App\Models\Server::query()->inRandomOrder()->first();
+        $user   = User::query()->inRandomOrder()->first();
+        $server = Server::query()->inRandomOrder()->first();
 
         /** @var \App\Models\Group $group */
         $group->users()->attach($user);

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\GraphQL\Mutations;
 
+use App\Models\Group;
+use App\Models\User;
 use Tests\TestCase;
 
 class GroupsTest extends TestCase
@@ -15,11 +17,11 @@ class GroupsTest extends TestCase
     {
         parent::setUp();
 
-        $this->group = factory(\App\Models\Group::class)->create([
+        $this->group = factory(Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
 
-        $this->user = factory(\App\User::class)->create([
+        $this->user = factory(User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
             'password' => \Hash::make('MyPrecious1')

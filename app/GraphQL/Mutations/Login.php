@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Http\JsonResponse;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

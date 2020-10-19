@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\GraphQL\Mutations;
 
+use App\Models\Group;
+use App\Models\User;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
 {
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     private $user;
 
@@ -20,7 +22,7 @@ class UsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(\App\User::class)->create([
+        $this->user = factory(User::class)->create([
             'name'     => 'Frodo Baggins',
             'email'    => 'frodo@bag.end',
             'password' => \Hash::make('MyPrecious1')
@@ -31,7 +33,7 @@ class UsersTest extends TestCase
             'Accept'        => 'application/json',
         ]);
 
-        $this->group = factory(\App\Models\Group::class)->create([
+        $this->group = factory(Group::class)->create([
             'name' => 'Lord of the Rings',
         ]);
     }

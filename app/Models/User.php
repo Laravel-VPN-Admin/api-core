@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;

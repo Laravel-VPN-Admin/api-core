@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Log;
 
 class LogsTableSeeder extends Seeder
 {
@@ -11,6 +12,6 @@ class LogsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        factory(\App\Models\Log::class, 100)->create();
+        factory(Log::class, 10)->create();
     }
 }
