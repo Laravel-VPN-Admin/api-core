@@ -58,24 +58,24 @@
             logCreated {
                 id
                 code
+                message
                 created_at
                 updated_at
-                message
-                server {
-                    id
-                    hostname
-                }
                 user {
-                    id
-                    name
+                  id
+                  name
+                }
+                server {
+                  id
+                  hostname
                 }
             }
           }
         `,
           result({ data }) {
             console.log(data.logCreated);
-            //this.$store.commit('ADD_LOG', data.logCreated);
-            //console.log(this.logs);
+            this.$store.commit('ADD_LOG', data.logCreated);
+            console.log(this.logs);
           },
         },
       },

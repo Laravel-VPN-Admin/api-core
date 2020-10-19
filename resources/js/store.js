@@ -46,6 +46,22 @@ const store = new Vuex.Store({
     ADD_USER(state, items) {
       state.users.push(items);
     },
+    // TODO: Need to solve the issue with duplicates
+    //       and rewrite this crap code
+    ADD_LOG(state, log) {
+      let index = -1;
+      // Parse each items in array
+      for (let i = 0; i < state.logs.length; i++) {
+        if(state.logs[i].id === log.id) {
+          index = i;
+        }
+      }
+      // Merge new item only if not exists in array
+      if(index <= -1) {
+        // Prepend to start, because order of logs is DESC
+        state.logs.unshift(log)
+      }
+    },
     UPDATE_USER(state, changes) {
       // Find index of specific object using findIndex method.
       let index = state.users.findIndex((obj => obj.id === changes.id));
