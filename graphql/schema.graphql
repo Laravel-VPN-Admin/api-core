@@ -15,7 +15,7 @@ type Query {
     users(
         orderBy: _ @orderBy(columns: ["id","name","email","email_verified_at","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","name","email","email_verified_at","created_at","updated_at"])
-    ): [User!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    ): [User!]! @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single user by unique ID"
     user(id: ID @eq): User @find @middleware(checks: ["auth:api"])
 
@@ -23,7 +23,7 @@ type Query {
     servers(
         orderBy: _ @orderBy(columns: ["id","hostname","ipv4","ipv6","configuration_id","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","hostname","ipv4","ipv6","configuration_id","created_at","updated_at"])
-    ): [Server!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    ): [Server!]! @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single server by unique ID"
     server(id: ID @eq): Server @find @middleware(checks: ["auth:api"])
 
@@ -31,7 +31,7 @@ type Query {
     configurations(
         orderBy: _ @orderBy(columns: ["id","type_id","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","type_id","created_at","updated_at"])
-    ): [Configuration!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    ): [Configuration!]! @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single configuration by unique ID"
     configuration(id: ID @eq): Configuration @find @middleware(checks: ["auth:api"])
 
@@ -39,7 +39,7 @@ type Query {
     groups(
         orderBy: _ @orderBy(columns: ["id","name","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","name","created_at","updated_at"])
-    ): [Group!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    ): [Group!]! @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single group by unique ID"
     group(id: ID @eq): Group @find @middleware(checks: ["auth:api"])
 
@@ -47,66 +47,70 @@ type Query {
     logs(
         orderBy: _ @orderBy(columns: ["id","code","server_id","user_id","created_at","updated_at"])
         where: _ @whereConditions(columns: ["id","code","server_id","user_id","created_at","updated_at"])
-    ): [Log!] @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
+    ): [Log!]! @paginate(defaultCount: 10) @middleware(checks: ["auth:api"])
     "Get single log message by unique ID"
     log(id: ID @eq): Log @find @middleware(checks: ["auth:api"])
 }
 
 type Mutation {
     "Login user"
-    login(input: UserLogin! @spread): Token!
+    login(input: UserLogin! @spread): User
     "Refresh token of authorized user"
-    refresh: Token! @middleware(checks: ["auth:api"])
+    refresh: User! @middleware(checks: ["auth:api"])
 
     "Create new user"
     createUser(input: UserCreateInput! @spread): User! @create @middleware(checks: ["auth:api"])
     "Update user details"
-    updateUser(id: ID!, input: UserUpdateInput! @spread): User! @update @middleware(checks: ["auth:api"])
+    updateUser(id: ID! @rules(apply: ["exists:users,id"]), input: UserUpdateInput! @spread): User! @update @middleware(checks: ["auth:api"])
     "Delete user"
-    deleteUser(id: ID!): User @delete @middleware(checks: ["auth:api"])
+    deleteUser(id: ID! @rules(apply: ["exists:users,id"])): User @delete @middleware(checks: ["auth:api"])
 
     "Create new group"
-    createGroup(input: GroupCreateInput! @spread): Group! @create @middleware(checks: ["auth:api"])
+    createGroup(input: GroupInput! @spread): Group! @create @middleware(checks: ["auth:api"])
     "Update group details"
-    updateGroup(id: ID!, input: GroupUpdateInput! @spread): Group! @update @middleware(checks: ["auth:api"])
+    updateGroup(id: ID! @rules(apply: ["exists:groups,id"]), input: GroupInput! @spread): Group! @update @middleware(checks: ["auth:api"])
     "Delete group"
-    deleteGroup(id: ID!): Group @delete @middleware(checks: ["auth:api"])
+    deleteGroup(id: ID! @rules(apply: ["exists:groups,id"])): Group @delete @middleware(checks: ["auth:api"])
 
     "Create new server"
-    createServer(input: ServerCreateInput! @spread): Server! @create @middleware(checks: ["auth:api"])
+    createServer(input: ServerInput! @spread): Server! @create @middleware(checks: ["auth:api"])
     "Update server details"
-    updateServer(id: ID!, input: ServerUpdateInput! @spread): Server! @update @middleware(checks: ["auth:api"])
+    updateServer(id: ID! @rules(apply: ["exists:servers,id"]), input: ServerInput! @spread): Server! @update @middleware(checks: ["auth:api"])
     "Delete server"
-    deleteServer(id: ID!): Server @delete @middleware(checks: ["auth:api"])
+    deleteServer(id: ID! @rules(apply: ["exists:servers,id"])): Server @delete @middleware(checks: ["auth:api"])
 
     "Create new log message"
     createLog(input: LogCreateInput! @spread): Log! @create @middleware(checks: ["auth:api"]) @broadcast(subscription: "logCreated")
     "Update log message"
-    updateLog(id: ID!, input: LogUpdateInput! @spread): Log! @update @middleware(checks: ["auth:api"])
+    updateLog(id: ID! @rules(apply: ["exists:logs,id"]), input: LogUpdateInput! @spread): Log! @update @middleware(checks: ["auth:api"]) @broadcast(subscription: "logUpdated")
     "Delete log message"
-    deleteLog(id: ID!): Log @delete @middleware(checks: ["auth:api"])
+    deleteLog(id: ID! @rules(apply: ["exists:logs,id"])): Log @delete @middleware(checks: ["auth:api"]) @broadcast(subscription: "logDeleted")
 }
 
 type Subscription {
+    "Notify client if new log message was added"
     logCreated: Log
+#    "Notify client if any log was updated"
+#    logUpdated: Log
+#    "Notify client if any log was deleted"
+#    logDeleted: Log
 }
 
 "User login details"
 input UserLogin {
-    email: String!
-    password: String!
-}
-
-"Information about user's token"
-type Token {
-    token: String
-    message: String
+    "Unique email for login"
+    email: String! @rules(apply: ["email", "exists:users,email"])
+    "Password related to this account"
+    password: String! @rules(apply: ["min:8", "max:255"])
 }
 
 "Details about current installation"
 type Stats {
+    "Amount of users in system"
     users_count: Int!
+    "Amount of groups"
     groups_count: Int!
+    "Amount of servers"
     servers_count: Int!
 }
 
@@ -118,6 +122,8 @@ type User {
     name: String!
     "Email address, should be unique, will be user for authorization"
     email: String!
+    "Unique API token for authorization"
+    api_token: String!
     "Object path in Active Directory or OpenLDAP"
     object: String
     "Array of groups in which the user is a member of"
@@ -128,22 +134,26 @@ type User {
     updated_at: DateTime
 }
 
+"List of groups which should be synced"
 input GroupsInput {
-    sync: [ID!]
-    connect: [ID!]
-    disconnect: [ID!]
+    "Full resync of connected groups"
+    sync: [ID!] @rulesForArray(apply: ["exists:groups,id"])
+    "Connect without detaching"
+    connect: [ID!] @rulesForArray(apply: ["exists:groups,id"])
+    "Disconned provided list of groups"
+    disconnect: [ID!] @rulesForArray(apply: ["exists:groups,id"])
 }
 
 "List of fields which can be filled on user creating stage"
 input UserCreateInput {
     "Full name of user"
-    name: String! @rules(apply: ["required", "min:1"])
+    name: String! @rules(apply: ["min:1", "max:255"])
     "Email address, should be unique, will be user for authorization"
-    email: String! @rules(apply: ["email"])
+    email: String! @rules(apply: ["email", "min:1", "max:255", "unique:users,email"])
     "Object path in Active Directory or OpenLDAP"
-    object: String
+    object: String @rules(apply: ["min:1", "max:255"])
     "Password of used, will be saved as hash into database"
-    password: String! @rules(apply: ["required", "min:3"])
+    password: String! @rules(apply: ["min:8", "max:255"])
     "List of groups to which this object is related"
     groups: GroupsInput
 }
@@ -151,13 +161,13 @@ input UserCreateInput {
 "List of fields about which will be used for updating information about user"
 input UserUpdateInput {
     "Full name of user"
-    name: String
+    name: String @rules(apply: ["min:1", "max:255"])
     "Email address, should be unique, will be user for authorization"
-    email: String @rules(apply: ["email"])
+    email: String @rules(apply: ["email", "min:1", "max:255"])
     "Object path in Active Directory or OpenLDAP"
-    object: String
+    object: String @rules(apply: ["min:1", "max:255"])
     "Password of used, will be saved as hash into database"
-    password: String
+    password: String @rules(apply: ["min:8", "max:255"])
     "Additional inputs for group management"
     groups: GroupsInput
 }
@@ -185,19 +195,11 @@ type Group {
 }
 
 "List of fields which can be filled on group creating stage"
-input GroupCreateInput {
+input GroupInput {
     "Name of group"
-    name: String! @rules(apply: ["required", "min:1"])
+    name: String! @rules(apply: ["min:1", "max:255"])
     "Object path in Active Directory or OpenLDAP"
-    object: String
-}
-
-"List of fields about which will be used for updating information about group"
-input GroupUpdateInput {
-    "Name of group"
-    name: String
-    "Object path in Active Directory or OpenLDAP"
-    object: String
+    object: String @rules(apply: ["min:1", "max:255"])
 }
 
 "Object with all required details about server"
@@ -239,29 +241,15 @@ type Server {
 }
 
 "List of fields which can be filled on server creating stage"
-input ServerCreateInput {
+input ServerInput {
     "Hostname of server"
-    hostname: String!
+    hostname: String! @rules(apply: ["min:1", "max:255"])
     "IPv4 of server"
-    ipv4: String
+    ipv4: String @rules(apply: ["ipv4"])
     "IPv6 of server"
-    ipv6: String
+    ipv6: String @rules(apply: ["ipv6"])
     "Object path in Active Directory or OpenLDAP"
-    object: String
-    "Additional inputs for group management"
-    groups: GroupsInput
-}
-
-"List of fields about which will be used for updating information about group"
-input ServerUpdateInput {
-    "Hostname of server"
-    hostname: String
-    "IPv4 of server"
-    ipv4: String
-    "IPv6 of server"
-    ipv6: String
-    "Object path in Active Directory or OpenLDAP"
-    object: String
+    object: String @rules(apply: ["min:1", "max:255"])
     "Additional inputs for group management"
     groups: GroupsInput
 }
