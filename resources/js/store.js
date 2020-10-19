@@ -365,7 +365,11 @@ const store = new Vuex.Store({
       return await window.apollo.query({
         query:     gql`
           query Logs($page: Int!, $first: Int!) {
-            logs(page: $page, first: $first, orderBy: [{field: CREATED_AT, order: DESC}]) {
+            logs(
+              page: $page
+              first: $first
+              orderBy: [{field: ID, order: DESC}]
+            ) {
               data {
                 id
                 code
