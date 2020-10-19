@@ -92,8 +92,8 @@ export default {
             mutation:  gql`
               mutation($input: UserLogin!) {
                 login(input: $input) {
-                  token
-                  message
+                  id
+                  api_token
                 }
               }
             `,
@@ -105,7 +105,7 @@ export default {
             }
           })
           .then((response) => {
-            this.$store.commit("SET_TOKEN", response.data.login.token);
+            this.$store.commit("SET_TOKEN", response.data.login.api_token);
           })
           .catch((error) => {
             console.error(error);
