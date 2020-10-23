@@ -3,13 +3,71 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 
 // Vendors
-@import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
+$primary: #ef3b2d;
+//@import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
 
 // Application
 @import "tags";
 
-.sidebar-brand-text {
-  color: $white;
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.whitespace div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40ch;
+}
+
+html, body, main {
+  height: 100%;
+}
+
+.nav-link span {
+  display: block;
+  font-size: .8751rem;
+  font-weight: 500;
+  color: #090910;
+  text-decoration: none;
+  margin-bottom: 0;
+  cursor: pointer;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+
+  &:hover {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+}
+
+.h2 {
+  font-size: 1.51rem;
+  letter-spacing: 0;
+  margin-bottom: 0;
+}
+
+.navbar-brand {
+  color: #ef3b2d !important;
+  font-weight: bold;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
 }

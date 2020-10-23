@@ -1,22 +1,19 @@
 <template>
   <div class="mb-5">
 
-    <template>
-      <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ 'main.servers.description' | trans }}</h1>
-        <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" :to="{ name: 'servers.create' }">
-          <i class="fa fa-plus-square"></i>
-          {{ 'main.servers.create' | trans }}
-        </router-link>
-      </div>
-    </template>
+    <page-header :name="trans('main.servers.description')">
+      <router-link class="d-none d-sm-inline-block btn btn-sm btn-primary" :to="{ name: 'servers.create' }">
+        <i class="fa fa-plus-square"></i>
+        {{ 'main.servers.create' | trans }}
+      </router-link>
+    </page-header>
 
-    <div class="card border-0 shadow">
+    <div class="card border-0">
       <vue-table
-        route="servers"
-        :items="servers"
-        :columns="columns"
-        :options="options"
+          route="servers"
+          :items="servers"
+          :columns="columns"
+          :options="options"
       />
     </div>
 
@@ -24,45 +21,43 @@
 </template>
 
 <script>
-  import PageHeader   from "../Layout/PageHeader";
-  import ServerCreate from "./ServerCreate";
-  import VueTable     from "../Layout/VueTable";
-  import { mapState } from "vuex";
+import PageHeader   from "../Layout/PageHeader";
+import ServerCreate from "./ServerCreate";
+import VueTable     from "../Layout/VueTable";
+import { mapState } from "vuex";
 
-  export default {
-    computed: {
-      ...mapState([
-        "groups",
-        "servers",
-        "users"
-      ])
-    },
+export default {
+  computed: {
+    ...mapState([
+      "groups",
+      "servers",
+      "users"
+    ])
+  },
 
-    data() {
-      return {
-        columns: ['id', 'hostname', 'ipv4', 'ipv6', 'users_count', 'updated_at', 'created_at'],
-        options: {
-          headings: {
-            id:          'ID',
-            hostname:    'Hostname',
-            ipv4:        'IPv4',
-            ipv6:        'IPv6',
-            users_count: 'Users count',
-            created_at:  'Created at',
-            updated_at:  'Updated at',
-          },
+  data() {
+    return {
+      columns: ['id', 'hostname', 'ipv4', 'ipv6', 'users_count'],
+      options: {
+        headings: {
+          id:          'ID',
+          hostname:    'Hostname',
+          ipv4:        'IPv4',
+          ipv6:        'IPv6',
+          users_count: 'Users',
         },
-      };
-    },
+      },
+    };
+  },
 
-    components: {
-      PageHeader,
-      VueTable,
-      ServerCreate
-    },
+  components: {
+    PageHeader,
+    VueTable,
+    ServerCreate
+  },
 
-    mounted() {
-      this.$store.dispatch("getServers");
-    }
-  };
+  mounted() {
+    this.$store.dispatch("getServers");
+  }
+};
 </script>

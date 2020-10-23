@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
     <page-header :name="'main.logs.description' | trans" />
-    <div class="card border-0 shadow">
+    <div class="card border-0">
       <vue-table
         route="logs"
         :items="logs"
@@ -26,7 +26,7 @@
 
     data() {
       return {
-        columns: ['id', 'code', 'message', 'user', 'server', 'created_at'],
+        columns: ['id', 'code', 'message', 'user', 'server'],
         options: {
           headings: {
             id:         'ID',
@@ -34,7 +34,6 @@
             message:    'Message',
             user:       'User',
             server:     'Server',
-            created_at: 'Created at',
           },
         },
       };

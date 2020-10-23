@@ -10,7 +10,7 @@
       </thead>
       <tbody>
       <tr v-for="item in items">
-        <td v-for="column in columns">
+        <td v-for="column in columns" class="whitespace">
           <div v-if="item[column].id">
             <router-link :to="{name: column + 's.edit', params: {id: item[column].id}}">
               {{ item[column].name ? item[column].name : item[column].hostname }}

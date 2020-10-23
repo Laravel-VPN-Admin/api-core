@@ -20,7 +20,7 @@
   @stack('header:styles')
 
 </head>
-<body>
+<body class="bg-light">
 
 <main id="app">
   <app />
