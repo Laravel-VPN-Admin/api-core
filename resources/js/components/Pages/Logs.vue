@@ -74,7 +74,6 @@
           result({ data }) {
             console.log(data.logCreated);
             this.$store.commit('ADD_LOG', data.logCreated);
-            console.log(this.logs);
           },
         },
       },
