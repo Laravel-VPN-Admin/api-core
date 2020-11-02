@@ -16,6 +16,6 @@ class LogObserver
      */
     public function created(Log $log)
     {
-        Subscription::broadcast('logCreated', $log);
+        //Subscription::broadcast('logCreated', $log);
     }
 }
